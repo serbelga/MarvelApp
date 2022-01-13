@@ -9,6 +9,7 @@ object Versions {
     const val ktLint = "0.43.2"
     const val ktxVersion = "1.7.0"
     const val materialComponents = "1.4.0"
+    const val navigation = "2.4.0-rc01"
 }
 
 object Libs {
@@ -26,6 +27,15 @@ object Libs {
         const val constraintLayout =
             "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
         const val coreKtx = "androidx.core:core-ktx:${Versions.ktxVersion}"
+
+        object Navigation {
+            const val navigationFragmentKtx =
+                "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
+            const val navigationSafeArgsPlugin =
+                "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
+            const val navigationUiKtx =
+                "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
+        }
     }
 
     object Google {

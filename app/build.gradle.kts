@@ -29,6 +29,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 val ktlint: Configuration by configurations.creating
@@ -41,6 +44,11 @@ dependencies {
         implementation(appCompat)
         implementation(constraintLayout)
         implementation(coreKtx)
+    }
+
+    with(Libs.AndroidX.Navigation) {
+        implementation(navigationFragmentKtx)
+        implementation(navigationUiKtx)
     }
 
     implementation(Libs.Google.Material.materialComponents)

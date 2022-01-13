@@ -5,4 +5,5 @@ data class Character(
     val name: String,
     val description: String,
     val thumbnail: Thumbnail
+    // TODO: List of comics.
 )
