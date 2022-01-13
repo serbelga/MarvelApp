@@ -14,14 +14,20 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.usecase
+package dev.sergiobelda.marvel.data
 
-import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.model.Character
-import dev.sergiobelda.marvel.repository.ICharacterRepository
+sealed class Result<out A> {
+    data class Success<out A>(val value: A) : Result<A>()
+    data class Error(
+        val code: Int? = null,
+        val message: String? = null,
+        val exception: Throwable? = null
+    ) : Result<Nothing>()
+    object Loading : Result<Nothing>()
 
-class GetCharactersUseCase(private val characterRepository: ICharacterRepository) {
-
-    suspend operator fun invoke(): Result<List<Character>> =
-        characterRepository.getCharacters()
+    fun <B> map(m: ((A) -> B)): Result<B> = when (this) {
+        is Success -> Success(m(this.value))
+        is Error -> Error(this.code, this.message, this.exception)
+        is Loading -> Loading
+    }
 }

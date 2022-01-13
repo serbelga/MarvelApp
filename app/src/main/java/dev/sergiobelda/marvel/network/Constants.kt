@@ -14,14 +14,10 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.usecase
+package dev.sergiobelda.marvel.network
 
-import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.model.Character
-import dev.sergiobelda.marvel.repository.ICharacterRepository
-
-class GetCharactersUseCase(private val characterRepository: ICharacterRepository) {
-
-    suspend operator fun invoke(): Result<List<Character>> =
-        characterRepository.getCharacters()
+object Constants {
+    private const val SCHEME = "http"
+    private const val HOST = "gateway.marvel.com"
+    const val BASE_URL = "$SCHEME://$HOST"
 }

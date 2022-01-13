@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -52,6 +54,17 @@ dependencies {
     }
 
     implementation(Libs.Google.Material.materialComponents)
+
+    with(Libs.Retrofit) {
+        implementation(converterMoshi)
+        implementation(converterScalars)
+        implementation(retrofit)
+    }
+
+    with(Libs.Google.Dagger) {
+        implementation(hilt)
+        kapt(hiltCompiler)
+    }
 
     testImplementation(Libs.junit)
     androidTestImplementation(Libs.Test.espressoCore)

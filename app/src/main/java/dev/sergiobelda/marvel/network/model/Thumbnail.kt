@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.usecase
+package dev.sergiobelda.marvel.network.model
 
-import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.model.Character
-import dev.sergiobelda.marvel.repository.ICharacterRepository
+data class Thumbnail(
+    val path: String,
+    val extension: String
+) {
 
-class GetCharactersUseCase(private val characterRepository: ICharacterRepository) {
-
-    suspend operator fun invoke(): Result<List<Character>> =
-        characterRepository.getCharacters()
+    // TODO: Add support to portrait, standard and landscape.
+    fun getUrl(): String = path + extension
 }
