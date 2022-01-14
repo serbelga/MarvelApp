@@ -11,7 +11,7 @@ object Versions {
     const val ktLint = "0.43.2"
     const val ktxVersion = "1.7.0"
     const val lifecycle = "2.4.0"
-    const val materialComponents = "1.4.0"
+    const val materialComponents = "1.5.0"
     const val moshi = "1.13.0"
     const val navigation = "2.4.0-rc01"
     const val okhttp = "4.9.3"
