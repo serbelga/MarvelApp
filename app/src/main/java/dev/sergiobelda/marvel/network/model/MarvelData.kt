@@ -14,20 +14,23 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.data
+package dev.sergiobelda.marvel.network.model
 
-sealed class Result<out A> {
-    data class Success<out A>(val value: A) : Result<A>()
-    data class Error(
-        val code: Int? = null,
-        val message: String? = null,
-        val exception: Throwable? = null
-    ) : Result<Nothing>()
-    object Loading : Result<Nothing>()
+import com.squareup.moshi.JsonClass
 
-    fun <B> map(m: ((A) -> B)): Result<B> = when (this) {
-        is Success -> Success(m(value))
-        is Error -> Error(code, message, exception)
-        is Loading -> Loading
-    }
-}
+/**
+ * Data container.
+ * @param offset The requested offset (number of skipped results) of the call.
+ * @param limit The requested result limit.
+ * @param total The total number of resources available given the current filter set.
+ * @param count The total number of results returned by this call.
+ * @param results List of result.
+ */
+@JsonClass(generateAdapter = true)
+data class MarvelData<T>(
+    val offset: Int,
+    val limit: Int,
+    val total: Int,
+    val count: Int,
+    val results: List<T>
+)

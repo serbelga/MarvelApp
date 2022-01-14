@@ -17,7 +17,9 @@
 package dev.sergiobelda.marvel.network
 
 object Constants {
-    private const val SCHEME = "http"
+    private const val SCHEME = "https"
     private const val HOST = "gateway.marvel.com"
     const val BASE_URL = "$SCHEME://$HOST"
+
+    const val TIMEOUT: Long = 10
 }

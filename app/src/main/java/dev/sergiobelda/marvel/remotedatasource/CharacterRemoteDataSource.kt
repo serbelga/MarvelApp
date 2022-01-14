@@ -27,9 +27,9 @@ class CharacterRemoteDataSource(private val characterClient: CharacterService) :
 
     override suspend fun getCharacters(): Result<List<Character>> = safeApiCall {
         characterClient.getCharacters()
-    }.map { list -> list.map { it.toDomainModel() } }
+    }.map { response -> response.data.results.map { it.toDomainModel() } }
 
-    override suspend fun getCharacter(id: Int): Result<Character> = safeApiCall {
+    override suspend fun getCharacter(id: Int): Result<Character?> = safeApiCall {
         characterClient.getCharacterDetail(id)
-    }.map { it.toDomainModel() }
+    }.map { response -> response.data.results.firstOrNull()?.toDomainModel() }
 }

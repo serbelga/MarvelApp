@@ -27,6 +27,6 @@ class CharacterRepository(
     override suspend fun getCharacters(): Result<List<Character>> =
         characterRemoteDataSource.getCharacters()
 
-    override suspend fun getCharacter(id: Int): Result<Character> =
+    override suspend fun getCharacter(id: Int): Result<Character?> =
         characterRemoteDataSource.getCharacter(id)
 }

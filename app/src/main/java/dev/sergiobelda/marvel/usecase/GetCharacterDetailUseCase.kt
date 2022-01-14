@@ -22,6 +22,6 @@ import dev.sergiobelda.marvel.repository.ICharacterRepository
 
 class GetCharacterDetailUseCase(private val characterRepository: ICharacterRepository) {
 
-    suspend operator fun invoke(id: Int): Result<Character> =
+    suspend operator fun invoke(id: Int): Result<Character?> =
         characterRepository.getCharacter(id)
 }

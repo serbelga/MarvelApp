@@ -9,8 +9,11 @@ object Versions {
     const val kotlin = "1.6.10"
     const val ktLint = "0.43.2"
     const val ktxVersion = "1.7.0"
+    const val lifecycle = "2.4.0"
     const val materialComponents = "1.4.0"
+    const val moshi = "1.13.0"
     const val navigation = "2.4.0-rc01"
+    const val okhttp = "4.9.3"
     const val retrofit = "2.9.0"
 }
 
@@ -29,6 +32,11 @@ object Libs {
         const val constraintLayout =
             "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
         const val coreKtx = "androidx.core:core-ktx:${Versions.ktxVersion}"
+
+        object Lifecycle {
+            const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
+            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
+        }
 
         object Navigation {
             const val navigationFragmentKtx =
@@ -56,10 +64,23 @@ object Libs {
         }
     }
 
-    object Retrofit {
-        const val converterMoshi = "com.squareup.retrofit2:converter-moshi:${Versions.retrofit}"
-        const val converterScalars = "com.squareup.retrofit2:converter-scalars:${Versions.retrofit}"
-        const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+    object SquareUp {
+
+        object Moshi {
+            const val moshi = "com.squareup.moshi:moshi:${Versions.moshi}"
+            const val moshiKotlinCodegen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
+        }
+
+        object OkHttp3 {
+            const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
+            const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
+        }
+
+        object Retrofit2 {
+            const val converterMoshi = "com.squareup.retrofit2:converter-moshi:${Versions.retrofit}"
+            const val converterScalars = "com.squareup.retrofit2:converter-scalars:${Versions.retrofit}"
+            const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+        }
     }
 
     object Test {

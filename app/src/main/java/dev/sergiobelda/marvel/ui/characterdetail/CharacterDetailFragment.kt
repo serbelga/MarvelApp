@@ -21,8 +21,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import dev.sergiobelda.marvel.databinding.CharacterDetailFragmentBinding
 
+@AndroidEntryPoint
 class CharacterDetailFragment : Fragment() {
 
     private var binding: CharacterDetailFragmentBinding? = null

@@ -20,12 +20,17 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.sergiobelda.marvel.BuildConfig
+import dev.sergiobelda.marvel.network.ApiKeyInterceptor
 import dev.sergiobelda.marvel.network.Constants.BASE_URL
+import dev.sergiobelda.marvel.network.Constants.TIMEOUT
 import dev.sergiobelda.marvel.network.service.CharacterService
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -34,7 +39,27 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    private fun provideRetrofit(client: OkHttpClient) = Retrofit.Builder()
+    fun provideOkHttpClient(): OkHttpClient {
+        val apiKeyInterceptor = ApiKeyInterceptor(
+            publicApiKey = BuildConfig.PUBLIC_API_KEY,
+            privateApiKey = BuildConfig.PRIVATE_API_KEY
+        )
+
+        val httpLoggingInterceptor = HttpLoggingInterceptor()
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+
+        return OkHttpClient.Builder()
+            .readTimeout(TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
+            .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
+            .addNetworkInterceptor(apiKeyInterceptor)
+            .addInterceptor(httpLoggingInterceptor)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(client: OkHttpClient): Retrofit = Retrofit.Builder()
         .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(MoshiConverterFactory.create())
         .baseUrl(BASE_URL)

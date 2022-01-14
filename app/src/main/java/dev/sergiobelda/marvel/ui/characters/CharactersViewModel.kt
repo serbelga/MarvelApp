@@ -16,12 +16,22 @@
 
 package dev.sergiobelda.marvel.ui.characters
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.sergiobelda.marvel.data.Result
+import dev.sergiobelda.marvel.model.Character
 import dev.sergiobelda.marvel.usecase.GetCharactersUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class CharactersViewModel @Inject constructor(
     private val getCharactersUseCase: GetCharactersUseCase
-) : ViewModel()
+) : ViewModel() {
+
+    fun getCharacters(): LiveData<Result<List<Character>>> = liveData {
+        emit(Result.Loading)
+        emit(getCharactersUseCase.invoke())
+    }
+}

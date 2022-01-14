@@ -1,9 +1,14 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
 }
+
+val publicApiKey: String = gradleLocalProperties(rootDir).getProperty("public_api_key")
+val privateApiKey: String = gradleLocalProperties(rootDir).getProperty("private_api_key")
 
 android {
     compileSdk = 31
@@ -19,6 +24,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "PUBLIC_API_KEY", publicApiKey)
+            buildConfigField("String", "PRIVATE_API_KEY", privateApiKey)
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -48,6 +57,11 @@ dependencies {
         implementation(coreKtx)
     }
 
+    with(Libs.AndroidX.Lifecycle) {
+        implementation(liveData)
+        implementation(viewModel)
+    }
+
     with(Libs.AndroidX.Navigation) {
         implementation(navigationFragmentKtx)
         implementation(navigationUiKtx)
@@ -55,7 +69,15 @@ dependencies {
 
     implementation(Libs.Google.Material.materialComponents)
 
-    with(Libs.Retrofit) {
+    with(Libs.SquareUp.Moshi) {
+        implementation(moshi)
+        kapt(moshiKotlinCodegen)
+    }
+    with(Libs.SquareUp.OkHttp3) {
+        implementation(okhttp)
+        implementation(loggingInterceptor)
+    }
+    with(Libs.SquareUp.Retrofit2) {
         implementation(converterMoshi)
         implementation(converterScalars)
         implementation(retrofit)
@@ -69,6 +91,8 @@ dependencies {
     testImplementation(Libs.junit)
     androidTestImplementation(Libs.Test.espressoCore)
     androidTestImplementation(Libs.Test.extJunit)
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
 }
 
 task("ktlint", JavaExec::class) {

@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.data
+package dev.sergiobelda.marvel.network.model
 
-sealed class Result<out A> {
-    data class Success<out A>(val value: A) : Result<A>()
-    data class Error(
-        val code: Int? = null,
-        val message: String? = null,
-        val exception: Throwable? = null
-    ) : Result<Nothing>()
-    object Loading : Result<Nothing>()
+import com.squareup.moshi.JsonClass
 
-    fun <B> map(m: ((A) -> B)): Result<B> = when (this) {
-        is Success -> Success(m(value))
-        is Error -> Error(code, message, exception)
-        is Loading -> Loading
-    }
-}
+/**
+ * Response from API.
+ * @param code The HTTP status code of the returned result.
+ * @param data The results returned by the call.
+ */
+@JsonClass(generateAdapter = true)
+data class MarvelResponse<T>(
+    val code: Int,
+    val data: MarvelData<T>
+)

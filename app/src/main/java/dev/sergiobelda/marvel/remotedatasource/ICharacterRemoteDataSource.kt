@@ -23,5 +23,5 @@ interface ICharacterRemoteDataSource {
 
     suspend fun getCharacters(): Result<List<Character>>
 
-    suspend fun getCharacter(id: Int): Result<Character>
+    suspend fun getCharacter(id: Int): Result<Character?>
 }

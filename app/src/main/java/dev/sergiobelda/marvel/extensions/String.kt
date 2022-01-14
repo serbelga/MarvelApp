@@ -14,20 +14,15 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.data
+package dev.sergiobelda.marvel.extensions
 
-sealed class Result<out A> {
-    data class Success<out A>(val value: A) : Result<A>()
-    data class Error(
-        val code: Int? = null,
-        val message: String? = null,
-        val exception: Throwable? = null
-    ) : Result<Nothing>()
-    object Loading : Result<Nothing>()
+import java.math.BigInteger
+import java.security.MessageDigest
 
-    fun <B> map(m: ((A) -> B)): Result<B> = when (this) {
-        is Success -> Success(m(value))
-        is Error -> Error(code, message, exception)
-        is Loading -> Loading
-    }
+/**
+ * Generate an MD5 hash.
+ */
+fun String.md5(): String {
+    val md = MessageDigest.getInstance("MD5")
+    return BigInteger(1, md.digest(this.toByteArray())).toString(16).padStart(32, '0')
 }
