@@ -31,3 +31,19 @@ sealed class Result<out A> {
         is Loading -> Loading
     }
 }
+
+/**
+ * Call the specific action in [callback] if the result is [Result.Success] and not null.
+ */
+inline fun <reified A> Result<A>.doIfSuccess(callback: (value: A) -> Unit): Result<A> {
+    (this as? Result.Success)?.value?.let { callback(it) }
+    return this
+}
+
+/**
+ * Call the specific action in [callback] if the result is [Result.Error].
+ */
+inline fun <reified A> Result<A>.doIfError(callback: (error: Result.Error) -> Unit): Result<A> {
+    (this as? Result.Error)?.let { callback(it) }
+    return this
+}

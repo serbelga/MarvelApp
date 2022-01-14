@@ -39,6 +39,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs += "-Xjvm-default=all"
     }
     buildFeatures {
         viewBinding = true
@@ -88,11 +89,11 @@ dependencies {
         kapt(hiltCompiler)
     }
 
+    implementation(Libs.coil)
+
     testImplementation(Libs.junit)
     androidTestImplementation(Libs.Test.espressoCore)
     androidTestImplementation(Libs.Test.extJunit)
-
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
 }
 
 task("ktlint", JavaExec::class) {

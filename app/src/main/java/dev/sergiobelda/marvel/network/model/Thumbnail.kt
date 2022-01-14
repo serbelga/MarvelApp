@@ -25,5 +25,5 @@ data class Thumbnail(
 ) {
 
     // TODO: Add support to portrait, standard and landscape.
-    fun getUrl(): String = path + extension
+    fun getUrl(): String = "$path.$extension"
 }

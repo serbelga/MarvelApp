@@ -1,6 +1,7 @@
 object Versions {
     const val androidGradlePlugin = "7.1.0-rc01"
     const val appCompat = "1.4.1"
+    const val coil = "1.4.0"
     const val constraintLayout = "2.1.2"
     const val daggerHilt = "2.40.5"
     const val espressoCore = "3.4.0"
@@ -20,6 +21,8 @@ object Versions {
 object Libs {
 
     const val androidGradlePlugin = "com.android.tools.build:gradle:${Versions.androidGradlePlugin}"
+
+    const val coil = "io.coil-kt:coil:${Versions.coil}"
 
     const val junit = "junit:junit:${Versions.junit}"
 
