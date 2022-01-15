@@ -15,6 +15,7 @@ object Versions {
     const val moshi = "1.13.0"
     const val navigation = "2.3.5"
     const val okhttp = "4.9.3"
+    const val paging3 = "3.1.0"
     const val retrofit = "2.9.0"
 }
 
@@ -49,6 +50,8 @@ object Libs {
             const val navigationUiKtx =
                 "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
         }
+
+        const val paging3 = "androidx.paging:paging-runtime:${Versions.paging3}"
     }
 
     object Google {

@@ -22,14 +22,14 @@ import dev.sergiobelda.marvel.network.mapper.CharacterMapper.toDomainModel
 import dev.sergiobelda.marvel.network.safeApiCall
 import dev.sergiobelda.marvel.network.service.CharacterService
 
-class CharacterRemoteDataSource(private val characterClient: CharacterService) :
+class CharacterRemoteDataSource(private val characterService: CharacterService) :
     ICharacterRemoteDataSource {
 
     override suspend fun getCharacters(): Result<List<Character>> = safeApiCall {
-        characterClient.getCharacters()
+        characterService.getCharacters()
     }.map { response -> response.data.results.map { it.toDomainModel() } }
 
     override suspend fun getCharacter(id: Int): Result<Character?> = safeApiCall {
-        characterClient.getCharacterDetail(id)
+        characterService.getCharacterDetail(id)
     }.map { response -> response.data.results.firstOrNull()?.toDomainModel() }
 }

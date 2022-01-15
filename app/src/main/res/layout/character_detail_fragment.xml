@@ -24,6 +24,7 @@
             app:expandedTitleTextColor="@color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:statusBarScrim="@color/black_translucent"
+            app:maxLines="2"
             tools:title="Title">
 
             <com.google.android.material.imageview.ShapeableImageView

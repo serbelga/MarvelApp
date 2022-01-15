@@ -16,16 +16,33 @@
 
 package dev.sergiobelda.marvel.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import dev.sergiobelda.marvel.data.Result
 import dev.sergiobelda.marvel.model.Character
+import dev.sergiobelda.marvel.network.Constants
+import dev.sergiobelda.marvel.pagingdatasource.CharacterPagingSource
 import dev.sergiobelda.marvel.remotedatasource.ICharacterRemoteDataSource
+import kotlinx.coroutines.flow.Flow
 
 class CharacterRepository(
-    private val characterRemoteDataSource: ICharacterRemoteDataSource
+    private val characterRemoteDataSource: ICharacterRemoteDataSource,
+    private val characterPagingSource: CharacterPagingSource
 ) : ICharacterRepository {
 
     override suspend fun getCharacters(): Result<List<Character>> =
         characterRemoteDataSource.getCharacters()
+
+    override fun getCharactersPaging(): Flow<PagingData<Character>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = Constants.API_PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { characterPagingSource }
+        ).flow
+    }
 
     override suspend fun getCharacter(id: Int): Result<Character?> =
         characterRemoteDataSource.getCharacter(id)

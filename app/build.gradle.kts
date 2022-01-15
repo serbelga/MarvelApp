@@ -69,6 +69,8 @@ dependencies {
         implementation(navigationUiKtx)
     }
 
+    implementation(Libs.AndroidX.paging3)
+
     implementation(Libs.Google.Material.materialComponents)
 
     with(Libs.SquareUp.Moshi) {

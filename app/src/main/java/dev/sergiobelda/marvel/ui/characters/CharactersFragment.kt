@@ -20,14 +20,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.sergiobelda.marvel.data.doIfSuccess
 import dev.sergiobelda.marvel.databinding.CharactersFragmentBinding
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CharactersFragment : Fragment() {
@@ -38,7 +44,16 @@ class CharactersFragment : Fragment() {
 
     private val charactersViewModel: CharactersViewModel by viewModels()
 
-    private val charactersAdapter: CharactersAdapter = CharactersAdapter()
+    private val charactersPagingAdapter: CharactersPagingAdapter = CharactersPagingAdapter().apply {
+        listener = CharactersAdapter.CharacterClickListener { character, cardView ->
+            val extras = FragmentNavigatorExtras(cardView to character.id.toString())
+            val action = CharactersFragmentDirections.navToCharacterDetailFragment(
+                character.id,
+                character.imageUrl
+            )
+            findNavController().navigate(action, extras)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,23 +68,37 @@ class CharactersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
         binding.recyclerView.post { startPostponedEnterTransition() }
-        binding.recyclerView.apply {
-            layoutManager = GridLayoutManager(context, 2)
-            adapter = charactersAdapter
+        initRecyclerView()
+
+        binding.goTopButton.setOnClickListener {
+            binding.recyclerView.smoothScrollToPosition(0)
         }
-        charactersAdapter.listener =
-            CharactersAdapter.CharacterClickListener { character, cardView ->
-                val extras = FragmentNavigatorExtras(cardView to character.id.toString())
-                val action = CharactersFragmentDirections.navToCharacterDetailFragment(
-                    character.id,
-                    character.imageUrl
-                )
-                findNavController().navigate(action, extras)
-            }
+        /*
         charactersViewModel.characters.observe(viewLifecycleOwner) { result ->
             result?.doIfSuccess {
                 charactersAdapter.setItems(it)
             }
+        }
+        */
+        lifecycleScope.launch {
+            charactersViewModel.charactersPaging.collect {
+                charactersPagingAdapter.submitData(it)
+            }
+        }
+    }
+
+    private fun initRecyclerView() {
+        binding.recyclerView.apply {
+            layoutManager = GridLayoutManager(context, 2)
+            adapter = charactersPagingAdapter
+            addOnScrollListener(
+                object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        if (dy < 0 && binding.goTopButton.isGone) binding.goTopButton.show()
+                        else if (dy > 0 && binding.goTopButton.isVisible) binding.goTopButton.hide()
+                    }
+                }
+            )
         }
     }
 

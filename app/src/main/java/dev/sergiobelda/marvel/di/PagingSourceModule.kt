@@ -20,20 +20,16 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.sergiobelda.marvel.network.service.CharacterService
 import dev.sergiobelda.marvel.pagingdatasource.CharacterPagingSource
-import dev.sergiobelda.marvel.remotedatasource.ICharacterRemoteDataSource
-import dev.sergiobelda.marvel.repository.CharacterRepository
-import dev.sergiobelda.marvel.repository.ICharacterRepository
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+object PagingSourceModule {
 
     @Provides
     @Singleton
-    fun provideCharacterRepository(
-        characterRemoteDataSource: ICharacterRemoteDataSource,
-        characterPagingSource: CharacterPagingSource
-    ): ICharacterRepository = CharacterRepository(characterRemoteDataSource, characterPagingSource)
+    fun provideCharacterPagingSource(characterService: CharacterService): CharacterPagingSource =
+        CharacterPagingSource(characterService)
 }
