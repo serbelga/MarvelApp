@@ -26,7 +26,7 @@ import dev.sergiobelda.marvel.network.mapper.CharacterMapper.toDomainModel
 import dev.sergiobelda.marvel.network.safeApiCall
 import dev.sergiobelda.marvel.network.service.CharacterService
 
-class CharacterPagingSource(private val characterService: CharacterService) :
+class CharacterPagingDataSource(private val characterService: CharacterService) :
     PagingSource<Int, Character>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Character> {

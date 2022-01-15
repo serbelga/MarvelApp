@@ -24,13 +24,14 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import dev.sergiobelda.marvel.data.doIfSuccess
 import dev.sergiobelda.marvel.databinding.CharactersFragmentBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -73,29 +74,31 @@ class CharactersFragment : Fragment() {
         binding.goTopButton.setOnClickListener {
             binding.recyclerView.smoothScrollToPosition(0)
         }
-        /*
-        charactersViewModel.characters.observe(viewLifecycleOwner) { result ->
-            result?.doIfSuccess {
-                charactersAdapter.setItems(it)
-            }
-        }
-        */
-        lifecycleScope.launch {
-            charactersViewModel.charactersPaging.collect {
-                charactersPagingAdapter.submitData(it)
-            }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            // flowWithLifecycle uses repeatOnLifecycle.
+            // The block passed to repeatOnLifecycle is executed when the lifecycle
+            // is at least STARTED and is cancelled when the lifecycle is STOPPED.
+            // It automatically restarts the block when the lifecycle is STARTED again.
+            charactersViewModel.characters
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect {
+                    charactersPagingAdapter.submitData(it)
+                }
         }
     }
 
     private fun initRecyclerView() {
+        val gridLayoutManager = GridLayoutManager(context, 2)
         binding.recyclerView.apply {
-            layoutManager = GridLayoutManager(context, 2)
+            layoutManager = gridLayoutManager
             adapter = charactersPagingAdapter
             addOnScrollListener(
                 object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                         if (dy < 0 && binding.goTopButton.isGone) binding.goTopButton.show()
                         else if (dy > 0 && binding.goTopButton.isVisible) binding.goTopButton.hide()
+                        if (gridLayoutManager.findFirstVisibleItemPosition() == 0) binding.goTopButton.hide()
                     }
                 }
             )

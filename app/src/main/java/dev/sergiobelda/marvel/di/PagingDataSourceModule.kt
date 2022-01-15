@@ -21,15 +21,15 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.sergiobelda.marvel.network.service.CharacterService
-import dev.sergiobelda.marvel.pagingdatasource.CharacterPagingSource
+import dev.sergiobelda.marvel.pagingdatasource.CharacterPagingDataSource
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object PagingSourceModule {
+object PagingDataSourceModule {
 
     @Provides
     @Singleton
-    fun provideCharacterPagingSource(characterService: CharacterService): CharacterPagingSource =
-        CharacterPagingSource(characterService)
+    fun provideCharacterPagingDataSource(characterService: CharacterService): CharacterPagingDataSource =
+        CharacterPagingDataSource(characterService)
 }

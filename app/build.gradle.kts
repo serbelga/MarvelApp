@@ -61,6 +61,7 @@ dependencies {
 
     with(Libs.AndroidX.Lifecycle) {
         implementation(liveData)
+        implementation(runtime)
         implementation(viewModel)
     }
 

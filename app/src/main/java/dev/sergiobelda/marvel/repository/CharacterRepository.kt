@@ -22,13 +22,13 @@ import androidx.paging.PagingData
 import dev.sergiobelda.marvel.data.Result
 import dev.sergiobelda.marvel.model.Character
 import dev.sergiobelda.marvel.network.Constants
-import dev.sergiobelda.marvel.pagingdatasource.CharacterPagingSource
+import dev.sergiobelda.marvel.pagingdatasource.CharacterPagingDataSource
 import dev.sergiobelda.marvel.remotedatasource.ICharacterRemoteDataSource
 import kotlinx.coroutines.flow.Flow
 
 class CharacterRepository(
     private val characterRemoteDataSource: ICharacterRemoteDataSource,
-    private val characterPagingSource: CharacterPagingSource
+    private val characterPagingDataSource: CharacterPagingDataSource
 ) : ICharacterRepository {
 
     override suspend fun getCharacters(): Result<List<Character>> =
@@ -40,7 +40,7 @@ class CharacterRepository(
                 pageSize = Constants.API_PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { characterPagingSource }
+            pagingSourceFactory = { characterPagingDataSource }
         ).flow
     }
 
