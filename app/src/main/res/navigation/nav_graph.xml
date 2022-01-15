@@ -17,9 +17,12 @@
     <fragment
         android:id="@+id/character_detail_fragment"
         android:name="dev.sergiobelda.marvel.ui.characterdetail.CharacterDetailFragment"
-        tools:layout="@layout/character_detail_fragment" >
+        tools:layout="@layout/character_detail_fragment">
         <argument
             android:name="id"
             app:argType="integer" />
+        <argument
+            android:name="imageUrl"
+            app:argType="string" />
     </fragment>
 </navigation>

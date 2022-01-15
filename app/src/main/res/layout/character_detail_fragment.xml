@@ -15,14 +15,16 @@
         app:elevation="0dp">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="420dp"
-            app:collapsedTitleGravity="center"
             app:collapsedTitleTextAppearance="?attr/textAppearanceHeadline6"
-            app:expandedTitleTextAppearance="?attr/textAppearanceHeadline2"
+            app:collapsedTitleTextColor="@color/white"
+            app:expandedTitleTextAppearance="?attr/textAppearanceHeadline4"
             app:expandedTitleTextColor="@color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:title="Title">
+            app:statusBarScrim="@color/black_translucent"
+            tools:title="Title">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/character_image"
@@ -34,7 +36,17 @@
                 app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Marvel.CollapsingToolbar.Media"
                 tools:src="@tools:sample/avatars" />
 
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image_gradient"
+                app:shapeAppearance="?attr/shapeAppearanceLargeComponent"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Marvel.CollapsingToolbar.Media" />
+
             <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@android:color/transparent"

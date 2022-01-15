@@ -20,6 +20,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.google.android.material.card.MaterialCardView
 import dev.sergiobelda.marvel.databinding.CharacterItemBinding
 import dev.sergiobelda.marvel.model.Character
 
@@ -27,7 +28,7 @@ class CharactersAdapter : RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
 
     private val items = mutableListOf<Character>()
 
-    var onCharacterItemClick: (Character) -> Unit = {}
+    var listener: CharacterClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
@@ -59,9 +60,14 @@ class CharactersAdapter : RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
                 // TODO: placeholder()
             }
             binding.characterName.text = character.name
+            binding.characterCard.transitionName = character.id.toString()
             binding.characterCard.setOnClickListener {
-                onCharacterItemClick.invoke(character)
+                listener?.onClick(character, binding.characterCard)
             }
         }
+    }
+
+    fun interface CharacterClickListener {
+        fun onClick(character: Character, card: MaterialCardView)
     }
 }

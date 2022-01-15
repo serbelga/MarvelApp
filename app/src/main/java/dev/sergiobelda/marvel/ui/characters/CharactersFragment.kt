@@ -22,6 +22,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +32,9 @@ import dev.sergiobelda.marvel.databinding.CharactersFragmentBinding
 @AndroidEntryPoint
 class CharactersFragment : Fragment() {
 
-    private var binding: CharactersFragmentBinding? = null
+    private var _binding: CharactersFragmentBinding? = null
+
+    private val binding: CharactersFragmentBinding get() = _binding!!
 
     private val charactersViewModel: CharactersViewModel by viewModels()
 
@@ -41,21 +44,28 @@ class CharactersFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = CharactersFragmentBinding.inflate(inflater, container, false)
-        return binding?.root
+    ): View {
+        _binding = CharactersFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.recyclerView?.apply {
+        postponeEnterTransition()
+        binding.recyclerView.post { startPostponedEnterTransition() }
+        binding.recyclerView.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = charactersAdapter
         }
-        charactersAdapter.onCharacterItemClick = { character ->
-            val action = CharactersFragmentDirections.navToCharacterDetailFragment(character.id)
-            findNavController().navigate(action)
-        }
+        charactersAdapter.listener =
+            CharactersAdapter.CharacterClickListener { character, cardView ->
+                val extras = FragmentNavigatorExtras(cardView to character.id.toString())
+                val action = CharactersFragmentDirections.navToCharacterDetailFragment(
+                    character.id,
+                    character.imageUrl
+                )
+                findNavController().navigate(action, extras)
+            }
         charactersViewModel.characters.observe(viewLifecycleOwner) { result ->
             result?.doIfSuccess {
                 charactersAdapter.setItems(it)
@@ -65,6 +75,6 @@ class CharactersFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 }
