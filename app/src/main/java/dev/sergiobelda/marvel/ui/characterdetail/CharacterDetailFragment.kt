@@ -69,7 +69,7 @@ class CharacterDetailFragment : Fragment() {
             ContextCompat.getDrawable(requireContext(), R.drawable.ic_back_layer_list)
 
         binding.characterImage.load(args.imageUrl)
-        characterDetailViewModel.getCharacterDetail(args.id).observe(viewLifecycleOwner) { result ->
+        characterDetailViewModel.characterResult.observe(viewLifecycleOwner) { result ->
             result.doIfSuccess { character ->
                 binding.collapsingToolbar.title = character?.name?.takeIf { it.isNotBlank() } ?: "-"
                 binding.characterDescription.text =
