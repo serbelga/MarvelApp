@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.usecase
+package dev.sergiobelda.marvel.repository
 
 import dev.sergiobelda.marvel.data.Result
 import dev.sergiobelda.marvel.model.Character
-import dev.sergiobelda.marvel.repository.ICharacterRepository
 
-class GetCharactersUseCase(private val characterRepository: ICharacterRepository) {
+interface ICharacterRepository {
 
-    suspend operator fun invoke(): Result<List<Character>> =
-        characterRepository.getCharacters()
+    suspend fun getCharacters(): Result<List<Character>>
+
+    suspend fun getCharacter(id: Int): Result<Character?>
 }

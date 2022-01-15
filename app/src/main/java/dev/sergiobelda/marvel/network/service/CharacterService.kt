@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.usecase
+package dev.sergiobelda.marvel.network.service
 
-import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.model.Character
-import dev.sergiobelda.marvel.repository.ICharacterRepository
+import dev.sergiobelda.marvel.network.model.CharacterApiModel
+import dev.sergiobelda.marvel.network.model.MarvelResponse
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Path
 
-class GetCharactersUseCase(private val characterRepository: ICharacterRepository) {
+interface CharacterService {
 
-    suspend operator fun invoke(): Result<List<Character>> =
-        characterRepository.getCharacters()
+    @GET("/v1/public/characters")
+    suspend fun getCharacters(): Response<MarvelResponse<CharacterApiModel>>
+
+    @GET("/v1/public/characters/{id}")
+    suspend fun getCharacterDetail(@Path("id") id: Int): Response<MarvelResponse<CharacterApiModel>>
 }

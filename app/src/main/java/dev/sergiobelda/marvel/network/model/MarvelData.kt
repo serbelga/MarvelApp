@@ -14,14 +14,23 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.usecase
+package dev.sergiobelda.marvel.network.model
 
-import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.model.Character
-import dev.sergiobelda.marvel.repository.ICharacterRepository
+import com.squareup.moshi.JsonClass
 
-class GetCharactersUseCase(private val characterRepository: ICharacterRepository) {
-
-    suspend operator fun invoke(): Result<List<Character>> =
-        characterRepository.getCharacters()
-}
+/**
+ * Data container.
+ * @param offset The requested offset (number of skipped results) of the call.
+ * @param limit The requested result limit.
+ * @param total The total number of resources available given the current filter set.
+ * @param count The total number of results returned by this call.
+ * @param results List of result.
+ */
+@JsonClass(generateAdapter = true)
+data class MarvelData<T>(
+    val offset: Int,
+    val limit: Int,
+    val total: Int,
+    val count: Int,
+    val results: List<T>
+)

@@ -14,19 +14,23 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.repository
+package dev.sergiobelda.marvel.di
 
-import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.model.Character
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import dev.sergiobelda.marvel.network.service.CharacterService
+import dev.sergiobelda.marvel.remotedatasource.CharacterRemoteDataSource
 import dev.sergiobelda.marvel.remotedatasource.ICharacterRemoteDataSource
+import javax.inject.Singleton
 
-class CharacterRepository(
-    private val characterRemoteDataSource: ICharacterRemoteDataSource
-) : ICharacterRepository {
+@Module
+@InstallIn(SingletonComponent::class)
+object RemoteDataSourceModule {
 
-    override suspend fun getCharacters(): Result<List<Character>> =
-        characterRemoteDataSource.getCharacters()
-
-    override suspend fun getCharacter(id: Int): Result<Character?> =
-        characterRemoteDataSource.getCharacter(id)
+    @Provides
+    @Singleton
+    fun provideCharacterRemoteDataSource(characterService: CharacterService): ICharacterRemoteDataSource =
+        CharacterRemoteDataSource(characterService)
 }

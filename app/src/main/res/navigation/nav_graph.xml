@@ -10,12 +10,19 @@
         android:name="dev.sergiobelda.marvel.ui.characters.CharactersFragment"
         tools:layout="@layout/characters_fragment">
         <action
-            android:id="@+id/action_characters_fragment_to_characterDetailFragment"
+            android:id="@+id/navToCharacterDetailFragment"
             app:destination="@id/character_detail_fragment" />
     </fragment>
 
     <fragment
         android:id="@+id/character_detail_fragment"
         android:name="dev.sergiobelda.marvel.ui.characterdetail.CharacterDetailFragment"
-        tools:layout="@layout/character_detail_fragment" />
+        tools:layout="@layout/character_detail_fragment">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="imageUrl"
+            app:argType="string" />
+    </fragment>
 </navigation>

@@ -1,7 +1,15 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
+    id("androidx.navigation.safeargs.kotlin")
 }
+
+val publicApiKey: String = gradleLocalProperties(rootDir).getProperty("public_api_key")
+val privateApiKey: String = gradleLocalProperties(rootDir).getProperty("private_api_key")
 
 android {
     compileSdk = 31
@@ -17,6 +25,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "PUBLIC_API_KEY", publicApiKey)
+            buildConfigField("String", "PRIVATE_API_KEY", privateApiKey)
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -28,6 +40,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs += "-Xjvm-default=all"
     }
     buildFeatures {
         viewBinding = true
@@ -46,12 +59,38 @@ dependencies {
         implementation(coreKtx)
     }
 
+    with(Libs.AndroidX.Lifecycle) {
+        implementation(liveData)
+        implementation(viewModel)
+    }
+
     with(Libs.AndroidX.Navigation) {
         implementation(navigationFragmentKtx)
         implementation(navigationUiKtx)
     }
 
     implementation(Libs.Google.Material.materialComponents)
+
+    with(Libs.SquareUp.Moshi) {
+        implementation(moshi)
+        kapt(moshiKotlinCodegen)
+    }
+    with(Libs.SquareUp.OkHttp3) {
+        implementation(okhttp)
+        implementation(loggingInterceptor)
+    }
+    with(Libs.SquareUp.Retrofit2) {
+        implementation(converterMoshi)
+        implementation(converterScalars)
+        implementation(retrofit)
+    }
+
+    with(Libs.Google.Dagger) {
+        implementation(hilt)
+        kapt(hiltCompiler)
+    }
+
+    implementation(Libs.coil)
 
     testImplementation(Libs.junit)
     androidTestImplementation(Libs.Test.espressoCore)

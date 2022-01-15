@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.usecase
+package dev.sergiobelda.marvel.network.model
 
-import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.model.Character
-import dev.sergiobelda.marvel.repository.ICharacterRepository
+import com.squareup.moshi.JsonClass
 
-class GetCharactersUseCase(private val characterRepository: ICharacterRepository) {
-
-    suspend operator fun invoke(): Result<List<Character>> =
-        characterRepository.getCharacters()
-}
+@JsonClass(generateAdapter = true)
+data class CharacterApiModel(
+    val id: Int,
+    val name: String,
+    val description: String,
+    val thumbnail: Thumbnail
+)

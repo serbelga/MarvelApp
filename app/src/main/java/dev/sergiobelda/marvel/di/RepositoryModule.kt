@@ -14,14 +14,24 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.usecase
+package dev.sergiobelda.marvel.di
 
-import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.model.Character
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import dev.sergiobelda.marvel.remotedatasource.ICharacterRemoteDataSource
+import dev.sergiobelda.marvel.repository.CharacterRepository
 import dev.sergiobelda.marvel.repository.ICharacterRepository
+import javax.inject.Singleton
 
-class GetCharactersUseCase(private val characterRepository: ICharacterRepository) {
+@Module
+@InstallIn(SingletonComponent::class)
+object RepositoryModule {
 
-    suspend operator fun invoke(): Result<List<Character>> =
-        characterRepository.getCharacters()
+    @Provides
+    @Singleton
+    fun provideCharacterRepository(
+        characterRemoteDataSource: ICharacterRemoteDataSource
+    ): ICharacterRepository = CharacterRepository(characterRemoteDataSource)
 }

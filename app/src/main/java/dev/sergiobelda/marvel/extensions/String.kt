@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.usecase
+package dev.sergiobelda.marvel.extensions
 
-import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.model.Character
-import dev.sergiobelda.marvel.repository.ICharacterRepository
+import java.math.BigInteger
+import java.security.MessageDigest
 
-class GetCharactersUseCase(private val characterRepository: ICharacterRepository) {
-
-    suspend operator fun invoke(): Result<List<Character>> =
-        characterRepository.getCharacters()
+/**
+ * Generate an MD5 hash.
+ */
+fun String.md5(): String {
+    val md = MessageDigest.getInstance("MD5")
+    return BigInteger(1, md.digest(this.toByteArray())).toString(16).padStart(32, '0')
 }
