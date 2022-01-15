@@ -17,20 +17,32 @@
 package dev.sergiobelda.marvel.ui.characterdetail
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.sergiobelda.marvel.data.Result
 import dev.sergiobelda.marvel.model.Character
 import dev.sergiobelda.marvel.usecase.GetCharacterDetailUseCase
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CharacterDetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getCharacterDetailUseCase: GetCharacterDetailUseCase
 ) : ViewModel() {
 
-    fun getCharacterDetail(id: Int): LiveData<Result<Character?>> = liveData {
-        emit(getCharacterDetailUseCase.invoke(id))
+    private val id: Int = savedStateHandle.get("id") ?: 0
+
+    val characterResult: LiveData<Result<Character?>> get() = _characterResult
+    private val _characterResult: MutableLiveData<Result<Character?>> = MutableLiveData()
+
+    init {
+        viewModelScope.launch {
+            val result = getCharacterDetailUseCase(id)
+            _characterResult.postValue(result)
+        }
     }
 }
