@@ -22,6 +22,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.sergiobelda.marvel.data.doIfSuccess
@@ -52,9 +53,10 @@ class CharactersFragment : Fragment() {
             adapter = charactersAdapter
         }
         charactersAdapter.onCharacterItemClick = { character ->
-            
+            val action = CharactersFragmentDirections.navToCharacterDetailFragment(character.id)
+            findNavController().navigate(action)
         }
-        charactersViewModel.getCharacters().observe(viewLifecycleOwner) { result ->
+        charactersViewModel.characters.observe(viewLifecycleOwner) { result ->
             result?.doIfSuccess {
                 charactersAdapter.setItems(it)
             }

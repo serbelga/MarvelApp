@@ -13,7 +13,7 @@ object Versions {
     const val lifecycle = "2.4.0"
     const val materialComponents = "1.5.0"
     const val moshi = "1.13.0"
-    const val navigation = "2.4.0-rc01"
+    const val navigation = "2.3.5"
     const val okhttp = "4.9.3"
     const val retrofit = "2.9.0"
 }

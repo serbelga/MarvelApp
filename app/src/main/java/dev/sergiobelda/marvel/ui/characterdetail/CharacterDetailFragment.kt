@@ -21,13 +21,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
+import coil.load
 import dagger.hilt.android.AndroidEntryPoint
+import dev.sergiobelda.marvel.data.doIfSuccess
 import dev.sergiobelda.marvel.databinding.CharacterDetailFragmentBinding
 
 @AndroidEntryPoint
 class CharacterDetailFragment : Fragment() {
 
     private var binding: CharacterDetailFragmentBinding? = null
+
+    private val characterDetailViewModel: CharacterDetailViewModel by viewModels()
+
+    private val args: CharacterDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +44,17 @@ class CharacterDetailFragment : Fragment() {
     ): View? {
         binding = CharacterDetailFragmentBinding.inflate(inflater, container, false)
         return binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        characterDetailViewModel.getCharacterDetail(args.id).observe(viewLifecycleOwner) { result ->
+            result.doIfSuccess { character ->
+                character?.let {
+                    binding?.characterImage?.load(it.imageUrl)
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {

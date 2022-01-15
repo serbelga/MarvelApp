@@ -37,7 +37,14 @@
 
     <!--Shape Appearance for large components like side and bottom navigation drawers-->
     <style name="ShapeAppearance.Marvel.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">12dp</item>
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSizeTopLeft">24dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">24dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Marvel.CollapsingToolbar.Media" parent="ShapeAppearance.Marvel.LargeComponent">
+        <item name="cornerSizeTopLeft">0dp</item>
     </style>
 </resources>
