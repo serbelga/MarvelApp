@@ -14,24 +14,18 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.data.network.service
+package dev.sergiobelda.marvel.data.testutil
 
-import dev.sergiobelda.marvel.data.network.Constants
 import dev.sergiobelda.marvel.data.network.model.CharacterApiModel
+import dev.sergiobelda.marvel.data.network.model.MarvelData
 import dev.sergiobelda.marvel.data.network.model.MarvelResponse
-import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import dev.sergiobelda.marvel.data.network.model.Thumbnail
 
-interface CharacterService {
+val thumbnail = Thumbnail("", "")
 
-    @GET("/v1/public/characters")
-    suspend fun getCharacters(
-        @Query("offset") offset: Int = Constants.API_STARTING_PAGE_INDEX,
-        @Query("limit") limit: Int = Constants.API_PAGE_SIZE
-    ): Response<MarvelResponse<CharacterApiModel>>
+val characterApiModel = CharacterApiModel(1, "3-D Man", "Description", thumbnail)
 
-    @GET("/v1/public/characters/{id}")
-    suspend fun getCharacter(@Path("id") id: Int): Response<MarvelResponse<CharacterApiModel>>
-}
+fun <T> createMarvelResponse(results: List<T>): MarvelResponse<T> =
+    MarvelResponse(
+        200, MarvelData(0, 20, results.size, results.size, results)
+    )

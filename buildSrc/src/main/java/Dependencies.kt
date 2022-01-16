@@ -12,6 +12,7 @@ object Versions {
     const val ktxVersion = "1.7.0"
     const val lifecycle = "2.4.0"
     const val materialComponents = "1.5.0"
+    const val mockk = "1.10.6"
     const val moshi = "1.13.0"
     const val navigation = "2.3.5"
     const val okhttp = "4.9.3"
@@ -30,6 +31,8 @@ object Libs {
     const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
 
     const val ktLint = "com.pinterest:ktlint:${Versions.ktLint}"
+
+    const val mockk = "io.mockk:mockk:${Versions.mockk}"
 
     object AndroidX {
         const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"

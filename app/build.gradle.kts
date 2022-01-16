@@ -98,6 +98,8 @@ dependencies {
     testImplementation(Libs.junit)
     androidTestImplementation(Libs.Test.espressoCore)
     androidTestImplementation(Libs.Test.extJunit)
+
+    testImplementation(Libs.mockk)
 }
 
 task("ktlint", JavaExec::class) {
