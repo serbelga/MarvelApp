@@ -21,8 +21,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.sergiobelda.marvel.model.Character
-import dev.sergiobelda.marvel.usecase.GetCharactersUseCase
+import dev.sergiobelda.marvel.domain.model.Character
+import dev.sergiobelda.marvel.domain.usecase.GetCharactersUseCase
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.remotedatasource
+package dev.sergiobelda.marvel.data.remotedatasource
 
 import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.model.Character
-import dev.sergiobelda.marvel.network.mapper.CharacterMapper.toDomainModel
-import dev.sergiobelda.marvel.network.safeApiCall
-import dev.sergiobelda.marvel.network.service.CharacterService
+import dev.sergiobelda.marvel.domain.model.Character
+import dev.sergiobelda.marvel.data.network.mapper.CharacterMapper.toDomainModel
+import dev.sergiobelda.marvel.data.network.safeApiCall
+import dev.sergiobelda.marvel.data.network.service.CharacterService
 
 class CharacterRemoteDataSource(private val characterService: CharacterService) :
     ICharacterRemoteDataSource {

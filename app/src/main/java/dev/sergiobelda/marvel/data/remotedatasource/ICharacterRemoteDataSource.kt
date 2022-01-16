@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.remotedatasource
+package dev.sergiobelda.marvel.data.remotedatasource
 
 import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.model.Character
+import dev.sergiobelda.marvel.domain.model.Character
 
 interface ICharacterRemoteDataSource {
 

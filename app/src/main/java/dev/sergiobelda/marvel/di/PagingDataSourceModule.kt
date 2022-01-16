@@ -20,8 +20,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.sergiobelda.marvel.network.service.CharacterService
-import dev.sergiobelda.marvel.pagingdatasource.CharacterPagingDataSource
+import dev.sergiobelda.marvel.data.network.service.CharacterService
+import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
 import javax.inject.Singleton
 
 @Module

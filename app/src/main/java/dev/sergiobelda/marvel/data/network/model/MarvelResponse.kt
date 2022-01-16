@@ -14,12 +14,17 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.model
+package dev.sergiobelda.marvel.data.network.model
 
-data class Character(
-    val id: Int,
-    val name: String,
-    val description: String,
-    val imageUrl: String
-    // TODO: List of comics.
+import com.squareup.moshi.JsonClass
+
+/**
+ * Response from API.
+ * @param code The HTTP status code of the returned result.
+ * @param data The results returned by the call.
+ */
+@JsonClass(generateAdapter = true)
+data class MarvelResponse<T>(
+    val code: Int,
+    val data: MarvelData<T>
 )

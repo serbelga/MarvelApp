@@ -14,15 +14,23 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.usecase
+package dev.sergiobelda.marvel.data.network.model
 
-import androidx.paging.PagingData
-import dev.sergiobelda.marvel.model.Character
-import dev.sergiobelda.marvel.repository.ICharacterRepository
-import kotlinx.coroutines.flow.Flow
+import com.squareup.moshi.JsonClass
 
-class GetCharactersUseCase(private val characterRepository: ICharacterRepository) {
-
-    operator fun invoke(): Flow<PagingData<Character>> =
-        characterRepository.getCharacters()
-}
+/**
+ * Data container.
+ * @param offset The requested offset (number of skipped results) of the call.
+ * @param limit The requested result limit.
+ * @param total The total number of resources available given the current filter set.
+ * @param count The total number of results returned by this call.
+ * @param results List of result.
+ */
+@JsonClass(generateAdapter = true)
+data class MarvelData<T>(
+    val offset: Int,
+    val limit: Int,
+    val total: Int,
+    val count: Int,
+    val results: List<T>
+)

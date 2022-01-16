@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.network
+package dev.sergiobelda.marvel.data.network
 
 import dev.sergiobelda.marvel.extensions.md5
 import okhttp3.Interceptor

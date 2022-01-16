@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.repository
+package dev.sergiobelda.marvel.data.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.model.Character
-import dev.sergiobelda.marvel.network.Constants
-import dev.sergiobelda.marvel.pagingdatasource.CharacterPagingDataSource
-import dev.sergiobelda.marvel.remotedatasource.ICharacterRemoteDataSource
+import dev.sergiobelda.marvel.domain.model.Character
+import dev.sergiobelda.marvel.data.network.Constants
+import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
+import dev.sergiobelda.marvel.data.remotedatasource.ICharacterRemoteDataSource
 import kotlinx.coroutines.flow.Flow
 
 class CharacterRepository(

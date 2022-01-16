@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.network.mapper
+package dev.sergiobelda.marvel.data.network.mapper
 
-import dev.sergiobelda.marvel.model.Character
-import dev.sergiobelda.marvel.network.model.CharacterApiModel
+import dev.sergiobelda.marvel.domain.model.Character
+import dev.sergiobelda.marvel.data.network.model.CharacterApiModel
 
 object CharacterMapper {
 

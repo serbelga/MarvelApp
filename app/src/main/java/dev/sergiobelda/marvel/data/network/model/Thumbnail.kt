@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.usecase
+package dev.sergiobelda.marvel.data.network.model
 
-import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.model.Character
-import dev.sergiobelda.marvel.repository.ICharacterRepository
+import com.squareup.moshi.JsonClass
 
-class GetCharacterDetailUseCase(private val characterRepository: ICharacterRepository) {
+@JsonClass(generateAdapter = true)
+data class Thumbnail(
+    val path: String,
+    val extension: String
+) {
 
-    suspend operator fun invoke(id: Int): Result<Character?> =
-        characterRepository.getCharacter(id)
+    // TODO: Add support to portrait, standard and landscape.
+    fun getUrl(): String = "$path.$extension"
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.network
+package dev.sergiobelda.marvel.data.network
 
 import dev.sergiobelda.marvel.data.Result
 import kotlinx.coroutines.CoroutineDispatcher

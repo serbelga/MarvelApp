@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.network.model
+package dev.sergiobelda.marvel.domain.usecase
 
-import com.squareup.moshi.JsonClass
+import androidx.paging.PagingData
+import dev.sergiobelda.marvel.domain.model.Character
+import dev.sergiobelda.marvel.data.repository.ICharacterRepository
+import kotlinx.coroutines.flow.Flow
 
-/**
- * Response from API.
- * @param code The HTTP status code of the returned result.
- * @param data The results returned by the call.
- */
-@JsonClass(generateAdapter = true)
-data class MarvelResponse<T>(
-    val code: Int,
-    val data: MarvelData<T>
-)
+class GetCharactersUseCase(private val characterRepository: ICharacterRepository) {
+
+    operator fun invoke(): Flow<PagingData<Character>> =
+        characterRepository.getCharacters()
+}

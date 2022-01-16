@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.network
+package dev.sergiobelda.marvel.data.network.model
 
-object Constants {
-    private const val SCHEME = "https"
-    private const val HOST = "gateway.marvel.com"
-    const val BASE_URL = "$SCHEME://$HOST"
+import com.squareup.moshi.JsonClass
 
-    const val TIMEOUT: Long = 10
-
-    const val API_STARTING_PAGE_INDEX = 0
-    const val API_PAGE_SIZE = 20
-}
+@JsonClass(generateAdapter = true)
+data class CharacterApiModel(
+    val id: Int,
+    val name: String,
+    val description: String,
+    val thumbnail: Thumbnail
+)

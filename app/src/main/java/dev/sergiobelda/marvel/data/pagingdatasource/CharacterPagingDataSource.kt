@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.pagingdatasource
+package dev.sergiobelda.marvel.data.pagingdatasource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.model.Character
-import dev.sergiobelda.marvel.network.Constants.API_PAGE_SIZE
-import dev.sergiobelda.marvel.network.Constants.API_STARTING_PAGE_INDEX
-import dev.sergiobelda.marvel.network.mapper.CharacterMapper.toDomainModel
-import dev.sergiobelda.marvel.network.safeApiCall
-import dev.sergiobelda.marvel.network.service.CharacterService
+import dev.sergiobelda.marvel.domain.model.Character
+import dev.sergiobelda.marvel.data.network.Constants.API_PAGE_SIZE
+import dev.sergiobelda.marvel.data.network.Constants.API_STARTING_PAGE_INDEX
+import dev.sergiobelda.marvel.data.network.mapper.CharacterMapper.toDomainModel
+import dev.sergiobelda.marvel.data.network.safeApiCall
+import dev.sergiobelda.marvel.data.network.service.CharacterService
 
 class CharacterPagingDataSource(private val characterService: CharacterService) :
     PagingSource<Int, Character>() {

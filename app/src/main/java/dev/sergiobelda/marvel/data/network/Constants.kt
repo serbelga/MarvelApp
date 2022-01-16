@@ -14,23 +14,15 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.repository
+package dev.sergiobelda.marvel.data.network
 
-import androidx.paging.PagingData
-import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.model.Character
-import kotlinx.coroutines.flow.Flow
+object Constants {
+    private const val SCHEME = "https"
+    private const val HOST = "gateway.marvel.com"
+    const val BASE_URL = "$SCHEME://$HOST"
 
-interface ICharacterRepository {
+    const val TIMEOUT: Long = 10
 
-    /**
-     * Get Characters paging.
-     * Returns a flow that emits new data every time a new page is loaded.
-     */
-    fun getCharacters(): Flow<PagingData<Character>>
-
-    /**
-     * Get [Character] given an [id].
-     */
-    suspend fun getCharacter(id: Int): Result<Character?>
+    const val API_STARTING_PAGE_INDEX = 0
+    const val API_PAGE_SIZE = 20
 }

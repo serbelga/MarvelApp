@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.network.service
+package dev.sergiobelda.marvel.data.network.service
 
-import dev.sergiobelda.marvel.network.Constants
-import dev.sergiobelda.marvel.network.model.CharacterApiModel
-import dev.sergiobelda.marvel.network.model.MarvelResponse
+import dev.sergiobelda.marvel.data.network.Constants
+import dev.sergiobelda.marvel.data.network.model.CharacterApiModel
+import dev.sergiobelda.marvel.data.network.model.MarvelResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

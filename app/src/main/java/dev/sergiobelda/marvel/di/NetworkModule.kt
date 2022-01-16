@@ -21,10 +21,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.sergiobelda.marvel.BuildConfig
-import dev.sergiobelda.marvel.network.ApiKeyInterceptor
-import dev.sergiobelda.marvel.network.Constants.BASE_URL
-import dev.sergiobelda.marvel.network.Constants.TIMEOUT
-import dev.sergiobelda.marvel.network.service.CharacterService
+import dev.sergiobelda.marvel.data.network.ApiKeyInterceptor
+import dev.sergiobelda.marvel.data.network.Constants.BASE_URL
+import dev.sergiobelda.marvel.data.network.Constants.TIMEOUT
+import dev.sergiobelda.marvel.data.network.service.CharacterService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

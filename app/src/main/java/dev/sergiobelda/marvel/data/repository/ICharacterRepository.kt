@@ -14,16 +14,23 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.network.model
+package dev.sergiobelda.marvel.data.repository
 
-import com.squareup.moshi.JsonClass
+import androidx.paging.PagingData
+import dev.sergiobelda.marvel.data.Result
+import dev.sergiobelda.marvel.domain.model.Character
+import kotlinx.coroutines.flow.Flow
 
-@JsonClass(generateAdapter = true)
-data class Thumbnail(
-    val path: String,
-    val extension: String
-) {
+interface ICharacterRepository {
 
-    // TODO: Add support to portrait, standard and landscape.
-    fun getUrl(): String = "$path.$extension"
+    /**
+     * Get Characters paging.
+     * Returns a flow that emits new data every time a new page is loaded.
+     */
+    fun getCharacters(): Flow<PagingData<Character>>
+
+    /**
+     * Get [Character] given an [id].
+     */
+    suspend fun getCharacter(id: Int): Result<Character?>
 }
