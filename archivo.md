@@ -2,9 +2,8 @@
 
 App showing a list of Marvel characters and a detail screen giving more information.
 
-### Tech stack
+### Tech stack
 
-## Tech Stack
 * Kotlin & Coroutines
   * Flow & StateFlow
 * [Android Jetpack](https://developer.android.com/jetpack)
