@@ -14,18 +14,22 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.remotedatasource
+package dev.sergiobelda.marvel.di
 
-import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.model.Character
-import dev.sergiobelda.marvel.network.mapper.CharacterMapper.toDomainModel
-import dev.sergiobelda.marvel.network.safeApiCall
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dev.sergiobelda.marvel.network.service.CharacterService
+import dev.sergiobelda.marvel.pagingdatasource.CharacterPagingDataSource
+import javax.inject.Singleton
 
-class CharacterRemoteDataSource(private val characterService: CharacterService) :
-    ICharacterRemoteDataSource {
+@Module
+@InstallIn(SingletonComponent::class)
+object PagingDataSourceModule {
 
-    override suspend fun getCharacter(id: Int): Result<Character?> = safeApiCall {
-        characterService.getCharacterDetail(id)
-    }.map { response -> response.data.results.firstOrNull()?.toDomainModel() }
+    @Provides
+    @Singleton
+    fun provideCharacterPagingDataSource(characterService: CharacterService): CharacterPagingDataSource =
+        CharacterPagingDataSource(characterService)
 }

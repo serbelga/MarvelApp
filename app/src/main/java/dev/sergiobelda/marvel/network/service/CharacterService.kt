@@ -16,16 +16,21 @@
 
 package dev.sergiobelda.marvel.network.service
 
+import dev.sergiobelda.marvel.network.Constants
 import dev.sergiobelda.marvel.network.model.CharacterApiModel
 import dev.sergiobelda.marvel.network.model.MarvelResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface CharacterService {
 
     @GET("/v1/public/characters")
-    suspend fun getCharacters(): Response<MarvelResponse<CharacterApiModel>>
+    suspend fun getCharacters(
+        @Query("offset") offset: Int = Constants.API_STARTING_PAGE_INDEX,
+        @Query("limit") limit: Int = Constants.API_PAGE_SIZE
+    ): Response<MarvelResponse<CharacterApiModel>>
 
     @GET("/v1/public/characters/{id}")
     suspend fun getCharacterDetail(@Path("id") id: Int): Response<MarvelResponse<CharacterApiModel>>

@@ -24,16 +24,21 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import coil.load
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import dev.sergiobelda.marvel.R
-import dev.sergiobelda.marvel.data.doIfSuccess
 import dev.sergiobelda.marvel.databinding.CharacterDetailFragmentBinding
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CharacterDetailFragment : Fragment() {
@@ -69,13 +74,25 @@ class CharacterDetailFragment : Fragment() {
             ContextCompat.getDrawable(requireContext(), R.drawable.ic_back_layer_list)
 
         binding.characterImage.load(args.imageUrl)
-        characterDetailViewModel.getCharacterDetail(args.id).observe(viewLifecycleOwner) { result ->
-            result.doIfSuccess { character ->
-                binding.collapsingToolbar.title = character?.name?.takeIf { it.isNotBlank() } ?: "-"
-                binding.characterDescription.text =
-                    character?.description?.takeIf { it.isNotBlank() }
-                        ?: getString(R.string.no_description)
-            }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            characterDetailViewModel.characterUiState
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect { characterUiState ->
+                    if (characterUiState.isLoading) {
+                        binding.progressIndicator.show()
+                    } else {
+                        binding.progressIndicator.hide()
+                        binding.collapsingToolbar.title =
+                            characterUiState.character?.name?.takeIf { it.isNotBlank() } ?: "-"
+                        binding.characterDescription.text =
+                            characterUiState.character?.description?.takeIf { it.isNotBlank() }
+                                ?: getString(R.string.no_description)
+                    }
+                    characterUiState.errorMessage?.let {
+                        Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).show()
+                    }
+                }
         }
     }
 

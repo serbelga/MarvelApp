@@ -16,29 +16,21 @@
 
 package dev.sergiobelda.marvel.ui.characters
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.sergiobelda.marvel.data.Result
 import dev.sergiobelda.marvel.model.Character
 import dev.sergiobelda.marvel.usecase.GetCharactersUseCase
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
 class CharactersViewModel @Inject constructor(
-    private val getCharactersUseCase: GetCharactersUseCase
+    getCharactersPagingUseCase: GetCharactersUseCase
 ) : ViewModel() {
 
-    val characters: LiveData<Result<List<Character>>> get() = _characters
-    private var _characters: MutableLiveData<Result<List<Character>>> = MutableLiveData(Result.Loading)
-
-    init {
-        viewModelScope.launch {
-            val result = getCharactersUseCase()
-            _characters.postValue(result)
-        }
-    }
+    val characters: Flow<PagingData<Character>> =
+        getCharactersPagingUseCase().cachedIn(viewModelScope)
 }

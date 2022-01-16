@@ -16,22 +16,47 @@
 
 package dev.sergiobelda.marvel.ui.characterdetail
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.sergiobelda.marvel.data.Result
+import dev.sergiobelda.marvel.data.doIfError
+import dev.sergiobelda.marvel.data.doIfSuccess
 import dev.sergiobelda.marvel.model.Character
 import dev.sergiobelda.marvel.usecase.GetCharacterDetailUseCase
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CharacterDetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getCharacterDetailUseCase: GetCharacterDetailUseCase
 ) : ViewModel() {
 
-    fun getCharacterDetail(id: Int): LiveData<Result<Character?>> = liveData {
-        emit(Result.Loading)
-        emit(getCharacterDetailUseCase.invoke(id))
+    private val id: Int = savedStateHandle.get("id") ?: 0
+
+    private val _characterUiState: MutableStateFlow<CharacterUiState> = MutableStateFlow(
+        CharacterUiState(isLoading = true)
+    )
+    val characterUiState: StateFlow<CharacterUiState> get() = _characterUiState
+
+    init {
+        viewModelScope.launch {
+            val result = getCharacterDetailUseCase(id)
+            result.doIfSuccess { character ->
+                _characterUiState.update { it.copy(isLoading = false, character = character) }
+            }.doIfError { error ->
+                _characterUiState.update { it.copy(isLoading = false, errorMessage = error.message) }
+            }
+        }
     }
 }
+
+data class CharacterUiState(
+    val isLoading: Boolean = false,
+    val character: Character? = null,
+    val errorMessage: String? = null
+)

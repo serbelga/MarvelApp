@@ -18,19 +18,23 @@ package dev.sergiobelda.marvel.ui.characters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.card.MaterialCardView
 import dev.sergiobelda.marvel.databinding.CharacterItemBinding
 import dev.sergiobelda.marvel.model.Character
 
-class CharactersAdapter : RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
-
-    private val items = mutableListOf<Character>()
+class CharactersAdapter :
+    PagingDataAdapter<Character, CharactersAdapter.ViewHolder>(CHARACTER_COMPARATOR) {
 
     var listener: CharacterClickListener? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ViewHolder =
         ViewHolder(
             CharacterItemBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -40,15 +44,7 @@ class CharactersAdapter : RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
         )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        items.getOrNull(position)?.let { holder.bind(it) }
-    }
-
-    override fun getItemCount(): Int = items.size
-
-    fun setItems(list: List<Character>) {
-        items.clear()
-        items.addAll(list)
-        notifyDataSetChanged()
+        getItem(position)?.let { holder.bind(it) }
     }
 
     inner class ViewHolder(
@@ -69,5 +65,15 @@ class CharactersAdapter : RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
 
     fun interface CharacterClickListener {
         fun onClick(character: Character, card: MaterialCardView)
+    }
+
+    companion object {
+        private val CHARACTER_COMPARATOR = object : DiffUtil.ItemCallback<Character>() {
+            override fun areItemsTheSame(oldItem: Character, newItem: Character): Boolean =
+                oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: Character, newItem: Character): Boolean =
+                oldItem == newItem
+        }
     }
 }
