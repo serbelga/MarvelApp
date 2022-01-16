@@ -32,6 +32,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import coil.load
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import dev.sergiobelda.marvel.R
@@ -88,7 +89,9 @@ class CharacterDetailFragment : Fragment() {
                             characterUiState.character?.description?.takeIf { it.isNotBlank() }
                                 ?: getString(R.string.no_description)
                     }
-
+                    characterUiState.errorMessage?.let {
+                        Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).show()
+                    }
                 }
         }
     }

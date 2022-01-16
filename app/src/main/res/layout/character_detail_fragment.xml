@@ -23,8 +23,8 @@
             app:expandedTitleTextAppearance="?attr/textAppearanceHeadline4"
             app:expandedTitleTextColor="@color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:statusBarScrim="@color/black_translucent"
             app:maxLines="2"
+            app:statusBarScrim="@color/black_translucent"
             tools:title="Title">
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -67,10 +67,14 @@
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/progress_indicator"
+                style="@style/Widget.MaterialComponents.CircularProgressIndicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|top"
-                android:layout_marginTop="96dp" />
+                android:layout_marginTop="96dp"
+                android:indeterminate="true"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/character_description"
