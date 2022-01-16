@@ -25,6 +25,7 @@ interface ICharacterRepository {
 
     /**
      * Get Characters paging.
+     * Returns a flow that emits new data every time a new page is loaded.
      */
     fun getCharacters(): Flow<PagingData<Character>>
 
