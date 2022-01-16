@@ -32,13 +32,13 @@ suspend fun <T> safeApiCall(
             response.body()?.let {
                 Result.Success(it)
                 // TODO: Give more information.
-            } ?: Result.Error()
+            } ?: Result.Error(exception = Exception())
         } else {
             // TODO: Set values for message and exception.
-            Result.Error(code = response.code())
+            Result.Error(code = response.code(), exception = Exception())
         }
-    } catch (throwable: Throwable) {
+    } catch (exception: Exception) {
         // TODO: Set value for code.
-        Result.Error(message = throwable.message, exception = throwable)
+        Result.Error(message = exception.message, exception = exception)
     }
 }

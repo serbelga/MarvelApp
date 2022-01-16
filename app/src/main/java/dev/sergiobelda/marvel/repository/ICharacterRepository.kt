@@ -16,12 +16,20 @@
 
 package dev.sergiobelda.marvel.repository
 
+import androidx.paging.PagingData
 import dev.sergiobelda.marvel.data.Result
 import dev.sergiobelda.marvel.model.Character
+import kotlinx.coroutines.flow.Flow
 
 interface ICharacterRepository {
 
-    suspend fun getCharacters(): Result<List<Character>>
+    /**
+     * Get Characters paging.
+     */
+    fun getCharacters(): Flow<PagingData<Character>>
 
+    /**
+     * Get [Character] given an [id].
+     */
     suspend fun getCharacter(id: Int): Result<Character?>
 }

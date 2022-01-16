@@ -22,4 +22,7 @@ object Constants {
     const val BASE_URL = "$SCHEME://$HOST"
 
     const val TIMEOUT: Long = 10
+
+    const val API_STARTING_PAGE_INDEX = 0
+    const val API_PAGE_SIZE = 20
 }

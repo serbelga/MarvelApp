@@ -21,7 +21,5 @@ import dev.sergiobelda.marvel.model.Character
 
 interface ICharacterRemoteDataSource {
 
-    suspend fun getCharacters(): Result<List<Character>>
-
     suspend fun getCharacter(id: Int): Result<Character?>
 }

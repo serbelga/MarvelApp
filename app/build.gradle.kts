@@ -61,6 +61,7 @@ dependencies {
 
     with(Libs.AndroidX.Lifecycle) {
         implementation(liveData)
+        implementation(runtime)
         implementation(viewModel)
     }
 
@@ -68,6 +69,8 @@ dependencies {
         implementation(navigationFragmentKtx)
         implementation(navigationUiKtx)
     }
+
+    implementation(Libs.AndroidX.paging3)
 
     implementation(Libs.Google.Material.materialComponents)
 

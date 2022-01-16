@@ -16,12 +16,13 @@
 
 package dev.sergiobelda.marvel.usecase
 
-import dev.sergiobelda.marvel.data.Result
+import androidx.paging.PagingData
 import dev.sergiobelda.marvel.model.Character
 import dev.sergiobelda.marvel.repository.ICharacterRepository
+import kotlinx.coroutines.flow.Flow
 
 class GetCharactersUseCase(private val characterRepository: ICharacterRepository) {
 
-    suspend operator fun invoke(): Result<List<Character>> =
+    operator fun invoke(): Flow<PagingData<Character>> =
         characterRepository.getCharacters()
 }

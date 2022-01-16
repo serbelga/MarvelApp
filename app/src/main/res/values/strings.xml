@@ -2,4 +2,5 @@
     <string name="app_name">Marvel</string>
     <string name="marvel_characters">MARVEL CHARACTERS</string>
     <string name="no_description">Description not provided</string>
+    <string name="retry">Retry</string>
 </resources>

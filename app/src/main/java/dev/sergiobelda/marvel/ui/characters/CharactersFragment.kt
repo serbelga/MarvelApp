@@ -20,14 +20,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import dev.sergiobelda.marvel.data.doIfSuccess
 import dev.sergiobelda.marvel.databinding.CharactersFragmentBinding
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CharactersFragment : Fragment() {
@@ -38,7 +45,16 @@ class CharactersFragment : Fragment() {
 
     private val charactersViewModel: CharactersViewModel by viewModels()
 
-    private val charactersAdapter: CharactersAdapter = CharactersAdapter()
+    private val charactersAdapter: CharactersAdapter = CharactersAdapter().apply {
+        listener = CharactersAdapter.CharacterClickListener { character, cardView ->
+            val extras = FragmentNavigatorExtras(cardView to character.id.toString())
+            val action = CharactersFragmentDirections.navToCharacterDetailFragment(
+                character.id,
+                character.imageUrl
+            )
+            findNavController().navigate(action, extras)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,23 +69,50 @@ class CharactersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
         binding.recyclerView.post { startPostponedEnterTransition() }
-        binding.recyclerView.apply {
-            layoutManager = GridLayoutManager(context, 2)
-            adapter = charactersAdapter
+        initRecyclerView()
+
+        binding.goTopButton.setOnClickListener {
+            binding.recyclerView.smoothScrollToPosition(0)
         }
-        charactersAdapter.listener =
-            CharactersAdapter.CharacterClickListener { character, cardView ->
-                val extras = FragmentNavigatorExtras(cardView to character.id.toString())
-                val action = CharactersFragmentDirections.navToCharacterDetailFragment(
-                    character.id,
-                    character.imageUrl
-                )
-                findNavController().navigate(action, extras)
-            }
-        charactersViewModel.characters.observe(viewLifecycleOwner) { result ->
-            result?.doIfSuccess {
-                charactersAdapter.setItems(it)
-            }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            // flowWithLifecycle uses repeatOnLifecycle.
+            // The block passed to repeatOnLifecycle is executed when the lifecycle
+            // is at least STARTED and is cancelled when the lifecycle is STOPPED.
+            // It automatically restarts the block when the lifecycle is STARTED again.
+            charactersViewModel.characters
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect {
+                    charactersAdapter.submitData(it)
+                }
+        }
+    }
+
+    private fun initRecyclerView() {
+        val gridLayoutManager = GridLayoutManager(context, 2)
+        binding.recyclerView.apply {
+            layoutManager = gridLayoutManager
+            adapter = charactersAdapter.withLoadStateFooter(
+                footer = CharactersLoadStateAdapter { charactersAdapter.retry() }
+            )
+            addOnScrollListener(
+                object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        if (dy < 0 && binding.goTopButton.isGone) binding.goTopButton.show()
+                        else if (dy > 0 && binding.goTopButton.isVisible) binding.goTopButton.hide()
+                        if (gridLayoutManager.findFirstVisibleItemPosition() == 0) binding.goTopButton.hide()
+                    }
+                }
+            )
+        }
+        // Center CharactersLoadStateFooter.
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int =
+                if (position == charactersAdapter.itemCount && charactersAdapter.itemCount > 0) {
+                    2
+                } else {
+                    1
+                }
         }
     }
 

@@ -21,14 +21,12 @@ sealed class Result<out A> {
     data class Error(
         val code: Int? = null,
         val message: String? = null,
-        val exception: Throwable? = null
+        val exception: Exception
     ) : Result<Nothing>()
-    object Loading : Result<Nothing>()
 
     fun <B> map(m: ((A) -> B)): Result<B> = when (this) {
         is Success -> Success(m(value))
         is Error -> Error(code, message, exception)
-        is Loading -> Loading
     }
 }
 
