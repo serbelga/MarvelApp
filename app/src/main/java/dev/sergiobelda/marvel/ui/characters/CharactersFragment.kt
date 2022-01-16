@@ -45,7 +45,7 @@ class CharactersFragment : Fragment() {
 
     private val charactersViewModel: CharactersViewModel by viewModels()
 
-    private val charactersPagingAdapter: CharactersPagingAdapter = CharactersPagingAdapter().apply {
+    private val charactersAdapter: CharactersAdapter = CharactersAdapter().apply {
         listener = CharactersAdapter.CharacterClickListener { character, cardView ->
             val extras = FragmentNavigatorExtras(cardView to character.id.toString())
             val action = CharactersFragmentDirections.navToCharacterDetailFragment(
@@ -83,7 +83,7 @@ class CharactersFragment : Fragment() {
             charactersViewModel.characters
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect {
-                    charactersPagingAdapter.submitData(it)
+                    charactersAdapter.submitData(it)
                 }
         }
     }
@@ -92,7 +92,9 @@ class CharactersFragment : Fragment() {
         val gridLayoutManager = GridLayoutManager(context, 2)
         binding.recyclerView.apply {
             layoutManager = gridLayoutManager
-            adapter = charactersPagingAdapter
+            adapter = charactersAdapter.withLoadStateFooter(
+                footer = CharactersLoadStateAdapter { charactersAdapter.retry() }
+            )
             addOnScrollListener(
                 object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -102,6 +104,15 @@ class CharactersFragment : Fragment() {
                     }
                 }
             )
+        }
+        // Center CharactersLoadStateFooter.
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int =
+                if (position == charactersAdapter.itemCount && charactersAdapter.itemCount > 0) {
+                    2
+                } else {
+                    1
+                }
         }
     }
 

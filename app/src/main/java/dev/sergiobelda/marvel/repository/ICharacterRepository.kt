@@ -23,9 +23,13 @@ import kotlinx.coroutines.flow.Flow
 
 interface ICharacterRepository {
 
-    suspend fun getCharacters(): Result<List<Character>>
+    /**
+     * Get Characters paging.
+     */
+    fun getCharacters(): Flow<PagingData<Character>>
 
-    fun getCharactersPaging(): Flow<PagingData<Character>>
-
+    /**
+     * Get [Character] given an [id].
+     */
     suspend fun getCharacter(id: Int): Result<Character?>
 }

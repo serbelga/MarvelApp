@@ -23,7 +23,6 @@ import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import dev.sergiobelda.marvel.repository.ICharacterRepository
 import dev.sergiobelda.marvel.usecase.GetCharacterDetailUseCase
-import dev.sergiobelda.marvel.usecase.GetCharactersPagingUseCase
 import dev.sergiobelda.marvel.usecase.GetCharactersUseCase
 
 @Module
@@ -39,9 +38,4 @@ object UseCaseModule {
     @ViewModelScoped
     fun provideGetCharactersUseCase(characterRepository: ICharacterRepository) =
         GetCharactersUseCase(characterRepository)
-
-    @Provides
-    @ViewModelScoped
-    fun provideGetCharactersPagingUseCase(characterRepository: ICharacterRepository) =
-        GetCharactersPagingUseCase(characterRepository)
 }

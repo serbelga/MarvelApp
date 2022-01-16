@@ -31,10 +31,7 @@ class CharacterRepository(
     private val characterPagingDataSource: CharacterPagingDataSource
 ) : ICharacterRepository {
 
-    override suspend fun getCharacters(): Result<List<Character>> =
-        characterRemoteDataSource.getCharacters()
-
-    override fun getCharactersPaging(): Flow<PagingData<Character>> {
+    override fun getCharacters(): Flow<PagingData<Character>> {
         return Pager(
             config = PagingConfig(
                 pageSize = Constants.API_PAGE_SIZE,
