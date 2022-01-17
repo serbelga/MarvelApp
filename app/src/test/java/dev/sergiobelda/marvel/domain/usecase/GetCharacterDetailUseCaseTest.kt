@@ -16,5 +16,33 @@
 
 package dev.sergiobelda.marvel.domain.usecase
 
+import dev.sergiobelda.marvel.data.Result
+import dev.sergiobelda.marvel.data.repository.ICharacterRepository
+import dev.sergiobelda.marvel.data.testutil.character
+import io.mockk.coEvery
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Test
+
+@OptIn(ExperimentalCoroutinesApi::class)
 class GetCharacterDetailUseCaseTest {
+
+    @MockK
+    private val characterRepository = mockk<ICharacterRepository>()
+
+    private val getCharacterDetailUseCase = GetCharacterDetailUseCase(characterRepository)
+
+    @Test
+    fun testGetCharacterDetailUseCase() = runTest {
+        coEvery { characterRepository.getCharacter(1) } returns Result.Success(character)
+
+        val result = getCharacterDetailUseCase.invoke(1)
+
+        assertTrue(result is Result.Success)
+        assertEquals((result as Result.Success).value, character)
+    }
 }

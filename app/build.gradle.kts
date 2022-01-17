@@ -72,6 +72,8 @@ dependencies {
 
     implementation(Libs.AndroidX.paging3)
 
+    testImplementation(Libs.AndroidX.paging3Common)
+
     implementation(Libs.Google.Material.materialComponents)
 
     with(Libs.SquareUp.Moshi) {
@@ -100,6 +102,8 @@ dependencies {
     androidTestImplementation(Libs.Test.extJunit)
 
     testImplementation(Libs.mockk)
+
+    testImplementation(Libs.kotlinCoroutinesTest)
 }
 
 task("ktlint", JavaExec::class) {

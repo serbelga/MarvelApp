@@ -24,13 +24,15 @@ import dev.sergiobelda.marvel.data.testutil.createMarvelResponse
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import retrofit2.Response
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class CharacterRemoteDataSourceTest {
 
     @MockK
@@ -43,7 +45,7 @@ class CharacterRemoteDataSourceTest {
         CharacterRemoteDataSource(characterService)
 
     @Test
-    fun testGetCharacterSuccess() = runBlocking {
+    fun testGetCharacter() = runTest {
         coEvery { characterService.getCharacter(1) } returns Response.success(
             createMarvelResponse(listOf(characterApiModel))
         )
@@ -55,7 +57,7 @@ class CharacterRemoteDataSourceTest {
     }
 
     @Test
-    fun testGetCharacterError() = runBlocking {
+    fun testGetCharacterError() = runTest {
 
         coEvery { characterService.getCharacter(1) } returns Response.error(404, responseBody)
 

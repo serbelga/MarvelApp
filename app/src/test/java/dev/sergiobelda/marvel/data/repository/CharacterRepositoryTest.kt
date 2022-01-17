@@ -16,5 +16,47 @@
 
 package dev.sergiobelda.marvel.data.repository
 
+import dev.sergiobelda.marvel.data.Result
+import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
+import dev.sergiobelda.marvel.data.remotedatasource.ICharacterRemoteDataSource
+import dev.sergiobelda.marvel.data.testutil.character
+import io.mockk.coEvery
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Test
+
+@OptIn(ExperimentalCoroutinesApi::class)
 class CharacterRepositoryTest {
+
+    @MockK
+    private val characterRemoteDataSource = mockk<ICharacterRemoteDataSource>()
+
+    @MockK
+    private val characterPagingDataSource = mockk<CharacterPagingDataSource>(relaxed = true)
+
+    private val characterRepository: ICharacterRepository =
+        CharacterRepository(characterRemoteDataSource, characterPagingDataSource)
+
+    @Test
+    fun testGetCharacter() = runTest {
+        coEvery { characterRemoteDataSource.getCharacter(1) } returns Result.Success(character)
+
+        val result = characterRepository.getCharacter(1)
+
+        assertTrue(result is Result.Success)
+        assertEquals((result as Result.Success).value, character)
+    }
+
+    @Test
+    fun testGetCharacterError() = runTest {
+        coEvery { characterRemoteDataSource.getCharacter(1) } returns Result.Error(Exception())
+
+        val result = characterRepository.getCharacter(1)
+
+        assertTrue(result is Result.Error)
+    }
 }
