@@ -45,3 +45,5 @@ Based on the [recommended app architecture](https://developer.android.com/jetpac
 - Data layer:
   The data layer of an app contains the business logic. The business logic is what gives value to your app—it's made of rules that determine how your app creates, stores, and changes data. 
   Contains DataSources (Remote data source, paging data source, ...), Repositories and API Calls.
+
+https://user-images.githubusercontent.com/26246782/150021086-7cad9993-1e38-4675-b087-59d9be10dd88.mp4
