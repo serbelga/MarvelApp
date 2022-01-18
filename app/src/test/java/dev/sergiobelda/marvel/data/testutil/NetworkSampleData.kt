@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.di
+package dev.sergiobelda.marvel.data.testutil
 
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import dev.sergiobelda.marvel.data.network.service.CharacterService
-import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
-import javax.inject.Singleton
+import dev.sergiobelda.marvel.data.network.model.CharacterApiModel
+import dev.sergiobelda.marvel.data.network.model.MarvelData
+import dev.sergiobelda.marvel.data.network.model.MarvelResponse
+import dev.sergiobelda.marvel.data.network.model.Thumbnail
 
-@Module
-@InstallIn(SingletonComponent::class)
-object PagingDataSourceModule {
+val thumbnail = Thumbnail("", "")
 
-    @Provides
-    @Singleton
-    fun provideCharacterPagingDataSource(characterService: CharacterService): CharacterPagingDataSource =
-        CharacterPagingDataSource(characterService)
-}
+val characterApiModel = CharacterApiModel(1, "3-D Man", "Description", thumbnail)
+
+fun <T> createMarvelResponse(results: List<T>): MarvelResponse<T> =
+    MarvelResponse(
+        200, MarvelData(0, 20, results.size, results.size, results)
+    )

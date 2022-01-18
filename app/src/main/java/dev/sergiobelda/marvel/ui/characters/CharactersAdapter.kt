@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.card.MaterialCardView
 import dev.sergiobelda.marvel.databinding.CharacterItemBinding
-import dev.sergiobelda.marvel.model.Character
+import dev.sergiobelda.marvel.domain.model.Character
 
 class CharactersAdapter :
     PagingDataAdapter<Character, CharactersAdapter.ViewHolder>(CHARACTER_COMPARATOR) {

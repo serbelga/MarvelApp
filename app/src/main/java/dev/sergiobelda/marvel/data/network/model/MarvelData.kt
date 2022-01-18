@@ -14,22 +14,23 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.di
+package dev.sergiobelda.marvel.data.network.model
 
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import dev.sergiobelda.marvel.data.network.service.CharacterService
-import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
-import javax.inject.Singleton
+import com.squareup.moshi.JsonClass
 
-@Module
-@InstallIn(SingletonComponent::class)
-object PagingDataSourceModule {
-
-    @Provides
-    @Singleton
-    fun provideCharacterPagingDataSource(characterService: CharacterService): CharacterPagingDataSource =
-        CharacterPagingDataSource(characterService)
-}
+/**
+ * Data container.
+ * @param offset The requested offset (number of skipped results) of the call.
+ * @param limit The requested result limit.
+ * @param total The total number of resources available given the current filter set.
+ * @param count The total number of results returned by this call.
+ * @param results List of result.
+ */
+@JsonClass(generateAdapter = true)
+data class MarvelData<T>(
+    val offset: Int,
+    val limit: Int,
+    val total: Int,
+    val count: Int,
+    val results: List<T>
+)

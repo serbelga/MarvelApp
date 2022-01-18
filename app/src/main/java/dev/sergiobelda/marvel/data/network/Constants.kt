@@ -14,22 +14,15 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.di
+package dev.sergiobelda.marvel.data.network
 
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import dev.sergiobelda.marvel.data.network.service.CharacterService
-import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
-import javax.inject.Singleton
+object Constants {
+    private const val SCHEME = "https"
+    private const val HOST = "gateway.marvel.com"
+    const val BASE_URL = "$SCHEME://$HOST"
 
-@Module
-@InstallIn(SingletonComponent::class)
-object PagingDataSourceModule {
+    const val TIMEOUT: Long = 10
 
-    @Provides
-    @Singleton
-    fun provideCharacterPagingDataSource(characterService: CharacterService): CharacterPagingDataSource =
-        CharacterPagingDataSource(characterService)
+    const val API_STARTING_PAGE_INDEX = 0
+    const val API_PAGE_SIZE = 20
 }

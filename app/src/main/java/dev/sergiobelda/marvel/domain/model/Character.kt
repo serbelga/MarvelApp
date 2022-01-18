@@ -14,22 +14,12 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.di
+package dev.sergiobelda.marvel.domain.model
 
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import dev.sergiobelda.marvel.data.network.service.CharacterService
-import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
-import javax.inject.Singleton
-
-@Module
-@InstallIn(SingletonComponent::class)
-object PagingDataSourceModule {
-
-    @Provides
-    @Singleton
-    fun provideCharacterPagingDataSource(characterService: CharacterService): CharacterPagingDataSource =
-        CharacterPagingDataSource(characterService)
-}
+data class Character(
+    val id: Int,
+    val name: String,
+    val description: String,
+    val imageUrl: String
+    // TODO: List of comics.
+)

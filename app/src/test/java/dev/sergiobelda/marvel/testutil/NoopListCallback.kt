@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.di
+package dev.sergiobelda.marvel.testutil
 
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import dev.sergiobelda.marvel.data.network.service.CharacterService
-import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
-import javax.inject.Singleton
+import androidx.recyclerview.widget.ListUpdateCallback
 
-@Module
-@InstallIn(SingletonComponent::class)
-object PagingDataSourceModule {
-
-    @Provides
-    @Singleton
-    fun provideCharacterPagingDataSource(characterService: CharacterService): CharacterPagingDataSource =
-        CharacterPagingDataSource(characterService)
+class NoopListCallback : ListUpdateCallback {
+    override fun onChanged(position: Int, count: Int, payload: Any?) {}
+    override fun onMoved(fromPosition: Int, toPosition: Int) {}
+    override fun onInserted(position: Int, count: Int) {}
+    override fun onRemoved(position: Int, count: Int) {}
 }

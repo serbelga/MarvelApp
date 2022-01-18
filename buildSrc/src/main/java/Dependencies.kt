@@ -8,10 +8,12 @@ object Versions {
     const val extJunit = "1.1.3"
     const val junit = "4.13.2"
     const val kotlin = "1.6.10"
+    const val kotlinCoroutinesTest = "1.6.0"
     const val ktLint = "0.43.2"
     const val ktxVersion = "1.7.0"
     const val lifecycle = "2.4.0"
     const val materialComponents = "1.5.0"
+    const val mockk = "1.10.6"
     const val moshi = "1.13.0"
     const val navigation = "2.3.5"
     const val okhttp = "4.9.3"
@@ -26,10 +28,15 @@ object Libs {
     const val coil = "io.coil-kt:coil:${Versions.coil}"
 
     const val junit = "junit:junit:${Versions.junit}"
+    
+    const val kotlinCoroutinesTest =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutinesTest}"
 
     const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
 
     const val ktLint = "com.pinterest:ktlint:${Versions.ktLint}"
+
+    const val mockk = "io.mockk:mockk:${Versions.mockk}"
 
     object AndroidX {
         const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
@@ -53,6 +60,7 @@ object Libs {
         }
 
         const val paging3 = "androidx.paging:paging-runtime:${Versions.paging3}"
+        const val paging3Common = "androidx.paging:paging-common:${Versions.paging3}"
     }
 
     object Google {

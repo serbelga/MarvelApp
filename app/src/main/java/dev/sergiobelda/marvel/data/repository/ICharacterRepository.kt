@@ -14,22 +14,23 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.di
+package dev.sergiobelda.marvel.data.repository
 
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import dev.sergiobelda.marvel.data.network.service.CharacterService
-import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
-import javax.inject.Singleton
+import androidx.paging.PagingData
+import dev.sergiobelda.marvel.data.Result
+import dev.sergiobelda.marvel.domain.model.Character
+import kotlinx.coroutines.flow.Flow
 
-@Module
-@InstallIn(SingletonComponent::class)
-object PagingDataSourceModule {
+interface ICharacterRepository {
 
-    @Provides
-    @Singleton
-    fun provideCharacterPagingDataSource(characterService: CharacterService): CharacterPagingDataSource =
-        CharacterPagingDataSource(characterService)
+    /**
+     * Get Characters paging.
+     * Returns a flow that emits new data every time a new page is loaded.
+     */
+    fun getCharacters(): Flow<PagingData<Character>>
+
+    /**
+     * Get [Character] given an [id].
+     */
+    suspend fun getCharacter(id: Int): Result<Character?>
 }

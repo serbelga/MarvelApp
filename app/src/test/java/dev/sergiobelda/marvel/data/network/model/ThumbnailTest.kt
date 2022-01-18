@@ -14,22 +14,24 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.di
+package dev.sergiobelda.marvel.data.network.model
 
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import dev.sergiobelda.marvel.data.network.service.CharacterService
-import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
-import javax.inject.Singleton
+import org.junit.Assert.assertEquals
+import org.junit.Test
 
-@Module
-@InstallIn(SingletonComponent::class)
-object PagingDataSourceModule {
+class ThumbnailTest {
 
-    @Provides
-    @Singleton
-    fun provideCharacterPagingDataSource(characterService: CharacterService): CharacterPagingDataSource =
-        CharacterPagingDataSource(characterService)
+    @Test
+    fun testGetUrl() {
+        val path = "PATH"
+        val extension = "EXTENSION"
+        val url = "$path.$extension"
+
+        val thumbnail = Thumbnail(
+            path = path,
+            extension = extension
+        )
+
+        assertEquals(url, thumbnail.getUrl())
+    }
 }

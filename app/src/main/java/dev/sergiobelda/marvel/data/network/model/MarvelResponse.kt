@@ -14,22 +14,17 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.di
+package dev.sergiobelda.marvel.data.network.model
 
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import dev.sergiobelda.marvel.data.network.service.CharacterService
-import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
-import javax.inject.Singleton
+import com.squareup.moshi.JsonClass
 
-@Module
-@InstallIn(SingletonComponent::class)
-object PagingDataSourceModule {
-
-    @Provides
-    @Singleton
-    fun provideCharacterPagingDataSource(characterService: CharacterService): CharacterPagingDataSource =
-        CharacterPagingDataSource(characterService)
-}
+/**
+ * Response from API.
+ * @param code The HTTP status code of the returned result.
+ * @param data The results returned by the call.
+ */
+@JsonClass(generateAdapter = true)
+data class MarvelResponse<T>(
+    val code: Int,
+    val data: MarvelData<T>
+)

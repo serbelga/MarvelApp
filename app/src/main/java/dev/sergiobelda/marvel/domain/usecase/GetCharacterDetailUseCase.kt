@@ -14,22 +14,14 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.di
+package dev.sergiobelda.marvel.domain.usecase
 
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import dev.sergiobelda.marvel.data.network.service.CharacterService
-import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
-import javax.inject.Singleton
+import dev.sergiobelda.marvel.data.Result
+import dev.sergiobelda.marvel.domain.model.Character
+import dev.sergiobelda.marvel.data.repository.ICharacterRepository
 
-@Module
-@InstallIn(SingletonComponent::class)
-object PagingDataSourceModule {
+class GetCharacterDetailUseCase(private val characterRepository: ICharacterRepository) {
 
-    @Provides
-    @Singleton
-    fun provideCharacterPagingDataSource(characterService: CharacterService): CharacterPagingDataSource =
-        CharacterPagingDataSource(characterService)
+    suspend operator fun invoke(id: Int): Result<Character?> =
+        characterRepository.getCharacter(id)
 }

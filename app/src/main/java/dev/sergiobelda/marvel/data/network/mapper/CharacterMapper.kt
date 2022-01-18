@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.di
+package dev.sergiobelda.marvel.data.network.mapper
 
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import dev.sergiobelda.marvel.data.network.service.CharacterService
-import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
-import javax.inject.Singleton
+import dev.sergiobelda.marvel.domain.model.Character
+import dev.sergiobelda.marvel.data.network.model.CharacterApiModel
 
-@Module
-@InstallIn(SingletonComponent::class)
-object PagingDataSourceModule {
+object CharacterMapper {
 
-    @Provides
-    @Singleton
-    fun provideCharacterPagingDataSource(characterService: CharacterService): CharacterPagingDataSource =
-        CharacterPagingDataSource(characterService)
+    fun CharacterApiModel.toDomainModel() =
+        Character(
+            id = id,
+            name = name,
+            description = description,
+            imageUrl = thumbnail.getUrl()
+        )
 }
