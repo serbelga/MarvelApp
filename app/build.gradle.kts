@@ -30,6 +30,8 @@ android {
             buildConfigField("String", "PRIVATE_API_KEY", privateApiKey)
         }
         release {
+            buildConfigField("String", "PUBLIC_API_KEY", publicApiKey)
+            buildConfigField("String", "PRIVATE_API_KEY", privateApiKey)
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
