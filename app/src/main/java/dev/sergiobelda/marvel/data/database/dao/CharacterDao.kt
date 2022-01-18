@@ -14,15 +14,21 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.domain.usecase
+package dev.sergiobelda.marvel.data.database.dao
 
-import androidx.paging.PagingData
-import dev.sergiobelda.marvel.data.repository.ICharacterRepository
-import dev.sergiobelda.marvel.domain.model.Character
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import dev.sergiobelda.marvel.data.database.entity.CharacterEntity
 import kotlinx.coroutines.flow.Flow
 
-class GetCharactersUseCase(private val characterRepository: ICharacterRepository) {
+@Dao
+interface CharacterDao {
 
-    operator fun invoke(): Flow<PagingData<Character>> =
-        characterRepository.getCharacters()
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(character: CharacterEntity)
+
+    @Query("SELECT * FROM Character WHERE id = :id")
+    fun getCharacter(id: Int): Flow<CharacterEntity?>
 }

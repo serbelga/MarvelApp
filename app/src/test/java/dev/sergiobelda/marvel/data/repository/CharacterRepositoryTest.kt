@@ -17,13 +17,18 @@
 package dev.sergiobelda.marvel.data.repository
 
 import dev.sergiobelda.marvel.data.Result
+import dev.sergiobelda.marvel.data.localdatasource.ICharacterLocalDataSource
 import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
 import dev.sergiobelda.marvel.data.remotedatasource.ICharacterRemoteDataSource
 import dev.sergiobelda.marvel.data.testutil.character
 import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -38,14 +43,27 @@ class CharacterRepositoryTest {
     @MockK
     private val characterPagingDataSource = mockk<CharacterPagingDataSource>(relaxed = true)
 
+    @MockK
+    private val characterLocalDataSource = mockk<ICharacterLocalDataSource>()
+
     private val characterRepository: ICharacterRepository =
-        CharacterRepository(characterRemoteDataSource, characterPagingDataSource)
+        CharacterRepository(
+            characterRemoteDataSource,
+            characterPagingDataSource,
+            characterLocalDataSource
+        )
 
     @Test
     fun testGetCharacter() = runTest {
         coEvery { characterRemoteDataSource.getCharacter(1) } returns Result.Success(character)
+        coEvery { characterLocalDataSource.insertCharacter(character) } returns Unit
+        every { characterLocalDataSource.getCharacter(1) } returns flow {
+            emit(Result.Success(character))
+        }
 
-        val result = characterRepository.getCharacter(1)
+        val result = characterRepository.getCharacter(1).firstOrNull()
+
+        coVerify { characterLocalDataSource.insertCharacter(character) }
 
         assertTrue(result is Result.Success)
         assertEquals((result as Result.Success).value, character)
@@ -54,8 +72,11 @@ class CharacterRepositoryTest {
     @Test
     fun testGetCharacterError() = runTest {
         coEvery { characterRemoteDataSource.getCharacter(1) } returns Result.Error(Exception())
+        every { characterLocalDataSource.getCharacter(1) } returns flow {
+            emit(Result.Error(Exception()))
+        }
 
-        val result = characterRepository.getCharacter(1)
+        val result = characterRepository.getCharacter(1).firstOrNull()
 
         assertTrue(result is Result.Error)
     }

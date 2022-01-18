@@ -32,5 +32,5 @@ interface ICharacterRepository {
     /**
      * Get [Character] given an [id].
      */
-    suspend fun getCharacter(id: Int): Result<Character?>
+    suspend fun getCharacter(id: Int): Flow<Result<Character>>
 }

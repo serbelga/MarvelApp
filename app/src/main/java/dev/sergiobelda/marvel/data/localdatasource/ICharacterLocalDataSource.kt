@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.data.remotedatasource
+package dev.sergiobelda.marvel.data.localdatasource
 
 import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.data.network.mapper.CharacterMapper.toDomainModel
-import dev.sergiobelda.marvel.data.network.safeApiCall
-import dev.sergiobelda.marvel.data.network.service.CharacterService
 import dev.sergiobelda.marvel.domain.model.Character
+import kotlinx.coroutines.flow.Flow
 
-class CharacterRemoteDataSource(private val characterService: CharacterService) :
-    ICharacterRemoteDataSource {
+interface ICharacterLocalDataSource {
 
-    override suspend fun getCharacter(id: Int): Result<Character?> = safeApiCall {
-        characterService.getCharacter(id)
-    }.map { response -> response.data.results.firstOrNull()?.toDomainModel() }
+    fun getCharacter(id: Int): Flow<Result<Character>>
+
+    suspend fun insertCharacter(character: Character)
 }

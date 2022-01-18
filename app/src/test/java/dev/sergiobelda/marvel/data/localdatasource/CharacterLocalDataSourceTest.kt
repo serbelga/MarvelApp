@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.domain.usecase
+package dev.sergiobelda.marvel.data.localdatasource
 
 import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.data.repository.ICharacterRepository
+import dev.sergiobelda.marvel.data.database.dao.CharacterDao
+import dev.sergiobelda.marvel.data.database.mapper.CharacterMapper.toDomainModel
+import dev.sergiobelda.marvel.data.database.mapper.CharacterMapper.toEntity
 import dev.sergiobelda.marvel.data.testutil.character
-import io.mockk.coEvery
+import dev.sergiobelda.marvel.data.testutil.characterEntity
+import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,26 +31,31 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class GetCharacterDetailUseCaseTest {
+class CharacterLocalDataSourceTest {
 
     @MockK
-    private val characterRepository = mockk<ICharacterRepository>()
+    private val characterDao: CharacterDao = mockk(relaxed = true)
 
-    private val getCharacterDetailUseCase = GetCharacterDetailUseCase(characterRepository)
+    private val characterLocalDataSource = CharacterLocalDataSource(characterDao)
 
     @Test
-    fun testGetCharacterDetailUseCase() = runTest {
-        coEvery { characterRepository.getCharacter(1) } returns flow {
-            emit(Result.Success(character))
+    fun testGetCharacter() = runTest {
+        every { characterDao.getCharacter(1) } returns flow {
+            emit(characterEntity)
         }
 
-        val result = getCharacterDetailUseCase.invoke(1).firstOrNull()
+        val result = characterLocalDataSource.getCharacter(1).firstOrNull()
 
-        assertTrue(result is Result.Success)
-        assertEquals((result as Result.Success).value, character)
+        assertEquals(characterEntity.toDomainModel(), (result as Result.Success).value)
+    }
+
+    @Test
+    fun testInsertCharacter() = runTest {
+        characterLocalDataSource.insertCharacter(character)
+
+        coVerify { characterDao.insert(character.toEntity()) }
     }
 }

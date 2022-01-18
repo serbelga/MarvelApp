@@ -17,11 +17,12 @@
 package dev.sergiobelda.marvel.domain.usecase
 
 import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.domain.model.Character
 import dev.sergiobelda.marvel.data.repository.ICharacterRepository
+import dev.sergiobelda.marvel.domain.model.Character
+import kotlinx.coroutines.flow.Flow
 
 class GetCharacterDetailUseCase(private val characterRepository: ICharacterRepository) {
 
-    suspend operator fun invoke(id: Int): Result<Character?> =
+    suspend operator fun invoke(id: Int): Flow<Result<Character>> =
         characterRepository.getCharacter(id)
 }

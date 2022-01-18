@@ -14,15 +14,19 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.domain.usecase
+package dev.sergiobelda.marvel.data.database
 
-import androidx.paging.PagingData
-import dev.sergiobelda.marvel.data.repository.ICharacterRepository
-import dev.sergiobelda.marvel.domain.model.Character
-import kotlinx.coroutines.flow.Flow
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import dev.sergiobelda.marvel.data.database.dao.CharacterDao
+import dev.sergiobelda.marvel.data.database.entity.CharacterEntity
 
-class GetCharactersUseCase(private val characterRepository: ICharacterRepository) {
+@Database(
+    entities = [CharacterEntity::class],
+    version = 1,
+    exportSchema = false
+)
+abstract class AppDatabase : RoomDatabase() {
 
-    operator fun invoke(): Flow<PagingData<Character>> =
-        characterRepository.getCharacters()
+    abstract fun characterDao(): CharacterDao
 }

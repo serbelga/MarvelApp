@@ -8,8 +8,8 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
 }
 
-val publicApiKey: String = gradleLocalProperties(rootDir).getProperty("public_api_key")
-val privateApiKey: String = gradleLocalProperties(rootDir).getProperty("private_api_key")
+val publicApiKey: String = gradleLocalProperties(rootDir).getProperty("public_api_key") ?: "\"\""
+val privateApiKey: String = gradleLocalProperties(rootDir).getProperty("private_api_key") ?: "\"\""
 
 android {
     compileSdk = 31
@@ -30,6 +30,8 @@ android {
             buildConfigField("String", "PRIVATE_API_KEY", privateApiKey)
         }
         release {
+            buildConfigField("String", "PUBLIC_API_KEY", publicApiKey)
+            buildConfigField("String", "PRIVATE_API_KEY", privateApiKey)
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
@@ -53,6 +55,8 @@ dependencies {
 
     ktlint(Libs.ktLint)
 
+    implementation(Libs.kotlinCoroutinesAndroid)
+
     with(Libs.AndroidX) {
         implementation(appCompat)
         implementation(constraintLayout)
@@ -63,6 +67,7 @@ dependencies {
         implementation(liveData)
         implementation(runtime)
         implementation(viewModel)
+        androidTestImplementation(archCoreTesting)
     }
 
     with(Libs.AndroidX.Navigation) {
@@ -73,6 +78,15 @@ dependencies {
     implementation(Libs.AndroidX.paging3)
 
     testImplementation(Libs.AndroidX.paging3Common)
+
+    with(Libs.AndroidX.Room) {
+        implementation(roomKtx)
+        implementation(roomPaging)
+        implementation(roomRuntime)
+        // Required: Room compiler (avoid RuntimeException - cannot find implementation for database)
+        kapt(roomCompiler)
+        androidTestImplementation(roomTesting)
+    }
 
     implementation(Libs.Google.Material.materialComponents)
 
@@ -104,6 +118,15 @@ dependencies {
     testImplementation(Libs.mockk)
 
     testImplementation(Libs.kotlinCoroutinesTest)
+    androidTestImplementation(Libs.kotlinCoroutinesTest)
+
+    with(Libs.AndroidX.Test) {
+        androidTestImplementation(core)
+        androidTestImplementation(coreKtx)
+        androidTestImplementation(espressoCore)
+        androidTestImplementation(extJunit)
+        androidTestImplementation(extJunitKtx)
+    }
 }
 
 task("ktlint", JavaExec::class) {

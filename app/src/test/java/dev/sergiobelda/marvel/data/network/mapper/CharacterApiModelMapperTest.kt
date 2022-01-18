@@ -21,7 +21,7 @@ import dev.sergiobelda.marvel.data.testutil.characterApiModel
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class CharacterMapperTest {
+class CharacterApiModelMapperTest {
 
     @Test
     fun testCharacterApiModelToCharacter() {
