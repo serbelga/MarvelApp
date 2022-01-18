@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.data.remotedatasource
+package dev.sergiobelda.marvel.testutil
 
-import dev.sergiobelda.marvel.data.Result
+import androidx.recyclerview.widget.DiffUtil
 import dev.sergiobelda.marvel.domain.model.Character
-import dev.sergiobelda.marvel.data.network.mapper.CharacterMapper.toDomainModel
-import dev.sergiobelda.marvel.data.network.safeApiCall
-import dev.sergiobelda.marvel.data.network.service.CharacterService
 
-class CharacterRemoteDataSource(private val characterService: CharacterService) :
-    ICharacterRemoteDataSource {
+class CharacterDiffCallback : DiffUtil.ItemCallback<Character>() {
+    override fun areItemsTheSame(oldItem: Character, newItem: Character): Boolean =
+        oldItem.id == newItem.id
 
-    override suspend fun getCharacter(id: Int): Result<Character?> = safeApiCall {
-        characterService.getCharacter(id)
-    }.map { response -> response.data.results.firstOrNull()?.toDomainModel() }
+    override fun areContentsTheSame(oldItem: Character, newItem: Character): Boolean =
+        oldItem == newItem
 }

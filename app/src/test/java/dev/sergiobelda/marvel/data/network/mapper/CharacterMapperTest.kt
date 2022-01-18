@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.data.remotedatasource
+package dev.sergiobelda.marvel.data.network.mapper
 
-import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.domain.model.Character
 import dev.sergiobelda.marvel.data.network.mapper.CharacterMapper.toDomainModel
-import dev.sergiobelda.marvel.data.network.safeApiCall
-import dev.sergiobelda.marvel.data.network.service.CharacterService
+import dev.sergiobelda.marvel.data.testutil.characterApiModel
+import org.junit.Assert.assertEquals
+import org.junit.Test
 
-class CharacterRemoteDataSource(private val characterService: CharacterService) :
-    ICharacterRemoteDataSource {
+class CharacterMapperTest {
 
-    override suspend fun getCharacter(id: Int): Result<Character?> = safeApiCall {
-        characterService.getCharacter(id)
-    }.map { response -> response.data.results.firstOrNull()?.toDomainModel() }
+    @Test
+    fun testCharacterApiModelToCharacter() {
+        val character = characterApiModel.toDomainModel()
+        assertEquals(characterApiModel.id, character.id)
+        assertEquals(characterApiModel.name, character.name)
+        assertEquals(characterApiModel.description, character.description)
+        assertEquals(characterApiModel.thumbnail.getUrl(), character.imageUrl)
+    }
 }

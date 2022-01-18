@@ -14,18 +14,8 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.data.remotedatasource
+package dev.sergiobelda.marvel.data.testutil
 
-import dev.sergiobelda.marvel.data.Result
 import dev.sergiobelda.marvel.domain.model.Character
-import dev.sergiobelda.marvel.data.network.mapper.CharacterMapper.toDomainModel
-import dev.sergiobelda.marvel.data.network.safeApiCall
-import dev.sergiobelda.marvel.data.network.service.CharacterService
 
-class CharacterRemoteDataSource(private val characterService: CharacterService) :
-    ICharacterRemoteDataSource {
-
-    override suspend fun getCharacter(id: Int): Result<Character?> = safeApiCall {
-        characterService.getCharacter(id)
-    }.map { response -> response.data.results.firstOrNull()?.toDomainModel() }
-}
+val character = Character(1, "3-D Man", "Description", "imageUrl")
