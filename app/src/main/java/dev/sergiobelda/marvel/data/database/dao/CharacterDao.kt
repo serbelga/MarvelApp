@@ -16,11 +16,13 @@
 
 package dev.sergiobelda.marvel.data.database.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import dev.sergiobelda.marvel.data.database.entity.CharacterEntity
+import dev.sergiobelda.marvel.domain.model.Character
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -29,6 +31,16 @@ interface CharacterDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(character: CharacterEntity)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(characters: List<CharacterEntity>)
+
     @Query("SELECT * FROM Character WHERE id = :id")
     fun getCharacter(id: Int): Flow<CharacterEntity?>
+
+    // TODO: Return CharacterEntity
+    @Query("SELECT * FROM Character ORDER BY name ASC")
+    fun getCharacters(): PagingSource<Int, Character>
+
+    @Query("DELETE FROM Character")
+    suspend fun clearCharacters()
 }

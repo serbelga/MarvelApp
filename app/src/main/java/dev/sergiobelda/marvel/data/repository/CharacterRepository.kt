@@ -16,31 +16,34 @@
 
 package dev.sergiobelda.marvel.data.repository
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import dev.sergiobelda.marvel.data.Result
 import dev.sergiobelda.marvel.data.doIfSuccess
 import dev.sergiobelda.marvel.data.localdatasource.ICharacterLocalDataSource
-import dev.sergiobelda.marvel.data.network.Constants
-import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
+import dev.sergiobelda.marvel.data.network.Constants.API_PAGE_SIZE
+import dev.sergiobelda.marvel.data.pagingdatasource.CharacterRemoteMediator
 import dev.sergiobelda.marvel.data.remotedatasource.ICharacterRemoteDataSource
 import dev.sergiobelda.marvel.domain.model.Character
 import kotlinx.coroutines.flow.Flow
 
+@OptIn(ExperimentalPagingApi::class)
 class CharacterRepository(
     private val characterRemoteDataSource: ICharacterRemoteDataSource,
-    private val characterPagingDataSource: CharacterPagingDataSource,
+    private val characterRemoteMediator: CharacterRemoteMediator,
     private val characterLocalDataSource: ICharacterLocalDataSource
 ) : ICharacterRepository {
 
     override fun getCharacters(): Flow<PagingData<Character>> {
         return Pager(
             config = PagingConfig(
-                pageSize = Constants.API_PAGE_SIZE,
-                enablePlaceholders = false
+                pageSize = API_PAGE_SIZE,
+                initialLoadSize = API_PAGE_SIZE
             ),
-            pagingSourceFactory = { characterPagingDataSource }
+            remoteMediator = characterRemoteMediator,
+            pagingSourceFactory = { characterLocalDataSource.getCharacters() }
         ).flow
     }
 

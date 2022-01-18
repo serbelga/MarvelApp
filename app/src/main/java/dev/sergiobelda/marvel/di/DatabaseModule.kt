@@ -24,6 +24,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.sergiobelda.marvel.data.database.AppDatabase
 import dev.sergiobelda.marvel.data.database.dao.CharacterDao
+import dev.sergiobelda.marvel.data.database.dao.RemoteKeysDao
 import javax.inject.Singleton
 
 @Module
@@ -38,4 +39,7 @@ object DatabaseModule {
 
     @Provides
     fun provideCharacterDao(appDatabase: AppDatabase): CharacterDao = appDatabase.characterDao()
+
+    @Provides
+    fun provideRemoteKeysDao(appDatabase: AppDatabase): RemoteKeysDao = appDatabase.remoteKeysDao()
 }

@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.data.localdatasource
+package dev.sergiobelda.marvel.data.database.dao
 
-import androidx.paging.PagingSource
-import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.domain.model.Character
-import kotlinx.coroutines.flow.Flow
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import dev.sergiobelda.marvel.data.database.entity.RemoteKeys
 
-interface ICharacterLocalDataSource {
+@Dao
+interface RemoteKeysDao {
 
-    fun getCharacter(id: Int): Flow<Result<Character>>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(remoteKey: List<RemoteKeys>)
 
-    fun getCharacters(): PagingSource<Int, Character>
+    @Query("SELECT * FROM RemoteKeys WHERE characterId = :characterId")
+    suspend fun remoteKeysCharacterId(characterId: Int): RemoteKeys?
 
-    suspend fun insertCharacter(character: Character)
+    @Query("DELETE FROM RemoteKeys")
+    suspend fun clearRemoteKeys()
 }

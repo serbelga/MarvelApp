@@ -16,6 +16,7 @@
 
 package dev.sergiobelda.marvel.data.localdatasource
 
+import androidx.paging.PagingSource
 import dev.sergiobelda.marvel.data.Result
 import dev.sergiobelda.marvel.data.database.dao.CharacterDao
 import dev.sergiobelda.marvel.data.database.mapper.CharacterMapper.toDomainModel
@@ -35,6 +36,9 @@ class CharacterLocalDataSource(
                 Result.Success(it.toDomainModel())
             } ?: Result.Error(Exception())
         }
+
+    override fun getCharacters(): PagingSource<Int, Character> =
+        characterDao.getCharacters()
 
     override suspend fun insertCharacter(character: Character) =
         characterDao.insert(character.toEntity())

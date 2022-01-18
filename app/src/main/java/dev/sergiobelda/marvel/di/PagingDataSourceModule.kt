@@ -20,8 +20,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.sergiobelda.marvel.data.database.AppDatabase
 import dev.sergiobelda.marvel.data.network.service.CharacterService
 import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
+import dev.sergiobelda.marvel.data.pagingdatasource.CharacterRemoteMediator
 import javax.inject.Singleton
 
 @Module
@@ -32,4 +34,12 @@ object PagingDataSourceModule {
     @Singleton
     fun provideCharacterPagingDataSource(characterService: CharacterService): CharacterPagingDataSource =
         CharacterPagingDataSource(characterService)
+
+    @Provides
+    @Singleton
+    fun provideCharacterRemoteMediator(
+        characterService: CharacterService,
+        appDatabase: AppDatabase
+    ): CharacterRemoteMediator =
+        CharacterRemoteMediator(characterService, appDatabase)
 }

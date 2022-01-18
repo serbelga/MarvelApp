@@ -21,7 +21,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.sergiobelda.marvel.data.localdatasource.ICharacterLocalDataSource
-import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
+import dev.sergiobelda.marvel.data.pagingdatasource.CharacterRemoteMediator
 import dev.sergiobelda.marvel.data.remotedatasource.ICharacterRemoteDataSource
 import dev.sergiobelda.marvel.data.repository.CharacterRepository
 import dev.sergiobelda.marvel.data.repository.ICharacterRepository
@@ -35,11 +35,11 @@ object RepositoryModule {
     @Singleton
     fun provideCharacterRepository(
         characterRemoteDataSource: ICharacterRemoteDataSource,
-        characterPagingDataSource: CharacterPagingDataSource,
+        characterRemoteMediator: CharacterRemoteMediator,
         characterLocalDataSource: ICharacterLocalDataSource
     ): ICharacterRepository = CharacterRepository(
         characterRemoteDataSource,
-        characterPagingDataSource,
+        characterRemoteMediator,
         characterLocalDataSource
     )
 }

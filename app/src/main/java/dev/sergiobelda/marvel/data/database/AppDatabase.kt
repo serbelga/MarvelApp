@@ -19,14 +19,18 @@ package dev.sergiobelda.marvel.data.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import dev.sergiobelda.marvel.data.database.dao.CharacterDao
+import dev.sergiobelda.marvel.data.database.dao.RemoteKeysDao
 import dev.sergiobelda.marvel.data.database.entity.CharacterEntity
+import dev.sergiobelda.marvel.data.database.entity.RemoteKeys
 
 @Database(
-    entities = [CharacterEntity::class],
+    entities = [CharacterEntity::class, RemoteKeys::class],
     version = 1,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun characterDao(): CharacterDao
+
+    abstract fun remoteKeysDao(): RemoteKeysDao
 }
