@@ -40,6 +40,6 @@ Based on the [recommended app architecture](https://developer.android.com/jetpac
 - Domain layer:
   The domain layer is responsible for encapsulating complex business logic, or simple business logic that is reused by multiple ViewModels. 
   Contains domain models and Use cases.
-- data:
+- Data layer:
   The data layer of an app contains the business logic. The business logic is what gives value to your app—it's made of rules that determine how your app creates, stores, and changes data. 
   Contains DataSources (Remote data source, paging data source, ...), Repositories and API Calls.
