@@ -14,23 +14,26 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.data.repository
+package dev.sergiobelda.marvel.data.database.mapper
 
-import androidx.paging.PagingData
-import dev.sergiobelda.marvel.data.Result
+import dev.sergiobelda.marvel.data.database.entity.CharacterEntity
 import dev.sergiobelda.marvel.domain.model.Character
-import kotlinx.coroutines.flow.Flow
 
-interface ICharacterRepository {
+object CharacterMapper {
 
-    /**
-     * Get Characters paging.
-     * Returns a flow that emits new data every time a new page is loaded.
-     */
-    fun getCharacters(): Flow<PagingData<Character>>
+    fun Character.toEntity() =
+        CharacterEntity(
+            id = id,
+            name = name,
+            description = description,
+            imageUrl = imageUrl
+        )
 
-    /**
-     * Get [Character] given an [id].
-     */
-    suspend fun getCharacter(id: Int): Flow<Result<Character>>
+    fun CharacterEntity.toDomainModel() =
+        Character(
+            id = id,
+            name = name,
+            description = description,
+            imageUrl = imageUrl
+        )
 }

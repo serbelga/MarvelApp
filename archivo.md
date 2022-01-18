@@ -23,6 +23,7 @@ private_api_key="..."
   * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
   * [ViewBinding](https://developer.android.com/topic/libraries/view-binding)
   * [Paging 3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
+  * [Room](https://developer.android.com/training/data-storage/room)
 * [Dagger Hilt](https://dagger.dev/hilt/)
 * [ktlint](https://ktlint.github.io/)
 * [Material Components for Android](https://github.com/material-components/material-components-android)

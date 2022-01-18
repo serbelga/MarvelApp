@@ -20,26 +20,17 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.sergiobelda.marvel.data.database.dao.CharacterDao
+import dev.sergiobelda.marvel.data.localdatasource.CharacterLocalDataSource
 import dev.sergiobelda.marvel.data.localdatasource.ICharacterLocalDataSource
-import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
-import dev.sergiobelda.marvel.data.remotedatasource.ICharacterRemoteDataSource
-import dev.sergiobelda.marvel.data.repository.CharacterRepository
-import dev.sergiobelda.marvel.data.repository.ICharacterRepository
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+object LocalDataSourceModule {
 
     @Provides
     @Singleton
-    fun provideCharacterRepository(
-        characterRemoteDataSource: ICharacterRemoteDataSource,
-        characterPagingDataSource: CharacterPagingDataSource,
-        characterLocalDataSource: ICharacterLocalDataSource
-    ): ICharacterRepository = CharacterRepository(
-        characterRemoteDataSource,
-        characterPagingDataSource,
-        characterLocalDataSource
-    )
+    fun provideCharacterLocalDataSource(characterDao: CharacterDao): ICharacterLocalDataSource =
+        CharacterLocalDataSource(characterDao)
 }

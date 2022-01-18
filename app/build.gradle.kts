@@ -55,6 +55,8 @@ dependencies {
 
     ktlint(Libs.ktLint)
 
+    implementation(Libs.kotlinCoroutinesAndroid)
+
     with(Libs.AndroidX) {
         implementation(appCompat)
         implementation(constraintLayout)
@@ -65,6 +67,7 @@ dependencies {
         implementation(liveData)
         implementation(runtime)
         implementation(viewModel)
+        androidTestImplementation(archCoreTesting)
     }
 
     with(Libs.AndroidX.Navigation) {
@@ -75,6 +78,15 @@ dependencies {
     implementation(Libs.AndroidX.paging3)
 
     testImplementation(Libs.AndroidX.paging3Common)
+
+    with(Libs.AndroidX.Room) {
+        implementation(roomKtx)
+        implementation(roomPaging)
+        implementation(roomRuntime)
+        // Required: Room compiler (avoid RuntimeException - cannot find implementation for database)
+        kapt(roomCompiler)
+        androidTestImplementation(roomTesting)
+    }
 
     implementation(Libs.Google.Material.materialComponents)
 
@@ -106,6 +118,15 @@ dependencies {
     testImplementation(Libs.mockk)
 
     testImplementation(Libs.kotlinCoroutinesTest)
+    androidTestImplementation(Libs.kotlinCoroutinesTest)
+
+    with(Libs.AndroidX.Test) {
+        androidTestImplementation(core)
+        androidTestImplementation(coreKtx)
+        androidTestImplementation(espressoCore)
+        androidTestImplementation(extJunit)
+        androidTestImplementation(extJunitKtx)
+    }
 }
 
 task("ktlint", JavaExec::class) {

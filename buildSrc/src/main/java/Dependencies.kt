@@ -1,6 +1,7 @@
 object Versions {
     const val androidGradlePlugin = "7.1.0-rc01"
     const val appCompat = "1.4.1"
+    const val archCoreTesting = "2.1.0"
     const val coil = "1.4.0"
     const val constraintLayout = "2.1.2"
     const val daggerHilt = "2.40.5"
@@ -8,7 +9,7 @@ object Versions {
     const val extJunit = "1.1.3"
     const val junit = "4.13.2"
     const val kotlin = "1.6.10"
-    const val kotlinCoroutinesTest = "1.6.0"
+    const val kotlinCoroutines = "1.6.0"
     const val ktLint = "0.43.2"
     const val ktxVersion = "1.7.0"
     const val lifecycle = "2.4.0"
@@ -19,6 +20,9 @@ object Versions {
     const val okhttp = "4.9.3"
     const val paging3 = "3.1.0"
     const val retrofit = "2.9.0"
+    const val roomKtx = "2.4.1"
+    const val testCore = "1.4.0"
+    const val testRunner = "1.4.0"
 }
 
 object Libs {
@@ -28,9 +32,12 @@ object Libs {
     const val coil = "io.coil-kt:coil:${Versions.coil}"
 
     const val junit = "junit:junit:${Versions.junit}"
+
+    const val kotlinCoroutinesAndroid =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
     
     const val kotlinCoroutinesTest =
-        "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutinesTest}"
+        "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}"
 
     const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
 
@@ -45,6 +52,7 @@ object Libs {
         const val coreKtx = "androidx.core:core-ktx:${Versions.ktxVersion}"
 
         object Lifecycle {
+            const val archCoreTesting = "androidx.arch.core:core-testing:${Versions.archCoreTesting}"
             const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
             const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
@@ -61,6 +69,23 @@ object Libs {
 
         const val paging3 = "androidx.paging:paging-runtime:${Versions.paging3}"
         const val paging3Common = "androidx.paging:paging-common:${Versions.paging3}"
+
+        object Room {
+            const val roomKtx = "androidx.room:room-ktx:${Versions.roomKtx}"
+            const val roomPaging = "androidx.room:room-paging:${Versions.roomKtx}"
+            const val roomRuntime = "androidx.room:room-runtime:${Versions.roomKtx}"
+            const val roomCompiler = "androidx.room:room-compiler:${Versions.roomKtx}"
+            const val roomTesting = "androidx.room:room-testing:${Versions.roomKtx}"
+        }
+
+        object Test {
+            const val core = "androidx.test:core:${Versions.testCore}"
+            const val coreKtx = "androidx.test:core-ktx:${Versions.testCore}"
+            const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
+            const val extJunit = "androidx.test.ext:junit:${Versions.extJunit}"
+            const val extJunitKtx = "androidx.test.ext:junit-ktx:${Versions.extJunit}"
+            const val runner = "androidx.test:runner:${Versions.testRunner}"
+        }
     }
 
     object Google {

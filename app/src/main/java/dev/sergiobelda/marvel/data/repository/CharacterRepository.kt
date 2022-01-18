@@ -20,6 +20,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import dev.sergiobelda.marvel.data.Result
+import dev.sergiobelda.marvel.data.doIfSuccess
+import dev.sergiobelda.marvel.data.localdatasource.ICharacterLocalDataSource
 import dev.sergiobelda.marvel.data.network.Constants
 import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
 import dev.sergiobelda.marvel.data.remotedatasource.ICharacterRemoteDataSource
@@ -28,7 +30,8 @@ import kotlinx.coroutines.flow.Flow
 
 class CharacterRepository(
     private val characterRemoteDataSource: ICharacterRemoteDataSource,
-    private val characterPagingDataSource: CharacterPagingDataSource
+    private val characterPagingDataSource: CharacterPagingDataSource,
+    private val characterLocalDataSource: ICharacterLocalDataSource
 ) : ICharacterRepository {
 
     override fun getCharacters(): Flow<PagingData<Character>> {
@@ -41,6 +44,11 @@ class CharacterRepository(
         ).flow
     }
 
-    override suspend fun getCharacter(id: Int): Result<Character?> =
-        characterRemoteDataSource.getCharacter(id)
+    override suspend fun getCharacter(id: Int): Flow<Result<Character>> {
+        val result = characterRemoteDataSource.getCharacter(id)
+        result.doIfSuccess { character ->
+            character?.let { characterLocalDataSource.insertCharacter(it) }
+        }
+        return characterLocalDataSource.getCharacter(id)
+    }
 }
