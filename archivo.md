@@ -32,8 +32,14 @@ private_api_key="..."
 * [Moshi](https://github.com/square/moshi)
 * [MockK](https://mockk.io/)
 
-### Packages
+### Architecture
 
-- data: Contains DataSources (Remote data source, paging data source, ...), Repositories and API Calls.
-- domain: Contains domain models and Use cases.
-- ui: Contains UI classes (Activities and Fragments) and ViewModels.
+Based on the [recommended app architecture](https://developer.android.com/jetpack/guide#recommended-app-arch)
+
+- UI layer (or presentation layer): Contains UI classes (Activities and Fragments) and ViewModels.
+- Domain layer:
+  The domain layer is responsible for encapsulating complex business logic, or simple business logic that is reused by multiple ViewModels. 
+  Contains domain models and Use cases.
+- data:
+  The data layer of an app contains the business logic. The business logic is what gives value to your app—it's made of rules that determine how your app creates, stores, and changes data. 
+  Contains DataSources (Remote data source, paging data source, ...), Repositories and API Calls.
