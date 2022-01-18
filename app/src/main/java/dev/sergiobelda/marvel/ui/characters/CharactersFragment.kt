@@ -29,11 +29,11 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.sergiobelda.marvel.databinding.CharactersFragmentBinding
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -70,10 +70,9 @@ class CharactersFragment : Fragment() {
         postponeEnterTransition()
         binding.recyclerView.post { startPostponedEnterTransition() }
         initRecyclerView()
-
-        binding.goTopButton.setOnClickListener {
-            binding.recyclerView.smoothScrollToPosition(0)
-        }
+        initAdapterLoadStateListener()
+        setGoTopButtonClickListener()
+        setRetryButtonClickListener()
 
         viewLifecycleOwner.lifecycleScope.launch {
             // flowWithLifecycle uses repeatOnLifecycle.
@@ -85,6 +84,24 @@ class CharactersFragment : Fragment() {
                 .collect {
                     charactersAdapter.submitData(it)
                 }
+        }
+    }
+
+    private fun setGoTopButtonClickListener() {
+        binding.goTopButton.setOnClickListener {
+            val gridLayoutManager = binding.recyclerView.layoutManager as? GridLayoutManager
+            val currentPosition = gridLayoutManager?.findFirstVisibleItemPosition() ?: 0
+            if (currentPosition > MAX_POSITION_TO_ANIMATE_SCROLL_TO_TOP) {
+                binding.recyclerView.scrollToPosition(0)
+            } else {
+                binding.recyclerView.smoothScrollToPosition(0)
+            }
+        }
+    }
+
+    private fun setRetryButtonClickListener() {
+        binding.retryButton.setOnClickListener {
+            charactersAdapter.retry()
         }
     }
 
@@ -116,8 +133,28 @@ class CharactersFragment : Fragment() {
         }
     }
 
+    private fun initAdapterLoadStateListener() {
+        charactersAdapter.addLoadStateListener { loadState ->
+            val initialLoadProgressIndicator =
+                loadState.refresh is LoadState.Loading && charactersAdapter.itemCount == 0
+            binding.progressIndicator.isVisible = initialLoadProgressIndicator
+
+            val initialLoadError =
+                loadState.refresh is LoadState.Error && charactersAdapter.itemCount == 0
+            binding.errorMessage.isVisible = initialLoadError
+            binding.retryButton.isVisible = initialLoadError
+            (loadState.refresh as? LoadState.Error)?.let {
+                binding.errorMessage.text = it.error.message
+            }
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val MAX_POSITION_TO_ANIMATE_SCROLL_TO_TOP = 150
     }
 }
