@@ -17,8 +17,8 @@
 package dev.sergiobelda.marvel.domain.usecase
 
 import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.domain.model.Character
 import dev.sergiobelda.marvel.data.repository.ICharacterRepository
+import dev.sergiobelda.marvel.domain.model.Character
 
 class GetCharacterDetailUseCase(private val characterRepository: ICharacterRepository) {
 

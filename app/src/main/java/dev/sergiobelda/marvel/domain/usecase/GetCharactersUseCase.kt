@@ -17,8 +17,8 @@
 package dev.sergiobelda.marvel.domain.usecase
 
 import androidx.paging.PagingData
-import dev.sergiobelda.marvel.domain.model.Character
 import dev.sergiobelda.marvel.data.repository.ICharacterRepository
+import dev.sergiobelda.marvel.domain.model.Character
 import kotlinx.coroutines.flow.Flow
 
 class GetCharactersUseCase(private val characterRepository: ICharacterRepository) {

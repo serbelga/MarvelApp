@@ -16,8 +16,8 @@
 
 package dev.sergiobelda.marvel.data.network.mapper
 
-import dev.sergiobelda.marvel.domain.model.Character
 import dev.sergiobelda.marvel.data.network.model.CharacterApiModel
+import dev.sergiobelda.marvel.domain.model.Character
 
 object CharacterMapper {
 

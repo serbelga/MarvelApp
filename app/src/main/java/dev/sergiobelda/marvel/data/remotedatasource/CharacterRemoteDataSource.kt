@@ -17,10 +17,10 @@
 package dev.sergiobelda.marvel.data.remotedatasource
 
 import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.domain.model.Character
 import dev.sergiobelda.marvel.data.network.mapper.CharacterMapper.toDomainModel
 import dev.sergiobelda.marvel.data.network.safeApiCall
 import dev.sergiobelda.marvel.data.network.service.CharacterService
+import dev.sergiobelda.marvel.domain.model.Character
 
 class CharacterRemoteDataSource(private val characterService: CharacterService) :
     ICharacterRemoteDataSource {
