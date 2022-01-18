@@ -8,8 +8,8 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
 }
 
-val publicApiKey: String = gradleLocalProperties(rootDir).getProperty("public_api_key") ?: ""
-val privateApiKey: String = gradleLocalProperties(rootDir).getProperty("private_api_key") ?: ""
+val publicApiKey: String = gradleLocalProperties(rootDir).getProperty("public_api_key") ?: "\"\""
+val privateApiKey: String = gradleLocalProperties(rootDir).getProperty("private_api_key") ?: "\"\""
 
 android {
     compileSdk = 31
@@ -30,6 +30,8 @@ android {
             buildConfigField("String", "PRIVATE_API_KEY", privateApiKey)
         }
         release {
+            buildConfigField("String", "PUBLIC_API_KEY", publicApiKey)
+            buildConfigField("String", "PRIVATE_API_KEY", privateApiKey)
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }

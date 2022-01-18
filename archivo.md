@@ -1,5 +1,7 @@
 ## Marvel App
 
+[![Android CI](https://github.com/serbelga/MarvelApp/actions/workflows/android.yml/badge.svg?branch=main)](https://github.com/serbelga/MarvelApp/actions/workflows/android.yml)
+
 App showing a list of Marvel characters and a detail screen giving more information.
 
 ### How to launch
