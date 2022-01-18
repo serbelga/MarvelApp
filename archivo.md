@@ -31,3 +31,9 @@ private_api_key="..."
 * [Retrofit 2](https://square.github.io/retrofit/)
 * [Moshi](https://github.com/square/moshi)
 * [MockK](https://mockk.io/)
+
+### Packages
+
+- data: Contains DataSources (Remote data source, paging data source, ...), Repositories and API Calls.
+- domain: Contains domain models and Use cases.
+- ui: Contains UI classes (Activities and Fragments) and ViewModels.
