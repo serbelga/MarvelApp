@@ -14,23 +14,21 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.data.repository
+package dev.sergiobelda.marvel.data.database.dao
 
-import androidx.paging.PagingData
-import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.domain.model.Character
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import dev.sergiobelda.marvel.data.database.entity.CharacterEntity
 import kotlinx.coroutines.flow.Flow
 
-interface ICharacterRepository {
+@Dao
+interface CharacterDao {
 
-    /**
-     * Get Characters paging.
-     * Returns a flow that emits new data every time a new page is loaded.
-     */
-    fun getCharacters(): Flow<PagingData<Character>>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(character: CharacterEntity)
 
-    /**
-     * Get [Character] given an [id].
-     */
-    suspend fun getCharacter(id: Int): Flow<Result<Character>>
+    @Query("SELECT * FROM Character WHERE id = :id")
+    fun getCharacter(id: Int): Flow<CharacterEntity?>
 }
