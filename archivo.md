@@ -2,6 +2,15 @@
 
 App showing a list of Marvel characters and a detail screen giving more information.
 
+### How to launch
+
+Enter public and private api key in `local.properties`
+
+```
+public_api_key="..."
+private_api_key="..."
+```
+
 ### Tech stack
 
 * Kotlin & Coroutines
@@ -21,3 +30,4 @@ App showing a list of Marvel characters and a detail screen giving more informat
 * [Coil](https://coil-kt.github.io)
 * [Retrofit 2](https://square.github.io/retrofit/)
 * [Moshi](https://github.com/square/moshi)
+* [MockK](https://mockk.io/)
