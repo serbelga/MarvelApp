@@ -20,7 +20,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dev.sergiobelda.marvel.data.database.AppDatabaseTest
 import dev.sergiobelda.marvel.data.database.testutil.characterEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -43,20 +43,20 @@ class CharacterDaoTest : AppDatabaseTest() {
     @Test
     fun testInsertCharacter() = runTest {
         characterDao.insert(characterEntity)
-        val character = characterDao.getCharacter(1).firstOrNull()
+        val character = characterDao.getCharacter(1).first()
         assertEquals(characterEntity, character)
     }
 
     @Test
     fun testGetCharacter() = runTest {
         characterDao.insert(characterEntity)
-        val character = characterDao.getCharacter(1).firstOrNull()
+        val character = characterDao.getCharacter(1).first()
         assertNotNull(character)
     }
 
     @Test
     fun testGetCharacterNotExist() = runTest {
-        val character = characterDao.getCharacter(1).firstOrNull()
+        val character = characterDao.getCharacter(1).first()
         assertNull(character)
     }
 }
