@@ -21,7 +21,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "dev.sergiobelda.marvel.CustomTestRunner"
     }
 
     buildTypes {
@@ -107,6 +107,12 @@ dependencies {
     with(Libs.Google.Dagger) {
         implementation(hilt)
         kapt(hiltCompiler)
+
+        androidTestImplementation(hiltTesting)
+        kaptAndroidTest(hiltCompiler)
+
+        testImplementation(hiltTesting)
+        kaptTest(hiltCompiler)
     }
 
     implementation(Libs.coil)
@@ -116,6 +122,7 @@ dependencies {
     androidTestImplementation(Libs.Test.extJunit)
 
     testImplementation(Libs.mockk)
+    androidTestImplementation(Libs.mockkAndroid)
 
     testImplementation(Libs.kotlinCoroutinesTest)
     androidTestImplementation(Libs.kotlinCoroutinesTest)

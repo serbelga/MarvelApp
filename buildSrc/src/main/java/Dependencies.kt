@@ -45,6 +45,8 @@ object Libs {
 
     const val mockk = "io.mockk:mockk:${Versions.mockk}"
 
+    const val mockkAndroid = "io.mockk:mockk-android:${Versions.mockk}"
+
     object AndroidX {
         const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
         const val constraintLayout =
@@ -101,6 +103,7 @@ object Libs {
                 "com.google.dagger:hilt-android-compiler:${Versions.daggerHilt}"
             const val hiltPlugin =
                 "com.google.dagger:hilt-android-gradle-plugin:${Versions.daggerHilt}"
+            const val hiltTesting = "com.google.dagger:hilt-android-testing:${Versions.daggerHilt}"
         }
     }
 
