@@ -6,7 +6,6 @@ buildscript {
     dependencies {
         classpath(Libs.androidGradlePlugin)
         classpath(Libs.kotlinPlugin)
-        classpath(Libs.Google.Dagger.hiltPlugin)
         classpath(Libs.AndroidX.Navigation.navigationSafeArgsPlugin)
     }
 }

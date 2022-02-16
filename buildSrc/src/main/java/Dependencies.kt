@@ -1,5 +1,5 @@
 object Versions {
-    const val androidGradlePlugin = "7.1.0-rc01"
+    const val androidGradlePlugin = "7.1.0"
     const val appCompat = "1.4.1"
     const val archCoreTesting = "2.1.0"
     const val coil = "1.4.0"
@@ -35,7 +35,8 @@ object Libs {
 
     const val kotlinCoroutinesAndroid =
         "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
-    
+    const val kotlinCoroutinesCore =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
     const val kotlinCoroutinesTest =
         "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}"
 

@@ -20,8 +20,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.sergiobelda.marvel.data.doIfError
-import dev.sergiobelda.marvel.data.doIfSuccess
+import dev.sergiobelda.marvel.domain.doIfError
+import dev.sergiobelda.marvel.domain.doIfSuccess
 import dev.sergiobelda.marvel.domain.model.Character
 import dev.sergiobelda.marvel.domain.usecase.GetCharacterDetailUseCase
 import kotlinx.coroutines.flow.MutableStateFlow

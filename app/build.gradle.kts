@@ -4,7 +4,6 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
-    id("dagger.hilt.android.plugin")
     id("androidx.navigation.safeargs.kotlin")
 }
 
@@ -53,9 +52,15 @@ val ktlint: Configuration by configurations.creating
 
 dependencies {
 
+    implementation(project(":common"))
+    implementation(project(":domain"))
+
     ktlint(Libs.ktLint)
 
     implementation(Libs.kotlinCoroutinesAndroid)
+    implementation(Libs.kotlinCoroutinesCore)
+    testImplementation(Libs.kotlinCoroutinesTest)
+    androidTestImplementation(Libs.kotlinCoroutinesTest)
 
     with(Libs.AndroidX) {
         implementation(appCompat)
@@ -77,37 +82,7 @@ dependencies {
 
     implementation(Libs.AndroidX.paging3)
 
-    testImplementation(Libs.AndroidX.paging3Common)
-
-    with(Libs.AndroidX.Room) {
-        implementation(roomKtx)
-        implementation(roomPaging)
-        implementation(roomRuntime)
-        // Required: Room compiler (avoid RuntimeException - cannot find implementation for database)
-        kapt(roomCompiler)
-        androidTestImplementation(roomTesting)
-    }
-
     implementation(Libs.Google.Material.materialComponents)
-
-    with(Libs.SquareUp.Moshi) {
-        implementation(moshi)
-        kapt(moshiKotlinCodegen)
-    }
-    with(Libs.SquareUp.OkHttp3) {
-        implementation(okhttp)
-        implementation(loggingInterceptor)
-    }
-    with(Libs.SquareUp.Retrofit2) {
-        implementation(converterMoshi)
-        implementation(converterScalars)
-        implementation(retrofit)
-    }
-
-    with(Libs.Google.Dagger) {
-        implementation(hilt)
-        kapt(hiltCompiler)
-    }
 
     implementation(Libs.coil)
 
@@ -116,9 +91,6 @@ dependencies {
     androidTestImplementation(Libs.Test.extJunit)
 
     testImplementation(Libs.mockk)
-
-    testImplementation(Libs.kotlinCoroutinesTest)
-    androidTestImplementation(Libs.kotlinCoroutinesTest)
 
     with(Libs.AndroidX.Test) {
         androidTestImplementation(core)
