@@ -18,10 +18,10 @@ package dev.sergiobelda.marvel.domain.usecase
 
 import androidx.paging.AsyncPagingDataDiffer
 import androidx.paging.PagingData
-import dev.sergiobelda.marvel.domain.testutil.character
 import dev.sergiobelda.marvel.domain.ICharacterRepository
 import dev.sergiobelda.marvel.domain.testutil.CharacterDiffCallback
 import dev.sergiobelda.marvel.domain.testutil.NoopListCallback
+import dev.sergiobelda.marvel.domain.testutil.character
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk

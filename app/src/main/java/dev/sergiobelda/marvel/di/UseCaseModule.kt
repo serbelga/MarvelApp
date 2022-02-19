@@ -21,7 +21,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
-import dev.sergiobelda.marvel.data.repository.ICharacterRepository
+import dev.sergiobelda.marvel.domain.ICharacterRepository
 import dev.sergiobelda.marvel.domain.usecase.GetCharacterDetailUseCase
 import dev.sergiobelda.marvel.domain.usecase.GetCharactersUseCase
 

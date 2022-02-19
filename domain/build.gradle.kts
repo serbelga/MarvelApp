@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = libs.versions.androidCompileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 24
-        targetSdk = 31
+        minSdk = libs.versions.androidMinSdk.get().toInt()
+        targetSdk = libs.versions.androidTargetSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -33,16 +33,13 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.coreKtx)
+    implementation(libs.androidx.paging.pagingRuntimeKtx)
+    implementation(libs.kotlin.coroutinesCore)
 
-    implementation(Libs.kotlinCoroutinesCore)
-    testImplementation(Libs.kotlinCoroutinesTest)
-
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.4.1")
-
-    implementation(Libs.AndroidX.paging3)
-    testImplementation(Libs.AndroidX.paging3Common)
-
-    testImplementation("junit:junit:4.13.2")
-    testImplementation(Libs.mockk)
+    testImplementation(libs.androidx.paging.pagingCommon)
+    testImplementation(libs.kotlin.coroutinesTest)
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk.mockk)
 }

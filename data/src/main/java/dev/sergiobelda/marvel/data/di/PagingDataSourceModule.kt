@@ -14,23 +14,22 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.di
+package dev.sergiobelda.marvel.data.di
 
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.sergiobelda.marvel.data.database.dao.CharacterDao
-import dev.sergiobelda.marvel.data.localdatasource.CharacterLocalDataSource
-import dev.sergiobelda.marvel.data.localdatasource.ICharacterLocalDataSource
+import dev.sergiobelda.marvel.data.network.service.CharacterService
+import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object LocalDataSourceModule {
+object PagingDataSourceModule {
 
     @Provides
     @Singleton
-    fun provideCharacterLocalDataSource(characterDao: CharacterDao): ICharacterLocalDataSource =
-        CharacterLocalDataSource(characterDao)
+    fun provideCharacterPagingDataSource(characterService: CharacterService): CharacterPagingDataSource =
+        CharacterPagingDataSource(characterService)
 }

@@ -1,21 +1,35 @@
 plugins {
     id("com.android.library")
+    id("com.google.devtools.ksp")
     kotlin("android")
     kotlin("kapt")
 }
 
+val publicApiKey: String = com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(
+    rootDir
+).getProperty("public_api_key") ?: "\"\""
+val privateApiKey: String = com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(
+    rootDir
+).getProperty("private_api_key") ?: "\"\""
+
 android {
-    compileSdk = 31
+    compileSdk = libs.versions.androidCompileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 24
-        targetSdk = 31
+        minSdk = libs.versions.androidMinSdk.get().toInt()
+        targetSdk = libs.versions.androidTargetSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "PUBLIC_API_KEY", publicApiKey)
+            buildConfigField("String", "PRIVATE_API_KEY", privateApiKey)
+        }
         release {
+            buildConfigField("String", "PUBLIC_API_KEY", publicApiKey)
+            buildConfigField("String", "PRIVATE_API_KEY", privateApiKey)
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -34,44 +48,33 @@ android {
 
 dependencies {
 
-    implementation(project(":common"))
-    implementation(project(":domain"))
+    implementation(projects.common)
+    implementation(projects.domain)
 
-    implementation(Libs.kotlinCoroutinesCore)
-    testImplementation(Libs.kotlinCoroutinesTest)
-    androidTestImplementation(Libs.kotlinCoroutinesTest)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.paging.pagingRuntimeKtx)
+    implementation(libs.androidx.room.roomKtx)
+    implementation(libs.androidx.room.roomPaging)
+    implementation(libs.androidx.room.roomRuntime)
+    ksp(libs.androidx.room.roomCompiler)
+    implementation(libs.google.dagger.hiltAndroid)
+    kapt(libs.google.dagger.hiltAndroidCompiler)
+    implementation(libs.kotlin.coroutinesCore)
+    implementation(libs.squareup.moshi.moshi)
+    kapt(libs.squareup.moshi.moshiKotlinCodegen)
+    implementation(libs.squareup.okhttp3.okhttp)
+    implementation(libs.squareup.okhttp3.loggingInterceptor)
+    implementation(libs.squareup.retrofit2.converterMoshi)
+    implementation(libs.squareup.retrofit2.converterScalars)
+    implementation(libs.squareup.retrofit2.retrofit)
 
-    implementation(Libs.AndroidX.appCompat)
+    testImplementation(libs.androidx.paging.pagingCommon)
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlin.coroutinesTest)
+    testImplementation(libs.mockk.mockk)
 
-    implementation(Libs.AndroidX.paging3)
-    testImplementation(Libs.AndroidX.paging3Common)
-
-    with(Libs.AndroidX.Room) {
-        implementation(roomKtx)
-        implementation(roomPaging)
-        implementation(roomRuntime)
-        // Required: Room compiler (avoid RuntimeException - cannot find implementation for database)
-        kapt(roomCompiler)
-        androidTestImplementation(roomTesting)
-    }
-
-    with(Libs.SquareUp.Moshi) {
-        implementation(moshi)
-        kapt(moshiKotlinCodegen)
-    }
-    with(Libs.SquareUp.OkHttp3) {
-        implementation(okhttp)
-        implementation(loggingInterceptor)
-    }
-    with(Libs.SquareUp.Retrofit2) {
-        implementation(converterMoshi)
-        implementation(converterScalars)
-        implementation(retrofit)
-    }
-
-    testImplementation("junit:junit:4.13.2")
-    testImplementation(Libs.mockk)
-    
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    androidTestImplementation(libs.androidx.room.roomTesting)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.test.espresso.espressoCore)
+    androidTestImplementation(libs.kotlin.coroutinesTest)
 }

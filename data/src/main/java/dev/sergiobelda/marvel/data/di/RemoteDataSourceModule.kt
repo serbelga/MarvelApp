@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.di
+package dev.sergiobelda.marvel.data.di
 
 import dagger.Module
 import dagger.Provides

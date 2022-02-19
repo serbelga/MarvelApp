@@ -14,28 +14,32 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.di
+package dev.sergiobelda.marvel.data.di
 
-import android.app.Application
-import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.sergiobelda.marvel.data.database.AppDatabase
-import dev.sergiobelda.marvel.data.database.dao.CharacterDao
+import dev.sergiobelda.marvel.data.localdatasource.ICharacterLocalDataSource
+import dev.sergiobelda.marvel.data.pagingdatasource.CharacterPagingDataSource
+import dev.sergiobelda.marvel.data.remotedatasource.ICharacterRemoteDataSource
+import dev.sergiobelda.marvel.data.repository.CharacterRepository
+import dev.sergiobelda.marvel.domain.ICharacterRepository
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DatabaseModule {
+object RepositoryModule {
 
+    @Provides
     @Singleton
-    @Provides
-    fun provideAppDatabase(application: Application): AppDatabase =
-        Room.databaseBuilder(application, AppDatabase::class.java, "AppDatabase.db")
-            .build()
-
-    @Provides
-    fun provideCharacterDao(appDatabase: AppDatabase): CharacterDao = appDatabase.characterDao()
+    fun provideCharacterRepository(
+        characterRemoteDataSource: ICharacterRemoteDataSource,
+        characterPagingDataSource: CharacterPagingDataSource,
+        characterLocalDataSource: ICharacterLocalDataSource
+    ): ICharacterRepository = CharacterRepository(
+        characterRemoteDataSource,
+        characterPagingDataSource,
+        characterLocalDataSource
+    )
 }

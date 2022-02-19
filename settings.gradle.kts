@@ -1,3 +1,6 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+enableFeaturePreview("VERSION_CATALOGS")
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -13,7 +16,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Marvel"
-include ':app'
-include ':data'
-include ':domain'
-include ':common'
+include(":app")
+include(":data")
+include(":domain")
+include(":common")
