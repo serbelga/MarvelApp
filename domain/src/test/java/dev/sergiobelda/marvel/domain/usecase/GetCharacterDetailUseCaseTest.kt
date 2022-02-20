@@ -16,9 +16,9 @@
 
 package dev.sergiobelda.marvel.domain.usecase
 
-import dev.sergiobelda.marvel.data.Result
-import dev.sergiobelda.marvel.data.repository.ICharacterRepository
-import dev.sergiobelda.marvel.data.testutil.character
+import dev.sergiobelda.marvel.domain.ICharacterRepository
+import dev.sergiobelda.marvel.domain.Result
+import dev.sergiobelda.marvel.domain.testutil.character
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
