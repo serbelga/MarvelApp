@@ -1,5 +1,3 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -8,16 +6,13 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
 }
 
-val publicApiKey: String = gradleLocalProperties(rootDir).getProperty("public_api_key") ?: "\"\""
-val privateApiKey: String = gradleLocalProperties(rootDir).getProperty("private_api_key") ?: "\"\""
-
 android {
-    compileSdk = 31
+    compileSdk = libs.versions.androidCompileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "dev.sergiobelda.marvel"
-        minSdk = 24
-        targetSdk = 31
+        minSdk = libs.versions.androidMinSdk.get().toInt()
+        targetSdk = libs.versions.androidTargetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -25,13 +20,7 @@ android {
     }
 
     buildTypes {
-        debug {
-            buildConfigField("String", "PUBLIC_API_KEY", publicApiKey)
-            buildConfigField("String", "PRIVATE_API_KEY", privateApiKey)
-        }
         release {
-            buildConfigField("String", "PUBLIC_API_KEY", publicApiKey)
-            buildConfigField("String", "PRIVATE_API_KEY", privateApiKey)
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
@@ -49,99 +38,35 @@ android {
     }
 }
 
-val ktlint: Configuration by configurations.creating
-
 dependencies {
+    implementation(projects.common)
+    implementation(projects.data)
+    implementation(projects.domain)
 
-    ktlint(Libs.ktLint)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.coreKtx)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.lifecycle.livedataKtx)
+    implementation(libs.androidx.lifecycle.runtimeKtx)
+    implementation(libs.androidx.lifecycle.viewmodelKtx)
+    implementation(libs.androidx.navigation.navigationFragmentKtx)
+    implementation(libs.androidx.navigation.navigationUiKtx)
+    implementation(libs.androidx.paging.pagingRuntimeKtx)
+    implementation(libs.coil)
+    implementation(libs.google.material)
+    implementation(libs.google.dagger.hiltAndroid)
+    kapt(libs.google.dagger.hiltAndroidCompiler)
+    implementation(libs.kotlin.coroutinesAndroid)
+    implementation(libs.kotlin.coroutinesCore)
 
-    implementation(Libs.kotlinCoroutinesAndroid)
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlin.coroutinesTest)
+    testImplementation(libs.mockk.mockk)
 
-    with(Libs.AndroidX) {
-        implementation(appCompat)
-        implementation(constraintLayout)
-        implementation(coreKtx)
-    }
-
-    with(Libs.AndroidX.Lifecycle) {
-        implementation(liveData)
-        implementation(runtime)
-        implementation(viewModel)
-        androidTestImplementation(archCoreTesting)
-    }
-
-    with(Libs.AndroidX.Navigation) {
-        implementation(navigationFragmentKtx)
-        implementation(navigationUiKtx)
-    }
-
-    implementation(Libs.AndroidX.paging3)
-
-    testImplementation(Libs.AndroidX.paging3Common)
-
-    with(Libs.AndroidX.Room) {
-        implementation(roomKtx)
-        implementation(roomPaging)
-        implementation(roomRuntime)
-        // Required: Room compiler (avoid RuntimeException - cannot find implementation for database)
-        kapt(roomCompiler)
-        androidTestImplementation(roomTesting)
-    }
-
-    implementation(Libs.Google.Material.materialComponents)
-
-    with(Libs.SquareUp.Moshi) {
-        implementation(moshi)
-        kapt(moshiKotlinCodegen)
-    }
-    with(Libs.SquareUp.OkHttp3) {
-        implementation(okhttp)
-        implementation(loggingInterceptor)
-    }
-    with(Libs.SquareUp.Retrofit2) {
-        implementation(converterMoshi)
-        implementation(converterScalars)
-        implementation(retrofit)
-    }
-
-    with(Libs.Google.Dagger) {
-        implementation(hilt)
-        kapt(hiltCompiler)
-    }
-
-    implementation(Libs.coil)
-
-    testImplementation(Libs.junit)
-    androidTestImplementation(Libs.Test.espressoCore)
-    androidTestImplementation(Libs.Test.extJunit)
-
-    testImplementation(Libs.mockk)
-
-    testImplementation(Libs.kotlinCoroutinesTest)
-    androidTestImplementation(Libs.kotlinCoroutinesTest)
-
-    with(Libs.AndroidX.Test) {
-        androidTestImplementation(core)
-        androidTestImplementation(coreKtx)
-        androidTestImplementation(espressoCore)
-        androidTestImplementation(extJunit)
-        androidTestImplementation(extJunitKtx)
-    }
-}
-
-task("ktlint", JavaExec::class) {
-    group = "verification"
-    main = "com.pinterest.ktlint.Main"
-    classpath = configurations.getByName("ktlint")
-    args = listOf("src/**/*.kt")
-}
-
-val check by tasks
-check.dependsOn(tasks.getByName("ktlint"))
-
-task("ktlintFormat", JavaExec::class) {
-    group = "formatting"
-    main = "com.pinterest.ktlint.Main"
-    classpath = configurations.getByName("ktlint")
-    args = listOf("-F", "src/**/*.kt")
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.coreKtx)
+    androidTestImplementation(libs.androidx.test.espresso.espressoCore)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.test.ext.junitKtx)
+    androidTestImplementation(libs.kotlin.coroutinesTest)
 }

@@ -14,28 +14,28 @@
  * limitations under the License.
  */
 
-package dev.sergiobelda.marvel.di
+package dev.sergiobelda.marvel.data.di
 
+import android.app.Application
+import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.scopes.ViewModelScoped
-import dev.sergiobelda.marvel.domain.ICharacterRepository
-import dev.sergiobelda.marvel.domain.usecase.GetCharacterDetailUseCase
-import dev.sergiobelda.marvel.domain.usecase.GetCharactersUseCase
+import dagger.hilt.components.SingletonComponent
+import dev.sergiobelda.marvel.data.database.AppDatabase
+import dev.sergiobelda.marvel.data.database.dao.CharacterDao
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
-object UseCaseModule {
+@InstallIn(SingletonComponent::class)
+object DatabaseModule {
+
+    @Singleton
+    @Provides
+    fun provideAppDatabase(application: Application): AppDatabase =
+        Room.databaseBuilder(application, AppDatabase::class.java, "AppDatabase.db")
+            .build()
 
     @Provides
-    @ViewModelScoped
-    fun provideGetCharacterDetailUseCase(characterRepository: ICharacterRepository) =
-        GetCharacterDetailUseCase(characterRepository)
-
-    @Provides
-    @ViewModelScoped
-    fun provideGetCharactersUseCase(characterRepository: ICharacterRepository) =
-        GetCharactersUseCase(characterRepository)
+    fun provideCharacterDao(appDatabase: AppDatabase): CharacterDao = appDatabase.characterDao()
 }
