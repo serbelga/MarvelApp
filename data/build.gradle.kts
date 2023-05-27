@@ -1,6 +1,6 @@
 plugins {
-    id("com.android.library")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.ksp)
     kotlin("android")
     kotlin("kapt")
 }
@@ -13,6 +13,8 @@ val privateApiKey: String = com.android.build.gradle.internal.cxx.configure.grad
 ).getProperty("private_api_key") ?: "\"\""
 
 android {
+    namespace = "dev.sergiobelda.marvel.data"
+
     compileSdk = libs.versions.androidCompileSdk.get().toInt()
 
     defaultConfig {

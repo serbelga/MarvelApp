@@ -1,6 +1,6 @@
 [versions]
 androidCore = "1.10.1"
-androidGradlePlugin = "7.4.2"
+androidGradlePlugin = "8.0.1"
 androidCompileSdk = "33"
 androidMinSdk = "24"
 androidTargetSdk = "33"
@@ -58,7 +58,6 @@ coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 google-dagger-hiltAndroid = { module = "com.google.dagger:hilt-android", version.ref = "daggerHilt" }
 google-dagger-hiltAndroidCompiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "daggerHilt" }
 google-dagger-hiltAndroidTesting = { module = "com.google.dagger:hilt-android-testing", version.ref = "daggerHilt" }
-google-dagger-hiltGradlePluginz = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "daggerHilt" }
 google-material = { module = "com.google.android.material:material", version.ref = "material" }
 
 junit = { module = "junit:junit", version.ref = "junit" }
@@ -82,3 +81,11 @@ squareup-okhttp3-loggingInterceptor = { module = "com.squareup.okhttp3:logging-i
 squareup-retrofit2-converterMoshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit2" }
 squareup-retrofit2-converterScalars = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "retrofit2" }
 squareup-retrofit2-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit2" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+daggerHilt  = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
+kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+navigationSafeArgs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }

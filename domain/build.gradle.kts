@@ -1,9 +1,11 @@
 plugins {
-    id("com.android.library")
+    alias(libs.plugins.androidLibrary)
     kotlin("android")
 }
 
 android {
+    namespace = "dev.sergiobelda.marvel.domain"
+
     compileSdk = libs.versions.androidCompileSdk.get().toInt()
 
     defaultConfig {

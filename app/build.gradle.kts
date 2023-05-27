@@ -1,12 +1,14 @@
 plugins {
-    id("com.android.application")
+    alias(libs.plugins.androidApplication)
     kotlin("android")
     kotlin("kapt")
-    id("dagger.hilt.android.plugin")
-    id("androidx.navigation.safeargs.kotlin")
+    alias(libs.plugins.daggerHilt)
+    alias(libs.plugins.navigationSafeArgs)
 }
 
 android {
+    namespace = "dev.sergiobelda.marvel"
+
     compileSdk = libs.versions.androidCompileSdk.get().toInt()
 
     defaultConfig {
