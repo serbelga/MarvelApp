@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.Marvel" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -11,9 +11,12 @@
 
         <item name="android:windowTranslucentStatus">true</item>
 
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Marvel.SmallComponent</item>
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Marvel.MediumComponent</item>
-        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Marvel.LargeComponent</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Marvel.SmallComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Marvel.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Marvel.LargeComponent
+        </item>
 
         <item name="textAppearanceHeadline1">@style/Theme.Marvel.TextAppearance.Headline1</item>
         <item name="textAppearanceHeadline2">@style/Theme.Marvel.TextAppearance.Headline2</item>

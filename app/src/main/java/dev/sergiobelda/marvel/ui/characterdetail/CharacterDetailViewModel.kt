@@ -26,7 +26,6 @@ import dev.sergiobelda.marvel.domain.model.Character
 import dev.sergiobelda.marvel.domain.usecase.GetCharacterDetailUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -50,7 +49,12 @@ class CharacterDetailViewModel @Inject constructor(
                 result.doIfSuccess { character ->
                     _characterUiState.update { it.copy(isLoading = false, character = character) }
                 }.doIfError { error ->
-                    _characterUiState.update { it.copy(isLoading = false, errorMessage = error.message) }
+                    _characterUiState.update {
+                        it.copy(
+                            isLoading = false,
+                            errorMessage = error.message
+                        )
+                    }
                 }
             }
         }

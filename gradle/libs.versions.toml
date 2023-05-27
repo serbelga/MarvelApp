@@ -85,7 +85,7 @@ squareup-retrofit2-retrofit = { module = "com.squareup.retrofit2:retrofit", vers
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugin" }
-daggerHilt  = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
+daggerHilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
 kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 navigationSafeArgs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }

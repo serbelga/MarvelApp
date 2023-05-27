@@ -49,6 +49,7 @@ class CharacterPagingDataSource(private val characterService: CharacterService) 
                     nextKey = nextKey
                 )
             }
+
             is Result.Error -> {
                 LoadResult.Error(result.exception)
             }

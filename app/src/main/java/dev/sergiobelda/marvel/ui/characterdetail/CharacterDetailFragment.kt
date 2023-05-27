@@ -37,7 +37,6 @@ import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import dev.sergiobelda.marvel.R
 import dev.sergiobelda.marvel.databinding.CharacterDetailFragmentBinding
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
