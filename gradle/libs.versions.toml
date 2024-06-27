@@ -25,7 +25,7 @@ okhttp3 = "4.12.0"
 paging = "3.1.1"
 retrofit2 = "2.11.0"
 room = "2.6.1"
-testCore = "1.6.0"
+testCore = "1.6.1"
 
 [libraries]
 android-gradlePluginz = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
