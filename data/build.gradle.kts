@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.ksp)
@@ -5,12 +7,8 @@ plugins {
     kotlin("kapt")
 }
 
-val publicApiKey: String = com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(
-    rootDir
-).getProperty("public_api_key") ?: "\"\""
-val privateApiKey: String = com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(
-    rootDir
-).getProperty("private_api_key") ?: "\"\""
+val publicApiKey: String = gradleLocalProperties(rootDir, providers).getProperty("public_api_key") ?: "\"\""
+val privateApiKey: String = gradleLocalProperties(rootDir, providers).getProperty("private_api_key") ?: "\"\""
 
 android {
     namespace = "dev.sergiobelda.marvel.data"
