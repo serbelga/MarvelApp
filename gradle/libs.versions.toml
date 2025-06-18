@@ -23,7 +23,7 @@ moshi = "1.15.2"
 navigation = "2.9.0"
 okhttp3 = "4.12.0"
 paging = "3.3.6"
-retrofit2 = "2.12.0"
+retrofit2 = "3.0.0"
 room = "2.7.2"
 testCore = "1.6.1"
 
