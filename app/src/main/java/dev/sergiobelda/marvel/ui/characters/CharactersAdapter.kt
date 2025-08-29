@@ -22,6 +22,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
+import coil3.request.allowHardware
 import com.google.android.material.card.MaterialCardView
 import dev.sergiobelda.marvel.databinding.CharacterItemBinding
 import dev.sergiobelda.marvel.domain.model.Character
@@ -53,6 +54,7 @@ class CharactersAdapter :
 
         fun bind(character: Character) {
             binding.characterImage.load(character.imageUrl) {
+                allowHardware(false)
                 // TODO: placeholder()
             }
             binding.characterName.text = character.name

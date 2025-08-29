@@ -31,6 +31,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import coil3.load
+import coil3.request.allowHardware
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialContainerTransform
@@ -72,7 +73,9 @@ class CharacterDetailFragment : Fragment() {
         binding.toolbar.navigationIcon =
             ContextCompat.getDrawable(requireContext(), R.drawable.ic_back_layer_list)
 
-        binding.characterImage.load(args.imageUrl)
+        binding.characterImage.load(args.imageUrl) {
+            allowHardware(false)
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             characterDetailViewModel.characterUiState
