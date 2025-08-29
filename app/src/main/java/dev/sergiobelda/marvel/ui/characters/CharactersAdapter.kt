@@ -21,7 +21,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import coil3.load
 import com.google.android.material.card.MaterialCardView
 import dev.sergiobelda.marvel.databinding.CharacterItemBinding
 import dev.sergiobelda.marvel.domain.model.Character
