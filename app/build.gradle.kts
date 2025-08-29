@@ -1,9 +1,9 @@
 plugins {
     alias(libs.plugins.androidApplication)
-    kotlin("android")
-    kotlin("kapt")
     alias(libs.plugins.daggerHilt)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.navigationSafeArgs)
+    kotlin("android")
 }
 
 android {
@@ -62,7 +62,7 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.google.material)
     implementation(libs.google.dagger.hiltAndroid)
-    kapt(libs.google.dagger.hiltAndroidCompiler)
+    ksp(libs.google.dagger.hiltAndroidCompiler)
     implementation(libs.kotlin.coroutinesAndroid)
     implementation(libs.kotlin.coroutinesCore)
 
