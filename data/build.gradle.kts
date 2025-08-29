@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.ksp)
     kotlin("android")
-    kotlin("kapt")
 }
 
 val publicApiKey: String = gradleLocalProperties(rootDir, providers).getProperty("public_api_key") ?: "\"\""
@@ -58,10 +57,10 @@ dependencies {
     implementation(libs.androidx.room.roomRuntime)
     ksp(libs.androidx.room.roomCompiler)
     implementation(libs.google.dagger.hiltAndroid)
-    kapt(libs.google.dagger.hiltAndroidCompiler)
+    ksp(libs.google.dagger.hiltAndroidCompiler)
     implementation(libs.kotlin.coroutinesCore)
     implementation(libs.squareup.moshi.moshi)
-    kapt(libs.squareup.moshi.moshiKotlinCodegen)
+    ksp(libs.squareup.moshi.moshiKotlinCodegen)
     implementation(libs.squareup.okhttp3.okhttp)
     implementation(libs.squareup.okhttp3.loggingInterceptor)
     implementation(libs.squareup.retrofit2.converterMoshi)
