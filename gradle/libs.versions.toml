@@ -24,7 +24,7 @@ navigation = "2.9.4"
 okhttp3 = "5.2.1"
 paging = "3.3.6"
 retrofit2 = "3.0.0"
-room = "2.8.2"
+room = "2.8.3"
 testCore = "1.7.0"
 
 [libraries]
