@@ -40,7 +40,6 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GetCharactersUseCaseTest {
-
     @MockK
     private val characterRepository = mockk<ICharacterRepository>()
 
@@ -59,23 +58,26 @@ class GetCharactersUseCaseTest {
     }
 
     @Test
-    fun testGetCharactersUseCase() = runTest {
-        val characters = listOf(character)
+    fun testGetCharactersUseCase() =
+        runTest {
+            val characters = listOf(character)
 
-        every { characterRepository.getCharacters() } returns flow {
-            emit(PagingData.from(characters))
+            every { characterRepository.getCharacters() } returns
+                flow {
+                    emit(PagingData.from(characters))
+                }
+
+            val differ =
+                AsyncPagingDataDiffer(
+                    diffCallback = CharacterDiffCallback(),
+                    updateCallback = NoopListCallback(),
+                    workerDispatcher = Dispatchers.Main,
+                )
+
+            val result = getCharactersUseCase.invoke().first()
+
+            differ.submitData(result)
+
+            assertEquals(characters, differ.snapshot().items)
         }
-
-        val differ = AsyncPagingDataDiffer(
-            diffCallback = CharacterDiffCallback(),
-            updateCallback = NoopListCallback(),
-            workerDispatcher = Dispatchers.Main
-        )
-
-        val result = getCharactersUseCase.invoke().first()
-
-        differ.submitData(result)
-
-        assertEquals(characters, differ.snapshot().items)
-    }
 }

@@ -31,38 +31,40 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CharacterDetailViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    private val getCharacterDetailUseCase: GetCharacterDetailUseCase
-) : ViewModel() {
+class CharacterDetailViewModel
+    @Inject
+    constructor(
+        savedStateHandle: SavedStateHandle,
+        private val getCharacterDetailUseCase: GetCharacterDetailUseCase,
+    ) : ViewModel() {
+        private val id: Int = savedStateHandle.get("id") ?: 0
 
-    private val id: Int = savedStateHandle.get("id") ?: 0
+        private val _characterUiState: MutableStateFlow<CharacterUiState> =
+            MutableStateFlow(
+                CharacterUiState(isLoading = true),
+            )
+        val characterUiState: StateFlow<CharacterUiState> get() = _characterUiState
 
-    private val _characterUiState: MutableStateFlow<CharacterUiState> = MutableStateFlow(
-        CharacterUiState(isLoading = true)
-    )
-    val characterUiState: StateFlow<CharacterUiState> get() = _characterUiState
-
-    init {
-        viewModelScope.launch {
-            getCharacterDetailUseCase(id).collect { result ->
-                result.doIfSuccess { character ->
-                    _characterUiState.update { it.copy(isLoading = false, character = character) }
-                }.doIfError { error ->
-                    _characterUiState.update {
-                        it.copy(
-                            isLoading = false,
-                            errorMessage = error.message
-                        )
+        init {
+            viewModelScope.launch {
+                getCharacterDetailUseCase(id).collect { result ->
+                    result.doIfSuccess { character ->
+                        _characterUiState.update { it.copy(isLoading = false, character = character) }
+                    }.doIfError { error ->
+                        _characterUiState.update {
+                            it.copy(
+                                isLoading = false,
+                                errorMessage = error.message,
+                            )
+                        }
                     }
                 }
             }
         }
     }
-}
 
 data class CharacterUiState(
     val isLoading: Boolean = false,
     val character: Character? = null,
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
 )

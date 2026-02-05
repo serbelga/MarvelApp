@@ -28,7 +28,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RemoteDataSourceModule {
-
     @Provides
     @Singleton
     fun provideCharacterRemoteDataSource(characterService: CharacterService): ICharacterRemoteDataSource =

@@ -35,27 +35,29 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CharacterLocalDataSourceTest {
-
     @MockK
     private val characterDao: CharacterDao = mockk(relaxed = true)
 
     private val characterLocalDataSource = CharacterLocalDataSource(characterDao)
 
     @Test
-    fun testGetCharacter() = runTest {
-        every { characterDao.getCharacter(1) } returns flow {
-            emit(characterEntity)
+    fun testGetCharacter() =
+        runTest {
+            every { characterDao.getCharacter(1) } returns
+                flow {
+                    emit(characterEntity)
+                }
+
+            val result = characterLocalDataSource.getCharacter(1).firstOrNull()
+
+            assertEquals(characterEntity.toDomainModel(), (result as Result.Success).value)
         }
 
-        val result = characterLocalDataSource.getCharacter(1).firstOrNull()
-
-        assertEquals(characterEntity.toDomainModel(), (result as Result.Success).value)
-    }
-
     @Test
-    fun testInsertCharacter() = runTest {
-        characterLocalDataSource.insertCharacter(character)
+    fun testInsertCharacter() =
+        runTest {
+            characterLocalDataSource.insertCharacter(character)
 
-        coVerify { characterDao.insert(character.toEntity()) }
-    }
+            coVerify { characterDao.insert(character.toEntity()) }
+        }
 }

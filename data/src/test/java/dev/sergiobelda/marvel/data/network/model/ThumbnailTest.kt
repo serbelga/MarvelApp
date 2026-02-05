@@ -20,17 +20,17 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ThumbnailTest {
-
     @Test
     fun testGetUrl() {
         val path = "PATH"
         val extension = "EXTENSION"
         val url = "$path.$extension"
 
-        val thumbnail = Thumbnail(
-            path = path,
-            extension = extension
-        )
+        val thumbnail =
+            Thumbnail(
+                path = path,
+                extension = extension,
+            )
 
         assertEquals(url, thumbnail.getUrl())
     }

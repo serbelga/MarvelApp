@@ -28,25 +28,26 @@ import dev.sergiobelda.marvel.domain.model.Character
 
 class CharacterPagingDataSource(private val characterService: CharacterService) :
     PagingSource<Int, Character>() {
-
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Character> {
         val position = params.key ?: API_STARTING_PAGE_INDEX
-        val result = safeApiCall {
-            val offset = position * API_PAGE_SIZE
-            characterService.getCharacters(offset, params.loadSize)
-        }
+        val result =
+            safeApiCall {
+                val offset = position * API_PAGE_SIZE
+                characterService.getCharacters(offset, params.loadSize)
+            }
         return when (result) {
             is Result.Success -> {
                 val characters = result.value.data.results.map { it.toDomainModel() }
-                val nextKey = if (characters.isEmpty()) {
-                    null
-                } else {
-                    position + (params.loadSize / API_PAGE_SIZE)
-                }
+                val nextKey =
+                    if (characters.isEmpty()) {
+                        null
+                    } else {
+                        position + (params.loadSize / API_PAGE_SIZE)
+                    }
                 LoadResult.Page(
                     data = characters,
                     prevKey = if (position == API_STARTING_PAGE_INDEX) null else position - 1,
-                    nextKey = nextKey
+                    nextKey = nextKey,
                 )
             }
 

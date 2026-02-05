@@ -27,10 +27,11 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
-class CharactersViewModel @Inject constructor(
-    getCharactersPagingUseCase: GetCharactersUseCase
-) : ViewModel() {
-
-    val characters: Flow<PagingData<Character>> =
-        getCharactersPagingUseCase().cachedIn(viewModelScope)
-}
+class CharactersViewModel
+    @Inject
+    constructor(
+        getCharactersPagingUseCase: GetCharactersUseCase,
+    ) : ViewModel() {
+        val characters: Flow<PagingData<Character>> =
+            getCharactersPagingUseCase().cachedIn(viewModelScope)
+    }

@@ -18,16 +18,18 @@ package dev.sergiobelda.marvel.domain
 
 sealed class Result<out A> {
     data class Success<out A>(val value: A) : Result<A>()
+
     data class Error(
         val exception: Exception,
         val code: Int? = null,
-        val message: String? = null
+        val message: String? = null,
     ) : Result<Nothing>()
 
-    fun <B> map(m: ((A) -> B)): Result<B> = when (this) {
-        is Success -> Success(m(value))
-        is Error -> Error(exception, code, message)
-    }
+    fun <B> map(m: ((A) -> B)): Result<B> =
+        when (this) {
+            is Success -> Success(m(value))
+            is Error -> Error(exception, code, message)
+        }
 }
 
 /**

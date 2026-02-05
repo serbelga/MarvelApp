@@ -27,7 +27,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object PagingDataSourceModule {
-
     @Provides
     @Singleton
     fun provideCharacterPagingDataSource(characterService: CharacterService): CharacterPagingDataSource =

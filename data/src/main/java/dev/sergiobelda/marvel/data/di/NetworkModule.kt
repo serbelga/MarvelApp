@@ -36,14 +36,14 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
-        val apiKeyInterceptor = ApiKeyInterceptor(
-            publicApiKey = BuildConfig.PUBLIC_API_KEY,
-            privateApiKey = BuildConfig.PRIVATE_API_KEY
-        )
+        val apiKeyInterceptor =
+            ApiKeyInterceptor(
+                publicApiKey = BuildConfig.PUBLIC_API_KEY,
+                privateApiKey = BuildConfig.PRIVATE_API_KEY,
+            )
 
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -59,15 +59,15 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(client: OkHttpClient): Retrofit = Retrofit.Builder()
-        .addConverterFactory(ScalarsConverterFactory.create())
-        .addConverterFactory(MoshiConverterFactory.create())
-        .baseUrl(BASE_URL)
-        .client(client)
-        .build()
+    fun provideRetrofit(client: OkHttpClient): Retrofit =
+        Retrofit.Builder()
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create())
+            .baseUrl(BASE_URL)
+            .client(client)
+            .build()
 
     @Provides
     @Singleton
-    fun provideCharacterService(retrofit: Retrofit): CharacterService =
-        retrofit.create(CharacterService::class.java)
+    fun provideCharacterService(retrofit: Retrofit): CharacterService = retrofit.create(CharacterService::class.java)
 }

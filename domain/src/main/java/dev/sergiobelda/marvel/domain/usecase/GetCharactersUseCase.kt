@@ -22,7 +22,5 @@ import dev.sergiobelda.marvel.domain.model.Character
 import kotlinx.coroutines.flow.Flow
 
 class GetCharactersUseCase(private val characterRepository: ICharacterRepository) {
-
-    operator fun invoke(): Flow<PagingData<Character>> =
-        characterRepository.getCharacters()
+    operator fun invoke(): Flow<PagingData<Character>> = characterRepository.getCharacters()
 }

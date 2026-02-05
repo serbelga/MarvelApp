@@ -32,5 +32,5 @@ data class MarvelData<T>(
     val limit: Int,
     val total: Int,
     val count: Int,
-    val results: List<T>
+    val results: List<T>,
 )

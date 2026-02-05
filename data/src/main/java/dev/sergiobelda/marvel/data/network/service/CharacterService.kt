@@ -25,13 +25,14 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface CharacterService {
-
     @GET("/v1/public/characters")
     suspend fun getCharacters(
         @Query("offset") offset: Int = Constants.API_STARTING_PAGE_INDEX,
-        @Query("limit") limit: Int = Constants.API_PAGE_SIZE
+        @Query("limit") limit: Int = Constants.API_PAGE_SIZE,
     ): Response<MarvelResponse<CharacterApiModel>>
 
     @GET("/v1/public/characters/{id}")
-    suspend fun getCharacter(@Path("id") id: Int): Response<MarvelResponse<CharacterApiModel>>
+    suspend fun getCharacter(
+        @Path("id") id: Int,
+    ): Response<MarvelResponse<CharacterApiModel>>
 }
