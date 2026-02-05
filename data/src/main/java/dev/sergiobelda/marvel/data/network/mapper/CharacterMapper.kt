@@ -20,12 +20,11 @@ import dev.sergiobelda.marvel.data.network.model.CharacterApiModel
 import dev.sergiobelda.marvel.domain.model.Character
 
 object CharacterMapper {
-
     fun CharacterApiModel.toDomainModel() =
         Character(
             id = id,
             name = name,
             description = description,
-            imageUrl = thumbnail.getUrl()
+            imageUrl = thumbnail.getUrl(),
         )
 }

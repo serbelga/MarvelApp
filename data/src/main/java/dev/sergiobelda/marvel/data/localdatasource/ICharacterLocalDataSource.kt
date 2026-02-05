@@ -21,7 +21,6 @@ import dev.sergiobelda.marvel.domain.model.Character
 import kotlinx.coroutines.flow.Flow
 
 interface ICharacterLocalDataSource {
-
     fun getCharacter(id: Int): Flow<Result<Character>>
 
     suspend fun insertCharacter(character: Character)

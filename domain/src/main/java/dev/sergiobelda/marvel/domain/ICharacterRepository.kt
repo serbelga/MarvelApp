@@ -21,7 +21,6 @@ import dev.sergiobelda.marvel.domain.model.Character
 import kotlinx.coroutines.flow.Flow
 
 interface ICharacterRepository {
-
     /**
      * Get Characters paging.
      * Returns a flow that emits new data every time a new page is loaded.

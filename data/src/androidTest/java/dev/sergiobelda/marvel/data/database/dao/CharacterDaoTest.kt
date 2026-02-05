@@ -32,7 +32,6 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 @OptIn(ExperimentalCoroutinesApi::class)
 class CharacterDaoTest : AppDatabaseTest() {
-
     private lateinit var characterDao: CharacterDao
 
     @Before
@@ -41,22 +40,25 @@ class CharacterDaoTest : AppDatabaseTest() {
     }
 
     @Test
-    fun testInsertCharacter() = runTest {
-        characterDao.insert(characterEntity)
-        val character = characterDao.getCharacter(1).first()
-        assertEquals(characterEntity, character)
-    }
+    fun testInsertCharacter() =
+        runTest {
+            characterDao.insert(characterEntity)
+            val character = characterDao.getCharacter(1).first()
+            assertEquals(characterEntity, character)
+        }
 
     @Test
-    fun testGetCharacter() = runTest {
-        characterDao.insert(characterEntity)
-        val character = characterDao.getCharacter(1).first()
-        assertNotNull(character)
-    }
+    fun testGetCharacter() =
+        runTest {
+            characterDao.insert(characterEntity)
+            val character = characterDao.getCharacter(1).first()
+            assertNotNull(character)
+        }
 
     @Test
-    fun testGetCharacterNotExist() = runTest {
-        val character = characterDao.getCharacter(1).first()
-        assertNull(character)
-    }
+    fun testGetCharacterNotExist() =
+        runTest {
+            val character = characterDao.getCharacter(1).first()
+            assertNull(character)
+        }
 }

@@ -21,9 +21,8 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class Thumbnail(
     val path: String,
-    val extension: String
+    val extension: String,
 ) {
-
     // TODO: Add support to portrait, standard and landscape.
     fun getUrl(): String = "$path.$extension"
 }

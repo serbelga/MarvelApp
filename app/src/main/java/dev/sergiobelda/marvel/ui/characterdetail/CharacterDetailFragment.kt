@@ -42,7 +42,6 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CharacterDetailFragment : Fragment() {
-
     private val binding: CharacterDetailFragmentBinding get() = _binding!!
 
     private var _binding: CharacterDetailFragmentBinding? = null
@@ -60,13 +59,16 @@ class CharacterDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = CharacterDetailFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         binding.root.transitionName = args.id.toString()
         NavigationUI.setupWithNavController(binding.toolbar, findNavController())
@@ -107,10 +109,11 @@ class CharacterDetailFragment : Fragment() {
         MaterialContainerTransform(requireContext(), entering).apply {
             drawingViewId = R.id.nav_host_fragment
             interpolator = FastOutSlowInInterpolator()
-            containerColor = MaterialColors.getColor(
-                requireActivity().findViewById(android.R.id.content),
-                com.google.android.material.R.attr.colorSurface
-            )
+            containerColor =
+                MaterialColors.getColor(
+                    requireActivity().findViewById(android.R.id.content),
+                    com.google.android.material.R.attr.colorSurface,
+                )
             fadeMode = MaterialContainerTransform.FADE_MODE_OUT
             duration = 300
         }

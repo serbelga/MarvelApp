@@ -24,8 +24,8 @@ import dev.sergiobelda.marvel.domain.model.Character
 
 class CharacterRemoteDataSource(private val characterService: CharacterService) :
     ICharacterRemoteDataSource {
-
-    override suspend fun getCharacter(id: Int): Result<Character?> = safeApiCall {
-        characterService.getCharacter(id)
-    }.map { response -> response.data.results.firstOrNull()?.toDomainModel() }
+    override suspend fun getCharacter(id: Int): Result<Character?> =
+        safeApiCall {
+            characterService.getCharacter(id)
+        }.map { response -> response.data.results.firstOrNull()?.toDomainModel() }
 }

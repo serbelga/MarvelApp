@@ -20,13 +20,12 @@ import dev.sergiobelda.marvel.data.database.entity.CharacterEntity
 import dev.sergiobelda.marvel.domain.model.Character
 
 object CharacterMapper {
-
     fun Character.toEntity() =
         CharacterEntity(
             id = id,
             name = name,
             description = description,
-            imageUrl = imageUrl
+            imageUrl = imageUrl,
         )
 
     fun CharacterEntity.toDomainModel() =
@@ -34,6 +33,6 @@ object CharacterMapper {
             id = id,
             name = name,
             description = description,
-            imageUrl = imageUrl
+            imageUrl = imageUrl,
         )
 }

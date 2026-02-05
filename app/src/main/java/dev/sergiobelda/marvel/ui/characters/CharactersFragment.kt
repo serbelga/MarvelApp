@@ -38,34 +38,39 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CharactersFragment : Fragment() {
-
     private var _binding: CharactersFragmentBinding? = null
 
     private val binding: CharactersFragmentBinding get() = _binding!!
 
     private val charactersViewModel: CharactersViewModel by viewModels()
 
-    private val charactersAdapter: CharactersAdapter = CharactersAdapter().apply {
-        listener = CharactersAdapter.CharacterClickListener { character, cardView ->
-            val extras = FragmentNavigatorExtras(cardView to character.id.toString())
-            val action = CharactersFragmentDirections.navToCharacterDetailFragment(
-                character.id,
-                character.imageUrl
-            )
-            findNavController().navigate(action, extras)
+    private val charactersAdapter: CharactersAdapter =
+        CharactersAdapter().apply {
+            listener =
+                CharactersAdapter.CharacterClickListener { character, cardView ->
+                    val extras = FragmentNavigatorExtras(cardView to character.id.toString())
+                    val action =
+                        CharactersFragmentDirections.navToCharacterDetailFragment(
+                            character.id,
+                            character.imageUrl,
+                        )
+                    findNavController().navigate(action, extras)
+                }
         }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = CharactersFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
         binding.recyclerView.post { startPostponedEnterTransition() }
@@ -109,28 +114,37 @@ class CharactersFragment : Fragment() {
         val gridLayoutManager = GridLayoutManager(context, 2)
         binding.recyclerView.apply {
             layoutManager = gridLayoutManager
-            adapter = charactersAdapter.withLoadStateFooter(
-                footer = CharactersLoadStateAdapter { charactersAdapter.retry() }
-            )
+            adapter =
+                charactersAdapter.withLoadStateFooter(
+                    footer = CharactersLoadStateAdapter { charactersAdapter.retry() },
+                )
             addOnScrollListener(
                 object : RecyclerView.OnScrollListener() {
-                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                        if (dy < 0 && binding.goTopButton.isGone) binding.goTopButton.show()
-                        else if (dy > 0 && binding.goTopButton.isVisible) binding.goTopButton.hide()
+                    override fun onScrolled(
+                        recyclerView: RecyclerView,
+                        dx: Int,
+                        dy: Int,
+                    ) {
+                        if (dy < 0 && binding.goTopButton.isGone) {
+                            binding.goTopButton.show()
+                        } else if (dy > 0 && binding.goTopButton.isVisible) {
+                            binding.goTopButton.hide()
+                        }
                         if (gridLayoutManager.findFirstVisibleItemPosition() == 0) binding.goTopButton.hide()
                     }
-                }
+                },
             )
         }
         // Center CharactersLoadStateFooter.
-        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int =
-                if (position == charactersAdapter.itemCount && charactersAdapter.itemCount > 0) {
-                    2
-                } else {
-                    1
-                }
-        }
+        gridLayoutManager.spanSizeLookup =
+            object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int =
+                    if (position == charactersAdapter.itemCount && charactersAdapter.itemCount > 0) {
+                        2
+                    } else {
+                        1
+                    }
+            }
     }
 
     private fun initAdapterLoadStateListener() {

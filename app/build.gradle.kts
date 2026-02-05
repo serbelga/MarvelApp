@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.daggerHilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.navigationSafeArgs)
-    kotlin("android")
 }
 
 android {

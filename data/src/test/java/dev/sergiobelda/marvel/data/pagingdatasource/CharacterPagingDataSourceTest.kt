@@ -32,34 +32,35 @@ import retrofit2.Response
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CharacterPagingDataSourceTest {
-
     @MockK
     private val characterService = mockk<CharacterService>()
 
     private val characterPagingDataSource = CharacterPagingDataSource(characterService)
 
     @Test
-    fun testLoad() = runTest {
-        val characters = listOf(characterApiModel)
+    fun testLoad() =
+        runTest {
+            val characters = listOf(characterApiModel)
 
-        coEvery { characterService.getCharacters(0, 1) } returns Response.success(
-            createMarvelResponse(characters)
-        )
-
-        val charactersDomain = characters.map { it.toDomainModel() }
-        assertEquals(
-            PagingSource.LoadResult.Page(
-                data = charactersDomain,
-                prevKey = null,
-                nextKey = 0
-            ),
-            characterPagingDataSource.load(
-                PagingSource.LoadParams.Refresh(
-                    key = null,
-                    loadSize = 1,
-                    placeholdersEnabled = false
+            coEvery { characterService.getCharacters(0, 1) } returns
+                Response.success(
+                    createMarvelResponse(characters),
                 )
+
+            val charactersDomain = characters.map { it.toDomainModel() }
+            assertEquals(
+                PagingSource.LoadResult.Page(
+                    data = charactersDomain,
+                    prevKey = null,
+                    nextKey = 0,
+                ),
+                characterPagingDataSource.load(
+                    PagingSource.LoadParams.Refresh(
+                        key = null,
+                        loadSize = 1,
+                        placeholdersEnabled = false,
+                    ),
+                ),
             )
-        )
-    }
+        }
 }

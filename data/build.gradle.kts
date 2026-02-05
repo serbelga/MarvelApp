@@ -3,7 +3,6 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.ksp)
-    kotlin("android")
 }
 
 val publicApiKey: String = gradleLocalProperties(rootDir, providers).getProperty("public_api_key") ?: "\"\""
@@ -16,9 +15,12 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.androidMinSdk.get().toInt()
-        targetSdk = libs.versions.androidTargetSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {

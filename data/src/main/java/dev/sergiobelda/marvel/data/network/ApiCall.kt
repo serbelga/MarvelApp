@@ -24,21 +24,22 @@ import retrofit2.Response
 
 suspend fun <T> safeApiCall(
     dispatcher: CoroutineDispatcher = Dispatchers.IO,
-    apiCall: suspend () -> Response<T>
-): Result<T> = withContext(dispatcher) {
-    try {
-        val response = apiCall.invoke()
-        if (response.isSuccessful) {
-            response.body()?.let {
-                Result.Success(it)
-                // TODO: Give more information.
-            } ?: Result.Error(exception = Exception())
-        } else {
-            // TODO: Set values for message and exception.
-            Result.Error(code = response.code(), exception = Exception())
+    apiCall: suspend () -> Response<T>,
+): Result<T> =
+    withContext(dispatcher) {
+        try {
+            val response = apiCall.invoke()
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Result.Success(it)
+                    // TODO: Give more information.
+                } ?: Result.Error(exception = Exception())
+            } else {
+                // TODO: Set values for message and exception.
+                Result.Error(code = response.code(), exception = Exception())
+            }
+        } catch (exception: Exception) {
+            // TODO: Set value for code.
+            Result.Error(message = exception.message, exception = exception)
         }
-    } catch (exception: Exception) {
-        // TODO: Set value for code.
-        Result.Error(message = exception.message, exception = exception)
     }
-}

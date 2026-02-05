@@ -37,10 +37,11 @@ abstract class AppDatabaseTest {
     @Before
     fun initDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        appDatabase = Room.inMemoryDatabaseBuilder(
-            context,
-            AppDatabase::class.java
-        ).build()
+        appDatabase =
+            Room.inMemoryDatabaseBuilder(
+                context,
+                AppDatabase::class.java,
+            ).build()
     }
 
     @After

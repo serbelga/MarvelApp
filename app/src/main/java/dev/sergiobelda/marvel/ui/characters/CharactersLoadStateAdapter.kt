@@ -25,25 +25,28 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.sergiobelda.marvel.databinding.CharacterLoadStateFooterBinding
 
 class CharactersLoadStateAdapter(
-    private val retryClickListener: () -> Unit
+    private val retryClickListener: () -> Unit,
 ) : LoadStateAdapter<CharactersLoadStateAdapter.ViewHolder>() {
+    override fun onBindViewHolder(
+        holder: ViewHolder,
+        loadState: LoadState,
+    ) = holder.bind(loadState)
 
-    override fun onBindViewHolder(holder: ViewHolder, loadState: LoadState) =
-        holder.bind(loadState)
-
-    override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): ViewHolder =
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        loadState: LoadState,
+    ): ViewHolder =
         ViewHolder(
             CharacterLoadStateFooterBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
-                false
-            )
+                false,
+            ),
         )
 
     inner class ViewHolder(
-        private val binding: CharacterLoadStateFooterBinding
+        private val binding: CharacterLoadStateFooterBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(loadState: LoadState) {
             if (loadState is LoadState.Error) {
                 binding.errorMessage.text = loadState.error.localizedMessage

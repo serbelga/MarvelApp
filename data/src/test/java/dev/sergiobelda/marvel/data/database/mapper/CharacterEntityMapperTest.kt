@@ -24,7 +24,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class CharacterEntityMapperTest {
-
     @Test
     fun testCharacterEntityToCharacter() {
         val character = characterEntity.toDomainModel()

@@ -22,7 +22,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class CharacterApiModelMapperTest {
-
     @Test
     fun testCharacterApiModelToCharacter() {
         val character = characterApiModel.toDomainModel()

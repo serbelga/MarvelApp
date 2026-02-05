@@ -32,16 +32,16 @@ import kotlinx.coroutines.flow.Flow
 class CharacterRepository(
     private val characterRemoteDataSource: ICharacterRemoteDataSource,
     private val characterPagingDataSource: CharacterPagingDataSource,
-    private val characterLocalDataSource: ICharacterLocalDataSource
+    private val characterLocalDataSource: ICharacterLocalDataSource,
 ) : ICharacterRepository {
-
     override fun getCharacters(): Flow<PagingData<Character>> {
         return Pager(
-            config = PagingConfig(
-                pageSize = Constants.API_PAGE_SIZE,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = { characterPagingDataSource }
+            config =
+                PagingConfig(
+                    pageSize = Constants.API_PAGE_SIZE,
+                    enablePlaceholders = false,
+                ),
+            pagingSourceFactory = { characterPagingDataSource },
         ).flow
     }
 

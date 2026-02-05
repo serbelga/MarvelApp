@@ -34,7 +34,6 @@ import retrofit2.Response
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CharacterRemoteDataSourceTest {
-
     @MockK
     private val characterService = mockk<CharacterService>()
 
@@ -45,24 +44,26 @@ class CharacterRemoteDataSourceTest {
         CharacterRemoteDataSource(characterService)
 
     @Test
-    fun testGetCharacter() = runTest {
-        coEvery { characterService.getCharacter(1) } returns Response.success(
-            createMarvelResponse(listOf(characterApiModel))
-        )
+    fun testGetCharacter() =
+        runTest {
+            coEvery { characterService.getCharacter(1) } returns
+                Response.success(
+                    createMarvelResponse(listOf(characterApiModel)),
+                )
 
-        val result = characterRemoteDataSource.getCharacter(1)
+            val result = characterRemoteDataSource.getCharacter(1)
 
-        assertTrue(result is Result.Success)
-        assertEquals((result as Result.Success).value, characterApiModel.toDomainModel())
-    }
+            assertTrue(result is Result.Success)
+            assertEquals((result as Result.Success).value, characterApiModel.toDomainModel())
+        }
 
     @Test
-    fun testGetCharacterError() = runTest {
+    fun testGetCharacterError() =
+        runTest {
+            coEvery { characterService.getCharacter(1) } returns Response.error(404, responseBody)
 
-        coEvery { characterService.getCharacter(1) } returns Response.error(404, responseBody)
+            val result = characterRemoteDataSource.getCharacter(1)
 
-        val result = characterRemoteDataSource.getCharacter(1)
-
-        assertTrue(result is Result.Error)
-    }
+            assertTrue(result is Result.Error)
+        }
 }

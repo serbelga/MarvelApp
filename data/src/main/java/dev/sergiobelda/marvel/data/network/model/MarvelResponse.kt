@@ -26,5 +26,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class MarvelResponse<T>(
     val code: Int,
-    val data: MarvelData<T>
+    val data: MarvelData<T>,
 )

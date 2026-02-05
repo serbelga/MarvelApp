@@ -27,5 +27,6 @@ val characterApiModel = CharacterApiModel(1, "3-D Man", "Description", thumbnail
 
 fun <T> createMarvelResponse(results: List<T>): MarvelResponse<T> =
     MarvelResponse(
-        200, MarvelData(0, 20, results.size, results.size, results)
+        200,
+        MarvelData(0, 20, results.size, results.size, results),
     )
