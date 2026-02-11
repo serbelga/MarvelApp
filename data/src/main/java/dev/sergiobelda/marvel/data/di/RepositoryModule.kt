@@ -30,16 +30,16 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
-
     @Provides
     @Singleton
     fun provideCharacterRepository(
         characterRemoteDataSource: ICharacterRemoteDataSource,
         characterPagingDataSource: CharacterPagingDataSource,
-        characterLocalDataSource: ICharacterLocalDataSource
-    ): ICharacterRepository = CharacterRepository(
-        characterRemoteDataSource,
-        characterPagingDataSource,
-        characterLocalDataSource
-    )
+        characterLocalDataSource: ICharacterLocalDataSource,
+    ): ICharacterRepository =
+        CharacterRepository(
+            characterRemoteDataSource,
+            characterPagingDataSource,
+            characterLocalDataSource,
+        )
 }

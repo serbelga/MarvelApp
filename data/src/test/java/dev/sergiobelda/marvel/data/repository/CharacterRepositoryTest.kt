@@ -37,7 +37,6 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CharacterRepositoryTest {
-
     @MockK
     private val characterRemoteDataSource = mockk<ICharacterRemoteDataSource>()
 
@@ -51,34 +50,38 @@ class CharacterRepositoryTest {
         CharacterRepository(
             characterRemoteDataSource,
             characterPagingDataSource,
-            characterLocalDataSource
+            characterLocalDataSource,
         )
 
     @Test
-    fun testGetCharacter() = runTest {
-        coEvery { characterRemoteDataSource.getCharacter(1) } returns Result.Success(character)
-        coEvery { characterLocalDataSource.insertCharacter(character) } returns Unit
-        every { characterLocalDataSource.getCharacter(1) } returns flow {
-            emit(Result.Success(character))
+    fun testGetCharacter() =
+        runTest {
+            coEvery { characterRemoteDataSource.getCharacter(1) } returns Result.Success(character)
+            coEvery { characterLocalDataSource.insertCharacter(character) } returns Unit
+            every { characterLocalDataSource.getCharacter(1) } returns
+                flow {
+                    emit(Result.Success(character))
+                }
+
+            val result = characterRepository.getCharacter(1).firstOrNull()
+
+            coVerify { characterLocalDataSource.insertCharacter(character) }
+
+            assertTrue(result is Result.Success)
+            assertEquals((result as Result.Success).value, character)
         }
-
-        val result = characterRepository.getCharacter(1).firstOrNull()
-
-        coVerify { characterLocalDataSource.insertCharacter(character) }
-
-        assertTrue(result is Result.Success)
-        assertEquals((result as Result.Success).value, character)
-    }
 
     @Test
-    fun testGetCharacterError() = runTest {
-        coEvery { characterRemoteDataSource.getCharacter(1) } returns Result.Error(Exception())
-        every { characterLocalDataSource.getCharacter(1) } returns flow {
-            emit(Result.Error(Exception()))
+    fun testGetCharacterError() =
+        runTest {
+            coEvery { characterRemoteDataSource.getCharacter(1) } returns Result.Error(Exception())
+            every { characterLocalDataSource.getCharacter(1) } returns
+                flow {
+                    emit(Result.Error(Exception()))
+                }
+
+            val result = characterRepository.getCharacter(1).firstOrNull()
+
+            assertTrue(result is Result.Error)
         }
-
-        val result = characterRepository.getCharacter(1).firstOrNull()
-
-        assertTrue(result is Result.Error)
-    }
 }

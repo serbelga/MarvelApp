@@ -22,7 +22,5 @@ import dev.sergiobelda.marvel.domain.model.Character
 import kotlinx.coroutines.flow.Flow
 
 class GetCharacterDetailUseCase(private val characterRepository: ICharacterRepository) {
-
-    suspend operator fun invoke(id: Int): Flow<Result<Character>> =
-        characterRepository.getCharacter(id)
+    suspend operator fun invoke(id: Int): Flow<Result<Character>> = characterRepository.getCharacter(id)
 }

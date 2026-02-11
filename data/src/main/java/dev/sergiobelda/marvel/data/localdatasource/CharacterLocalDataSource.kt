@@ -25,9 +25,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class CharacterLocalDataSource(
-    private val characterDao: CharacterDao
+    private val characterDao: CharacterDao,
 ) : ICharacterLocalDataSource {
-
     override fun getCharacter(id: Int): Flow<Result<Character>> =
         characterDao.getCharacter(id).map { characterEntity ->
             characterEntity?.let {
@@ -35,6 +34,5 @@ class CharacterLocalDataSource(
             } ?: Result.Error(Exception())
         }
 
-    override suspend fun insertCharacter(character: Character) =
-        characterDao.insert(character.toEntity())
+    override suspend fun insertCharacter(character: Character) = characterDao.insert(character.toEntity())
 }

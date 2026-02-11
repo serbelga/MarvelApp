@@ -32,21 +32,22 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GetCharacterDetailUseCaseTest {
-
     @MockK
     private val characterRepository = mockk<ICharacterRepository>()
 
     private val getCharacterDetailUseCase = GetCharacterDetailUseCase(characterRepository)
 
     @Test
-    fun testGetCharacterDetailUseCase() = runTest {
-        coEvery { characterRepository.getCharacter(1) } returns flow {
-            emit(Result.Success(character))
+    fun testGetCharacterDetailUseCase() =
+        runTest {
+            coEvery { characterRepository.getCharacter(1) } returns
+                flow {
+                    emit(Result.Success(character))
+                }
+
+            val result = getCharacterDetailUseCase.invoke(1).firstOrNull()
+
+            assertTrue(result is Result.Success)
+            assertEquals((result as Result.Success).value, character)
         }
-
-        val result = getCharacterDetailUseCase.invoke(1).firstOrNull()
-
-        assertTrue(result is Result.Success)
-        assertEquals((result as Result.Success).value, character)
-    }
 }

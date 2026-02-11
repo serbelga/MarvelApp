@@ -28,9 +28,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object LocalDataSourceModule {
-
     @Provides
     @Singleton
-    fun provideCharacterLocalDataSource(characterDao: CharacterDao): ICharacterLocalDataSource =
-        CharacterLocalDataSource(characterDao)
+    fun provideCharacterLocalDataSource(characterDao: CharacterDao): ICharacterLocalDataSource = CharacterLocalDataSource(characterDao)
 }

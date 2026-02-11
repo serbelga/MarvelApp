@@ -23,20 +23,20 @@ import java.util.concurrent.TimeUnit
 
 class ApiKeyInterceptor(
     private val publicApiKey: String,
-    private val privateApiKey: String
+    private val privateApiKey: String,
 ) : Interceptor {
-
     override fun intercept(chain: Interceptor.Chain): Response {
         val ts = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()).toString()
         val hash = generateHash(ts)
 
         val request = chain.request()
 
-        val newUrl = request.url.newBuilder()
-            .addQueryParameter(PARAM_TS, ts)
-            .addQueryParameter(PARAM_API_KEY, publicApiKey)
-            .addQueryParameter(PARAM_HASH, hash)
-            .build()
+        val newUrl =
+            request.url.newBuilder()
+                .addQueryParameter(PARAM_TS, ts)
+                .addQueryParameter(PARAM_API_KEY, publicApiKey)
+                .addQueryParameter(PARAM_HASH, hash)
+                .build()
 
         val newRequest = request.newBuilder().url(newUrl).build()
 
@@ -49,8 +49,7 @@ class ApiKeyInterceptor(
      *
      * [Info](https://developer.marvel.com/documentation/authorization)
      */
-    private fun generateHash(ts: String): String =
-        (ts + privateApiKey + publicApiKey).md5()
+    private fun generateHash(ts: String): String = (ts + privateApiKey + publicApiKey).md5()
 
     companion object {
         private const val PARAM_TS = "ts"

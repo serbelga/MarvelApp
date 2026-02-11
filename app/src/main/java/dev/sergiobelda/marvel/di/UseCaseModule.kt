@@ -28,14 +28,11 @@ import dev.sergiobelda.marvel.domain.usecase.GetCharactersUseCase
 @Module
 @InstallIn(ViewModelComponent::class)
 object UseCaseModule {
+    @Provides
+    @ViewModelScoped
+    fun provideGetCharacterDetailUseCase(characterRepository: ICharacterRepository) = GetCharacterDetailUseCase(characterRepository)
 
     @Provides
     @ViewModelScoped
-    fun provideGetCharacterDetailUseCase(characterRepository: ICharacterRepository) =
-        GetCharacterDetailUseCase(characterRepository)
-
-    @Provides
-    @ViewModelScoped
-    fun provideGetCharactersUseCase(characterRepository: ICharacterRepository) =
-        GetCharactersUseCase(characterRepository)
+    fun provideGetCharactersUseCase(characterRepository: ICharacterRepository) = GetCharactersUseCase(characterRepository)
 }
