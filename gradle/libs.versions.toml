@@ -1,5 +1,5 @@
 [versions]
-androidCore = "1.17.0"
+androidCore = "1.18.0"
 androidGradlePlugin = "9.1.0"
 androidCompileSdk = "36"
 androidMinSdk = "24"
