@@ -1,6 +1,6 @@
 [versions]
 androidCore = "1.19.1"
-androidGradlePlugin = "9.4.1"
+androidGradlePlugin = "9.5.0"
 androidCompileSdk = "37"
 androidMinSdk = "24"
 androidTargetSdk = "37"
